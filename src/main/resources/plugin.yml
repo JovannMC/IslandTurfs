@@ -1,0 +1,6 @@
+name: Islandturfs
+version: '${project.version}'
+main: com.jovannmc.islandturfs.IslandTurfs
+api-version: 1.19
+commands:
+  islandturfs:
