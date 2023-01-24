@@ -1,0 +1,11 @@
+# The prefix of the plugin
+prefix: '&7[&6IslandTurfs&7]&r'
+# The color of the plugin's messages
+color: '&6'
+
+# In-game configuration
+# Time before game begins
+timeBeforeStart: 5
+# Chicken's health in hearts
+chickenHealth: 2
+

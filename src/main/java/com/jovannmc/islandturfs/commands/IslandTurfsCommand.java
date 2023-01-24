@@ -15,7 +15,7 @@ public class IslandTurfsCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender.hasPermission("islandturfs.command.islandturfs")) {
             if (args.length == 0) {
-                sender.sendMessage(utils.color("&6Island Turfs v" + main.getDescription().getVersion()));
+                sender.sendMessage(utils.color("&6IslandTurfs v" + main.getDescription().getVersion()));
             } else if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
                 main.config.reloadConfig();
                 main.messages.reloadConfig();

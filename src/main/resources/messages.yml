@@ -1,0 +1,22 @@
+# Command messages
+noPlayer: "&cThat player is offline or does not exist."
+noPermission: "&cYou do not have permission to do this."
+playerOnly: "&cYou must be a player to do this."
+invalidUsage: "&cInvalid usage. &7%usage%"
+
+# In-game messages
+teamSelected: "&aYou have selected team &6%team%&a."
+teamAlreadySelected: "&cYou have already selected team &6%team%&c."
+teamNotSelected: "&cYou have not selected a team yet."
+teamReady: "&aYour team is now ready."
+teamUnready: "&cYour team is no longer ready."
+
+otherTeamReady: "&aTeam &6%team%&a is now ready."
+otherTeamUnready: "&cTeam &6%team%&c is no longer ready."
+
+winner: "&6%team%&a wins!"
+
+gameStarting: "&aThe game is starting in &6%time%&a."
+gameStarted: "&aThe game has started."
+gameEnded: "&aThe game has ended."
+

@@ -7,8 +7,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class IslandTurfs extends JavaPlugin {
 
-    private static IslandTurfs instance;
+    /*
+    TODO:
+    - Actually create the game logic
+    - Add logic to add new maps
+    - Add a config option to add new maps
+     */
 
+    private static IslandTurfs instance;
     public Config config;
     public Config messages;
 
