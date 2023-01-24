@@ -2,17 +2,21 @@
 noPlayer: "&cThat player is offline or does not exist."
 noPermission: "&cYou do not have permission to do this."
 playerOnly: "&cYou must be a player to do this."
+consoleOnly: "&cYou must be the console to do this."
 invalidUsage: "&cInvalid usage. &7%usage%"
 
 # In-game messages
 teamSelected: "&aYou have selected team &6%team%&a."
 teamAlreadySelected: "&cYou have already selected team &6%team%&c."
-teamNotSelected: "&cYou have not selected a team yet."
+teamLeft: "&aYou have left team &6%team%&a."
 teamReady: "&aYour team is now ready."
 teamUnready: "&cYour team is no longer ready."
+notInTeam: "&cYou are not in a team."
 
 otherTeamReady: "&aTeam &6%team%&a is now ready."
 otherTeamUnready: "&cTeam &6%team%&c is no longer ready."
+
+spectating: "&aYou are now spectating."
 
 winner: "&6%team%&a wins!"
 

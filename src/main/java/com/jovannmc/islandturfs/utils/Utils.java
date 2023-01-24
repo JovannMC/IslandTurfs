@@ -12,6 +12,7 @@ import java.util.logging.Level;
 public class Utils {
 
 	private IslandTurfs plugin = IslandTurfs.getInstance();
+	private Configuration config = plugin.config.getConfiguration();
 	private Configuration messages = plugin.messages.getConfiguration();
 	
 	public String color(String string) {
@@ -24,6 +25,8 @@ public class Utils {
 	public void noPlayer(CommandSender player) { player.sendMessage(color(messages.getString("noPlayer"))); }
 
 	public void playerOnly(CommandSender player) { player.sendMessage(color(messages.getString("playerOnly"))); }
+
+	public void consoleOnly(CommandSender player) { player.sendMessage(color(messages.getString("consoleOnly"))); }
 	
 	public void invalidUsage(CommandSender player, Command cmd) {
 		if (cmd != null) {

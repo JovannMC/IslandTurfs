@@ -1,6 +1,9 @@
 package com.jovannmc.islandturfs;
 
 import com.jovannmc.islandturfs.commands.IslandTurfsCommand;
+import com.jovannmc.islandturfs.managers.GameManager;
+import com.jovannmc.islandturfs.managers.TeamManager;
+import com.jovannmc.islandturfs.tabcompletes.IslandTurfsTabCompleter;
 import com.jovannmc.islandturfs.utils.Config;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -28,11 +31,18 @@ public final class IslandTurfs extends JavaPlugin {
         messages.saveDefaultConfig();
 
         Bukkit.getPluginCommand("IslandTurfs").setExecutor(new IslandTurfsCommand());
+        Bukkit.getPluginCommand("IslandTurfs").setTabCompleter(new IslandTurfsTabCompleter());
+
+        Bukkit.getPluginManager().registerEvents(new GameManager(), this);
+        Bukkit.getPluginManager().registerEvents(new TeamManager(), this);
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        TeamManager.getInstance().redTeam.clear();
+        TeamManager.getInstance().blueTeam.clear();
+        TeamManager.getInstance().redReady = false;
+        TeamManager.getInstance().blueReady = false;
     }
 
     public static IslandTurfs getInstance() {
