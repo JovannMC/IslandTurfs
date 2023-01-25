@@ -72,6 +72,13 @@ public class IslandTurfsTabCompleter implements TabCompleter {
                         maps.add("ITC_2");
                         return maps;
                     }
+                } else if (args[0].equalsIgnoreCase("ready")) {
+                    if (args[1].equalsIgnoreCase("join")) {
+                        List<String> maps = new ArrayList<>();
+                        maps.add("ITC_1");
+                        maps.add("ITC_2");
+                        return maps;
+                    }
                 }
             }
         }

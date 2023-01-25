@@ -1,7 +1,5 @@
 package com.jovannmc.islandturfs.managers;
 
-import com.jovannmc.islandturfs.IslandTurfs;
-import com.jovannmc.islandturfs.utils.Utils;
 import org.bukkit.event.Listener;
 
 import java.util.HashMap;
