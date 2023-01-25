@@ -32,7 +32,6 @@ public class IslandTurfsTabCompleter implements TabCompleter {
                     List<String> gameCommands = new ArrayList<>();
                     gameCommands.add("start");
                     gameCommands.add("end");
-                    gameCommands.add("reset");
                     return gameCommands;
                 }
             }
