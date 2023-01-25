@@ -24,21 +24,23 @@ public class IslandTurfsCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 0) {
-            sender.sendMessage(utils.color("&6IslandTurfs v" + plugin.getDescription().getVersion()));
-        } else if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
+            sender.sendMessage(utils.color("&3IslandTurfs &7v" + plugin.getDescription().getVersion()));
+        } else if (args.length == 2 && args[0].equalsIgnoreCase("reload")) {
             if (sender.hasPermission("islandturfs.command.reload")) {
                 plugin.config.reloadConfig();
                 plugin.messages.reloadConfig();
                 plugin.maps.reloadConfig();
                 Bukkit.getLogger().info("Reloaded the configs!");
-                sender.sendMessage(utils.color(plugin.getConfig().getString("reloadConfig")));
+                sender.sendMessage(utils.color(
+                        plugin.messages.getConfiguration().getString("reloadConfig")
+                                .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
             } else {
                 utils.noPermission(sender);
             }
             /*
                 TEAM SUBCOMMANDS
             */
-        } else if (args.length >= 1 && args[0].equalsIgnoreCase("team")) {
+        } else if (args.length == 2 && args[0].equalsIgnoreCase("team")) {
                 /*
                     JOIN COMMAND
                 */
@@ -166,8 +168,7 @@ public class IslandTurfsCommand implements CommandExecutor {
             /*
                 GAME SUBCOMMANDS
             */
-        } else if (args.length >= 1 && args[0].equalsIgnoreCase("game")) {
-            // TODO: game logic
+        } else if (args.length == 2 && args[0].equalsIgnoreCase("game")) {
                 /*
                     START COMMAND
                 */

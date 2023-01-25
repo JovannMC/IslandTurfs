@@ -19,13 +19,14 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.UUID;
-import java.util.logging.Level;
 
 public class GameManager implements Listener {
 
     /*
         TODO: ability to instantiate GameManager and TeamManager classes to prevent issues with multiple games running at once
         - or at least make the code work with multiple games running at once without rewriting the code for both classes to support it
+        - Allow wool blocks to be only placed on red concrete/wool and blue concrete/wool
+        https://www.spigotmc.org/threads/tutorial-the-complete-guide-to-itemstack-nbttags-attributes.131458/
     */
 
     IslandTurfs plugin = IslandTurfs.getInstance();
