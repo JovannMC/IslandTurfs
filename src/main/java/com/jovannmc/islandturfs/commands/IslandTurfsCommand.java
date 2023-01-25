@@ -12,7 +12,6 @@ import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
-import java.util.logging.Level;
 
 public class IslandTurfsCommand implements CommandExecutor {
 
@@ -21,8 +20,6 @@ public class IslandTurfsCommand implements CommandExecutor {
     Utils utils = new Utils();
 
     TeamManager TeamManager = new TeamManager();
-
-    Configuration messages = plugin.messages.getConfiguration();
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -34,7 +31,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                 plugin.messages.reloadConfig();
                 plugin.maps.reloadConfig();
                 Bukkit.getLogger().info("Reloaded the configs!");
-                sender.sendMessage(utils.color(plugin.getConfig().getString("prefix") + " &6Reloaded the configs!"));
+                sender.sendMessage(utils.color(plugin.getConfig().getString("reloadConfig")));
             } else {
                 utils.noPermission(sender);
             }
@@ -49,12 +46,18 @@ public class IslandTurfsCommand implements CommandExecutor {
                 if (args.length == 4) {
                     if (args[2].equalsIgnoreCase("red")) {
                         TeamManager.redTeam.put(((Player) sender).getUniqueId(), args[3]);
-                        sender.sendMessage(utils.color(messages.getString("teamSelected").replace("%team%", "red")));
+                        sender.sendMessage(utils.color(
+                                plugin.messages.getConfiguration().getString("teamSelected")
+                                        .replace("%team%", "red")
+                                        .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                         Bukkit.getLogger().info("Added " + ((Player) sender).getName() + " to the red team!");
                         Bukkit.getLogger().info("Red team size: " + TeamManager.redTeam.size());
                     } else if (args[2].equalsIgnoreCase("blue")) {
                         TeamManager.blueTeam.put(((Player) sender).getUniqueId(), args[3]);
-                        sender.sendMessage(utils.color(messages.getString("teamSelected").replace("%team%", "blue")));
+                        sender.sendMessage(utils.color(
+                                plugin.messages.getConfiguration().getString("teamSelected")
+                                        .replace("%team%", "blue")
+                                        .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                         Bukkit.getLogger().info("Added " + ((Player) sender).getName() + " to the blue team!");
                         Bukkit.getLogger().info("Blue team size: " + TeamManager.blueTeam.size());
                     } else {
@@ -78,7 +81,10 @@ public class IslandTurfsCommand implements CommandExecutor {
                         // Unready team
                         TeamManager.redReady = false;
                         for (UUID uuid : TeamManager.redTeam.keySet()) {
-                            Bukkit.getPlayer(uuid).sendMessage(utils.color(messages.getString("teamUnready").replace("%team%", "red")));
+                            Bukkit.getPlayer(uuid).sendMessage(utils.color(
+                                    plugin.messages.getConfiguration().getString("teamUnready")
+                                            .replace("%team%", "red")
+                                            .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                         }
                         Bukkit.getLogger().info("Red team is no longer ready!");
                         return false;
@@ -86,7 +92,10 @@ public class IslandTurfsCommand implements CommandExecutor {
                     // If red team is not ready
                     TeamManager.redReady = true;
                     for (UUID uuid : TeamManager.redTeam.keySet()) {
-                        Bukkit.getPlayer(uuid).sendMessage(utils.color(messages.getString("teamReady").replace("%team%", "red")));
+                        Bukkit.getPlayer(uuid).sendMessage(utils.color(
+                                plugin.messages.getConfiguration().getString("teamReady")
+                                        .replace("%team%", "red")
+                                        .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                     }
                     Bukkit.getLogger().info("Red team is ready!");
 
@@ -106,17 +115,25 @@ public class IslandTurfsCommand implements CommandExecutor {
                         // Unready team
                         TeamManager.blueReady = false;
                         for (UUID uuid : TeamManager.blueTeam.keySet()) {
-                            Bukkit.getPlayer(uuid).sendMessage(utils.color(messages.getString("teamUnready").replace("%team%", "blue")));
+                            Bukkit.getPlayer(uuid).sendMessage(utils.color(
+                                    plugin.messages.getConfiguration().getString("teamUnready")
+                                            .replace("%team%", "blue")
+                                            .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                         }
                         return false;
                     }
                     // If blue team is not ready
                     TeamManager.blueReady = true;
                     for (UUID uuid : TeamManager.blueTeam.keySet()) {
-                        Bukkit.getPlayer(uuid).sendMessage(utils.color(messages.getString("teamReady").replace("%team%", "blue")));
+                        Bukkit.getPlayer(uuid).sendMessage(utils.color(
+                                plugin.messages.getConfiguration().getString("teamReady")
+                                        .replace("%team%", "blue")
+                                        .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                     }
 
-                    if (TeamManager.redReady && TeamManager.blueReady) { StartGame(args[3]); }
+                    if (TeamManager.redReady && TeamManager.blueReady) {
+                        StartGame(args[3]);
+                    }
                 }
 
                 /*
@@ -125,12 +142,21 @@ public class IslandTurfsCommand implements CommandExecutor {
             } else if (args[1].equalsIgnoreCase("leave")) {
                 if (TeamManager.redTeam.containsKey(((Player) sender).getUniqueId())) {
                     TeamManager.redTeam.remove(((Player) sender).getUniqueId());
-                    sender.sendMessage(utils.color(messages.getString("teamLeft").replace("%team%", "red")));
+                    sender.sendMessage(utils.color(
+                            plugin.messages.getConfiguration().getString("teamLeft")
+                                    .replace("%team%", "red")
+                                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                 } else if (TeamManager.blueTeam.containsKey(((Player) sender).getUniqueId())) {
                     TeamManager.blueTeam.remove(((Player) sender).getUniqueId());
-                    sender.sendMessage(utils.color(messages.getString("teamLeft").replace("%team%", "blue")));
+                    sender.sendMessage(utils.color(
+                            plugin.messages.getConfiguration().getString("teamLeft")
+                                    .replace("%team%", "blue")
+                                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                 } else {
-                    sender.sendMessage(utils.color(messages.getString("notInTeam")));
+                    sender.sendMessage(utils.color(
+                            plugin.messages.getConfiguration()
+                                    .getString("notInTeam")
+                                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                 }
 
             } else {
@@ -172,14 +198,15 @@ public class IslandTurfsCommand implements CommandExecutor {
         return false;
     }
 
-    private void StartGame(String map)
-    {
+    private void StartGame(String map) {
         // for every player in red team
         for (UUID uuid : TeamManager.redTeam.keySet()) {
             // if player's value matches map
             if (TeamManager.redTeam.get(uuid).equals(map)) {
                 // send message to player
-                Bukkit.getPlayer(uuid).sendMessage(utils.color(messages.getString("gameStarting")));
+                Bukkit.getPlayer(uuid).sendMessage(utils.color(
+                        plugin.messages.getConfiguration().getString("gameStarting")
+                                .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
             }
 
         }
@@ -187,7 +214,9 @@ public class IslandTurfsCommand implements CommandExecutor {
         for (UUID uuid : TeamManager.blueTeam.keySet()) {
             // if player's value matches map
             if (TeamManager.blueTeam.get(uuid).equals(map)) {
-                Bukkit.getPlayer(uuid).sendMessage(utils.color(messages.getString("gameStarting")));
+                Bukkit.getPlayer(uuid).sendMessage(utils.color(
+                        plugin.messages.getConfiguration().getString("gameStarting")
+                                .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
             }
         }
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "islandturfs game start " + map);

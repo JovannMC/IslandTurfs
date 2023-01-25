@@ -97,7 +97,10 @@ public class GameManager implements Listener {
                     Player player = Bukkit.getPlayer(uuid);
                     Location loc = new Location(player.getWorld(), 12, 66, 9);
                     player.teleport(loc);
-                    player.sendMessage(utils.color(plugin.messages.getConfiguration().getString("winner").replace("%team%", winningTeam)));
+                    player.sendMessage(utils.color(
+                            plugin.messages.getConfiguration().getString("winner")
+                                    .replace("%team%", winningTeam)
+                                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                     // Clear the player's inventory
                     player.getInventory().clear();
                 }
@@ -110,7 +113,10 @@ public class GameManager implements Listener {
                     Player player = Bukkit.getPlayer(uuid);
                     Location loc = new Location(player.getWorld(), 12, 66, 9);
                     player.teleport(loc);
-                    player.sendMessage(utils.color(plugin.messages.getConfiguration().getString("winner").replace("%team%", winningTeam)));
+                    player.sendMessage(utils.color(
+                            plugin.messages.getConfiguration().getString("winner")
+                                    .replace("%team%", winningTeam)
+                                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                     // Clear the player's inventory
                     player.getInventory().clear();
                 }
@@ -135,7 +141,10 @@ public class GameManager implements Listener {
                     Player player = Bukkit.getPlayer(uuid);
                     Location loc = new Location(player.getWorld(), 12, 66, 9);
                     player.teleport(loc);
-                    player.sendMessage(utils.color(plugin.messages.getConfiguration().getString("winner").replace("%team%", winningTeam)));
+                    player.sendMessage(utils.color(
+                            plugin.messages.getConfiguration().getString("winner")
+                                    .replace("%team%", winningTeam)
+                                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                     // Clear the player's inventory
                     player.getInventory().clear();
                 }
@@ -148,7 +157,10 @@ public class GameManager implements Listener {
                     Player player = Bukkit.getPlayer(uuid);
                     Location loc = new Location(player.getWorld(), 12, 66, 9);
                     player.teleport(loc);
-                    player.sendMessage(utils.color(plugin.messages.getConfiguration().getString("winner").replace("%team%", winningTeam)));
+                    player.sendMessage(utils.color(
+                            plugin.messages.getConfiguration().getString("winner")
+                                    .replace("%team%", winningTeam)
+                                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                     // Clear the player's inventory
                     player.getInventory().clear();
                 }

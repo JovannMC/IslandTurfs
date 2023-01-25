@@ -5,21 +5,23 @@ playerOnly: "&cYou must be a player to do this."
 consoleOnly: "&cYou must be the console to do this."
 invalidUsage: "&cInvalid usage. &7%usage%"
 
+reloadConfig: "%prefix% &3The config has been reloaded."
+
 # In-game messages
-teamSelected: "&aYou have selected team &6%team%&a."
-teamAlreadySelected: "&cYou have already selected team &6%team%&c."
-teamLeft: "&aYou have left team &6%team%&a."
-teamReady: "&aYour team is now ready."
-teamUnready: "&cYour team is no longer ready."
-notInTeam: "&cYou are not in a team."
+teamSelected: "%prefix% &3You have selected team &7%team%&3."
+teamAlreadySelected: "&%prefix% cYou have already selected team &7%team%&c."
+teamLeft: "%prefix% &3You have left team &7%team%&3."
+teamReady: "%prefix% &3Your team is now ready."
+teamUnready: "%prefix% &cYour team is no longer ready."
+notInTeam: "%prefix% &cYou are not in a team."
 
-otherTeamReady: "&aTeam &6%team%&a is now ready."
-otherTeamUnready: "&cTeam &6%team%&c is no longer ready."
+otherTeamReady: "%prefix% &3Team &7%team%&3 is now ready."
+otherTeamUnready: "%prefix% &cTeam &7%team%&c is no longer ready."
 
-spectating: "&aYou are now spectating."
+spectating: "%prefix% &3You are now spectating."
 
-winner: "&6%team%&a wins!"
+winner: "%prefix% &7%team%&3 wins!"
 
-gameStarting: "&aThe game is starting in &6%time%&a."
-gameStarted: "&aThe game has started."
-gameEnded: "&aThe game has ended."
+gameStarting: "%prefix% &3The game is starting in &7%time%&3."
+gameStarted: "%prefix% &3The game has started."
+gameEnded: "%prefix% &3The game has ended."
