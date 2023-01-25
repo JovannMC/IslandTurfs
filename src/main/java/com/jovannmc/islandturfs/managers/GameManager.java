@@ -271,87 +271,95 @@ public class GameManager implements Listener {
         bow.setItemMeta(bowMeta);
 
         Bukkit.getLogger().info("Giving items to red team players...");
+        // For each player in the red team
         for (UUID uuid : TeamManager.redTeam.keySet()) {
-            Player player = Bukkit.getPlayer(uuid);
+            // Check if player's key matches mapName
+            if (TeamManager.redTeam.get(uuid).equals(mapName)) {
+                Player player = Bukkit.getPlayer(uuid);
 
-            // Create the full set of red leather armor
-            ItemStack redLeatherHelmet = new ItemStack(Material.LEATHER_HELMET);
-            LeatherArmorMeta redLeatherHelmetMeta = (LeatherArmorMeta) redLeatherHelmet.getItemMeta();
-            redLeatherHelmetMeta.setColor(Color.RED);
-            redLeatherHelmet.setItemMeta(redLeatherHelmetMeta);
+                // Create the full set of red leather armor
+                ItemStack redLeatherHelmet = new ItemStack(Material.LEATHER_HELMET);
+                LeatherArmorMeta redLeatherHelmetMeta = (LeatherArmorMeta) redLeatherHelmet.getItemMeta();
+                redLeatherHelmetMeta.setColor(Color.RED);
+                redLeatherHelmet.setItemMeta(redLeatherHelmetMeta);
 
-            ItemStack redLeatherChestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
-            LeatherArmorMeta redLeatherChestplateMeta = (LeatherArmorMeta) redLeatherChestplate.getItemMeta();
-            redLeatherChestplateMeta.setColor(Color.RED);
-            redLeatherChestplate.setItemMeta(redLeatherChestplateMeta);
+                ItemStack redLeatherChestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
+                LeatherArmorMeta redLeatherChestplateMeta = (LeatherArmorMeta) redLeatherChestplate.getItemMeta();
+                redLeatherChestplateMeta.setColor(Color.RED);
+                redLeatherChestplate.setItemMeta(redLeatherChestplateMeta);
 
-            ItemStack redLeatherLeggings = new ItemStack(Material.LEATHER_LEGGINGS);
-            LeatherArmorMeta redLeatherLeggingsMeta = (LeatherArmorMeta) redLeatherLeggings.getItemMeta();
-            redLeatherLeggingsMeta.setColor(Color.RED);
-            redLeatherLeggings.setItemMeta(redLeatherLeggingsMeta);
+                ItemStack redLeatherLeggings = new ItemStack(Material.LEATHER_LEGGINGS);
+                LeatherArmorMeta redLeatherLeggingsMeta = (LeatherArmorMeta) redLeatherLeggings.getItemMeta();
+                redLeatherLeggingsMeta.setColor(Color.RED);
+                redLeatherLeggings.setItemMeta(redLeatherLeggingsMeta);
 
-            ItemStack redLeatherBoots = new ItemStack(Material.LEATHER_BOOTS);
-            LeatherArmorMeta redLeatherBootsMeta = (LeatherArmorMeta) redLeatherBoots.getItemMeta();
-            redLeatherBootsMeta.setColor(Color.RED);
-            redLeatherBoots.setItemMeta(redLeatherBootsMeta);
+                ItemStack redLeatherBoots = new ItemStack(Material.LEATHER_BOOTS);
+                LeatherArmorMeta redLeatherBootsMeta = (LeatherArmorMeta) redLeatherBoots.getItemMeta();
+                redLeatherBootsMeta.setColor(Color.RED);
+                redLeatherBoots.setItemMeta(redLeatherBootsMeta);
 
-            // Clear the player's inventory
-            player.getInventory().clear();
+                // Clear the player's inventory
+                player.getInventory().clear();
 
-            // Give the player the items
-            player.getInventory().addItem(new ItemStack(Material.IRON_SWORD));
-            player.getInventory().addItem(bow);
-            player.getInventory().addItem(new ItemStack(Material.SHEARS));
-            player.getInventory().addItem(new ItemStack(Material.ARROW));
-            player.getInventory().addItem(new ItemStack(Material.RED_WOOL, 64));
-            player.getInventory().addItem(new ItemStack(Material.RED_WOOL, 64));
-            player.getInventory().setHelmet(redLeatherHelmet);
-            player.getInventory().setChestplate(redLeatherChestplate);
-            player.getInventory().setLeggings(redLeatherLeggings);
-            player.getInventory().setBoots(redLeatherBoots);
-            player.getInventory().setItemInOffHand(new ItemStack(Material.RED_WOOL, 64));
+                // Give the player the items
+                player.getInventory().addItem(new ItemStack(Material.IRON_SWORD));
+                player.getInventory().addItem(bow);
+                player.getInventory().addItem(new ItemStack(Material.SHEARS));
+                player.getInventory().addItem(new ItemStack(Material.ARROW));
+                player.getInventory().addItem(new ItemStack(Material.RED_WOOL, 64));
+                player.getInventory().addItem(new ItemStack(Material.RED_WOOL, 64));
+                player.getInventory().setHelmet(redLeatherHelmet);
+                player.getInventory().setChestplate(redLeatherChestplate);
+                player.getInventory().setLeggings(redLeatherLeggings);
+                player.getInventory().setBoots(redLeatherBoots);
+                player.getInventory().setItemInOffHand(new ItemStack(Material.RED_WOOL, 64));
+            }
         }
 
         Bukkit.getLogger().info("Giving items to blue team players...");
+        // For each player in the blue team
         for (UUID uuid : TeamManager.blueTeam.keySet()) {
-            Player player = Bukkit.getPlayer(uuid);
+            // Check if player's key matches mapName
+            if (TeamManager.blueTeam.get(uuid).equals(mapName)) {
+                Player player = Bukkit.getPlayer(uuid);
 
-            // Create the full set of blue leather armor
-            ItemStack blueLeatherHelmet = new ItemStack(Material.LEATHER_HELMET);
-            LeatherArmorMeta blueLeatherHelmetMeta = (LeatherArmorMeta) blueLeatherHelmet.getItemMeta();
-            blueLeatherHelmetMeta.setColor(Color.BLUE);
-            blueLeatherHelmet.setItemMeta(blueLeatherHelmetMeta);
-            
-            ItemStack blueLeatherChestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
-            LeatherArmorMeta blueLeatherChestplateMeta = (LeatherArmorMeta) blueLeatherChestplate.getItemMeta();
-            blueLeatherChestplateMeta.setColor(Color.BLUE);
-            blueLeatherChestplate.setItemMeta(blueLeatherChestplateMeta);
-            
-            ItemStack blueLeatherLeggings = new ItemStack(Material.LEATHER_LEGGINGS);
-            LeatherArmorMeta blueLeatherLeggingsMeta = (LeatherArmorMeta) blueLeatherLeggings.getItemMeta();
-            blueLeatherLeggingsMeta.setColor(Color.BLUE);
-            blueLeatherLeggings.setItemMeta(blueLeatherLeggingsMeta);
-            
-            ItemStack blueLeatherBoots = new ItemStack(Material.LEATHER_BOOTS);
-            LeatherArmorMeta blueLeatherBootsMeta = (LeatherArmorMeta) blueLeatherBoots.getItemMeta();
-            blueLeatherBootsMeta.setColor(Color.BLUE);
-            blueLeatherBoots.setItemMeta(blueLeatherBootsMeta);
-            
-            // Clear the player's inventory
-            player.getInventory().clear();
+                // Create the full set of blue leather armor
+                ItemStack blueLeatherHelmet = new ItemStack(Material.LEATHER_HELMET);
+                LeatherArmorMeta blueLeatherHelmetMeta = (LeatherArmorMeta) blueLeatherHelmet.getItemMeta();
+                blueLeatherHelmetMeta.setColor(Color.BLUE);
+                blueLeatherHelmet.setItemMeta(blueLeatherHelmetMeta);
 
-            // Give the player the items
-            player.getInventory().addItem(new ItemStack(Material.IRON_SWORD));
-            player.getInventory().addItem(bow);
-            player.getInventory().addItem(new ItemStack(Material.SHEARS));
-            player.getInventory().addItem(new ItemStack(Material.ARROW));
-            player.getInventory().addItem(new ItemStack(Material.BLUE_WOOL, 64));
-            player.getInventory().addItem(new ItemStack(Material.BLUE_WOOL, 64));
-            player.getInventory().setHelmet(blueLeatherHelmet);
-            player.getInventory().setChestplate(blueLeatherChestplate);
-            player.getInventory().setLeggings(blueLeatherLeggings);
-            player.getInventory().setBoots(blueLeatherBoots);
-            player.getInventory().setItemInOffHand(new ItemStack(Material.BLUE_WOOL, 64));
+                ItemStack blueLeatherChestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
+                LeatherArmorMeta blueLeatherChestplateMeta = (LeatherArmorMeta) blueLeatherChestplate.getItemMeta();
+                blueLeatherChestplateMeta.setColor(Color.BLUE);
+                blueLeatherChestplate.setItemMeta(blueLeatherChestplateMeta);
+
+                ItemStack blueLeatherLeggings = new ItemStack(Material.LEATHER_LEGGINGS);
+                LeatherArmorMeta blueLeatherLeggingsMeta = (LeatherArmorMeta) blueLeatherLeggings.getItemMeta();
+                blueLeatherLeggingsMeta.setColor(Color.BLUE);
+                blueLeatherLeggings.setItemMeta(blueLeatherLeggingsMeta);
+
+                ItemStack blueLeatherBoots = new ItemStack(Material.LEATHER_BOOTS);
+                LeatherArmorMeta blueLeatherBootsMeta = (LeatherArmorMeta) blueLeatherBoots.getItemMeta();
+                blueLeatherBootsMeta.setColor(Color.BLUE);
+                blueLeatherBoots.setItemMeta(blueLeatherBootsMeta);
+
+                // Clear the player's inventory
+                player.getInventory().clear();
+
+                // Give the player the items
+                player.getInventory().addItem(new ItemStack(Material.IRON_SWORD));
+                player.getInventory().addItem(bow);
+                player.getInventory().addItem(new ItemStack(Material.SHEARS));
+                player.getInventory().addItem(new ItemStack(Material.ARROW));
+                player.getInventory().addItem(new ItemStack(Material.BLUE_WOOL, 64));
+                player.getInventory().addItem(new ItemStack(Material.BLUE_WOOL, 64));
+                player.getInventory().setHelmet(blueLeatherHelmet);
+                player.getInventory().setChestplate(blueLeatherChestplate);
+                player.getInventory().setLeggings(blueLeatherLeggings);
+                player.getInventory().setBoots(blueLeatherBoots);
+                player.getInventory().setItemInOffHand(new ItemStack(Material.BLUE_WOOL, 64));
+            }
         }
     }
 
