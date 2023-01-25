@@ -24,17 +24,9 @@ import java.util.logging.Level;
 public class GameManager implements Listener {
 
     /*
-        TODO:
-        - Rely on main IslandTurfsCommand class for GameManager logic
-        - Team logic
-            - Join teams
-            - Leave teams
-            - Ready up
-        - Game logic
-            - Start game
-            - End game
-            - Reset game
-     */
+        TODO: ability to instantiate GameManager and TeamManager classes to prevent issues with multiple games running at once
+        - or at least make the code work with multiple games running at once without rewriting the code for both classes to support it
+    */
 
     IslandTurfs plugin = IslandTurfs.getInstance();
 
@@ -44,8 +36,9 @@ public class GameManager implements Listener {
     private boolean gameStarted = false;
 
     public void startGame(String mapName) {
-        Bukkit.getLogger().log(Level.INFO, "Starting game on " + mapName);
+        Bukkit.getLogger().info("Starting game on " + mapName);
 
+        Bukkit.getLogger().info("Teleporting players to their team spawns");
         // for every player in redTeam
         for (UUID uuid : TeamManager.redTeam.keySet()) {
             // if value of player matches mapName
@@ -87,8 +80,6 @@ public class GameManager implements Listener {
 
     public void endGame(String mapName, String winningTeam) {
         if (mapName.equalsIgnoreCase("newMap")) {
-            Bukkit.getLogger().log(Level.INFO, "Ending game on newMap");
-
             // For every entity in the world
             Bukkit.getWorld("world").getEntities().forEach(entity -> {
                 // If entity is a chicken and has a custom name that contains ITC_2
@@ -127,8 +118,6 @@ public class GameManager implements Listener {
             // reset map
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "fill -18 67 9 -19 67 9 minecraft:redstone_block");
         } else if (mapName.equalsIgnoreCase("oldMap")) {
-            Bukkit.getLogger().log(Level.INFO, "Ending game on oldMap");
-
             // For every entity in the world
             Bukkit.getWorld("world").getEntities().forEach(entity -> {
                 // If entity is a chicken and has a custom name that contains ITC_1
@@ -185,6 +174,8 @@ public class GameManager implements Listener {
             }
         }
 
+        Bukkit.getLogger().info("Game ended");
+
         // set gameStarted to false
         gameStarted = false;
     }
@@ -194,7 +185,9 @@ public class GameManager implements Listener {
     */
 
     private void spawnChickens(String mapName) {
+        Bukkit.getLogger().info("Spawning chickens for " + mapName + "...");
         if (mapName.equalsIgnoreCase("newMap")) {
+            // get coordinates from config
             double xBlue = plugin.maps.getConfiguration().getDouble("newMap.blue.chicken.x");
             double yBlue = plugin.maps.getConfiguration().getDouble("newMap.blue.chicken.y");
             double zBlue = plugin.maps.getConfiguration().getDouble("newMap.blue.chicken.z");
@@ -202,18 +195,22 @@ public class GameManager implements Listener {
             double yRed = plugin.maps.getConfiguration().getDouble("newMap.red.chicken.y");
             double zRed = plugin.maps.getConfiguration().getDouble("newMap.red.chicken.z");
 
+            // spawn blue chicken
             Chicken blueChicken = (Chicken) Bukkit.getWorld("world").spawnEntity(new Location(Bukkit.getWorld("world"), xBlue, yBlue, zBlue), org.bukkit.entity.EntityType.CHICKEN);
             blueChicken.setCustomName("ITC_2_BLUE");
             blueChicken.setCustomNameVisible(false);
             blueChicken.setAI(false);
             blueChicken.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 999999999, 100, false, false));
 
+            // spawn red chicken
             Chicken redChicken = (Chicken) Bukkit.getWorld("world").spawnEntity(new Location(Bukkit.getWorld("world"), xRed, yRed, zRed), org.bukkit.entity.EntityType.CHICKEN);
             redChicken.setCustomName("ITC_2_RED");
             redChicken.setCustomNameVisible(false);
             redChicken.setAI(false);
             redChicken.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 999999999, 100, false, false));
         } else if (mapName.equalsIgnoreCase("oldMap")) {
+
+            // get coordinates from config
             double xBlue = plugin.maps.getConfiguration().getDouble("oldMap.blue.chicken.x");
             double yBlue = plugin.maps.getConfiguration().getDouble("oldMap.blue.chicken.y");
             double zBlue = plugin.maps.getConfiguration().getDouble("oldMap.blue.chicken.z");
@@ -221,6 +218,7 @@ public class GameManager implements Listener {
             double yRed = plugin.maps.getConfiguration().getDouble("oldMap.red.chicken.y");
             double zRed = plugin.maps.getConfiguration().getDouble("oldMap.red.chicken.z");
 
+            // spawn blue chicken
             Chicken blueChicken = (Chicken) Bukkit.getWorld("world").spawnEntity(new Location(Bukkit.getWorld("world"), xBlue, yBlue, zBlue), org.bukkit.entity.EntityType.CHICKEN);
             blueChicken.setCustomName("ITC_1_BLUE");
             blueChicken.setCustomNameVisible(false);
@@ -228,18 +226,17 @@ public class GameManager implements Listener {
             blueChicken.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 999999999, 100, false, false));
             Bukkit.getLogger().info(blueChicken.toString());
 
+            // spawn red chicken
             Chicken redChicken = (Chicken) Bukkit.getWorld("world").spawnEntity(new Location(Bukkit.getWorld("world"), xRed, yRed, zRed), org.bukkit.entity.EntityType.CHICKEN);
             redChicken.setCustomName("ITC_1_RED");
             redChicken.setCustomNameVisible(false);
             redChicken.setAI(false);
             redChicken.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 999999999, 100, false, false));
-
-            Bukkit.getLogger().info(redChicken.toString());
         }
     }
 
     private void giveItems(String mapName) {
-
+        Bukkit.getLogger().info("Creating items for " + mapName + "...");
         // Create an unbreakable iron sword
         ItemStack ironSword = new ItemStack(Material.IRON_SWORD);
         ItemMeta ironSwordMeta = ironSword.getItemMeta();
@@ -260,6 +257,7 @@ public class GameManager implements Listener {
         bowMeta.addEnchant(Enchantment.ARROW_KNOCKBACK, 2, true);
         bow.setItemMeta(bowMeta);
 
+        Bukkit.getLogger().info("Giving items to red team players...");
         for (UUID uuid : TeamManager.redTeam.keySet()) {
             Player player = Bukkit.getPlayer(uuid);
 
@@ -301,6 +299,7 @@ public class GameManager implements Listener {
             player.getInventory().setItemInOffHand(new ItemStack(Material.RED_WOOL, 64));
         }
 
+        Bukkit.getLogger().info("Giving items to blue team players...");
         for (UUID uuid : TeamManager.blueTeam.keySet()) {
             Player player = Bukkit.getPlayer(uuid);
 

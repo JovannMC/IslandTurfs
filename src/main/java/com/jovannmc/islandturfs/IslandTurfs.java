@@ -24,8 +24,10 @@ public final class IslandTurfs extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        Bukkit.getLogger().info("Starting up...");
         instance = this;
 
+        Bukkit.getLogger().info("Loading configs...");
         config = new Config(this, "config.yml", null);
         config.saveDefaultConfig();
         messages = new Config(this, "messages.yml", null);
@@ -33,15 +35,18 @@ public final class IslandTurfs extends JavaPlugin {
         maps = new Config(this, "maps.yml", null);
         maps.saveDefaultConfig();
 
+        Bukkit.getLogger().info("Registering commands and events...");
         Bukkit.getPluginCommand("IslandTurfs").setExecutor(new IslandTurfsCommand());
         Bukkit.getPluginCommand("IslandTurfs").setTabCompleter(new IslandTurfsTabCompleter());
 
+        Bukkit.getLogger().info("Registering events...");
         Bukkit.getPluginManager().registerEvents(new GameManager(), this);
         Bukkit.getPluginManager().registerEvents(new TeamManager(), this);
     }
 
     @Override
     public void onDisable() {
+        Bukkit.getLogger().info("Shutting down...");
         TeamManager.redTeam.clear();
         TeamManager.blueTeam.clear();
         TeamManager.redReady = false;

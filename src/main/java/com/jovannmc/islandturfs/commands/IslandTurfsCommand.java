@@ -16,17 +16,6 @@ import java.util.logging.Level;
 
 public class IslandTurfsCommand implements CommandExecutor {
 
-    /*
-        TODO:
-        - Team logic
-            - Join teams
-            - Leave teams
-            - Ready up
-        - Game logic
-            - Start game
-            - End game
-     */
-
     IslandTurfs plugin = IslandTurfs.getInstance();
 
     Utils utils = new Utils();
@@ -39,12 +28,12 @@ public class IslandTurfsCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 0) {
             sender.sendMessage(utils.color("&6IslandTurfs v" + plugin.getDescription().getVersion()));
-            sender.sendMessage("Red team: " + TeamManager.redReady + " Blue team: " + TeamManager.blueReady);
         } else if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
             if (sender.hasPermission("islandturfs.command.reload")) {
                 plugin.config.reloadConfig();
                 plugin.messages.reloadConfig();
                 plugin.maps.reloadConfig();
+                Bukkit.getLogger().info("Reloaded the configs!");
                 sender.sendMessage(utils.color(plugin.getConfig().getString("prefix") + " &6Reloaded the configs!"));
             } else {
                 utils.noPermission(sender);
@@ -61,9 +50,13 @@ public class IslandTurfsCommand implements CommandExecutor {
                     if (args[2].equalsIgnoreCase("red")) {
                         TeamManager.redTeam.put(((Player) sender).getUniqueId(), args[3]);
                         sender.sendMessage(utils.color(messages.getString("teamSelected").replace("%team%", "red")));
+                        Bukkit.getLogger().info("Added " + ((Player) sender).getName() + " to the red team!");
+                        Bukkit.getLogger().info("Red team size: " + TeamManager.redTeam.size());
                     } else if (args[2].equalsIgnoreCase("blue")) {
                         TeamManager.blueTeam.put(((Player) sender).getUniqueId(), args[3]);
                         sender.sendMessage(utils.color(messages.getString("teamSelected").replace("%team%", "blue")));
+                        Bukkit.getLogger().info("Added " + ((Player) sender).getName() + " to the blue team!");
+                        Bukkit.getLogger().info("Blue team size: " + TeamManager.blueTeam.size());
                     } else {
                         utils.invalidUsage(sender, cmd);
                     }
@@ -87,6 +80,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                         for (UUID uuid : TeamManager.redTeam.keySet()) {
                             Bukkit.getPlayer(uuid).sendMessage(utils.color(messages.getString("teamUnready").replace("%team%", "red")));
                         }
+                        Bukkit.getLogger().info("Red team is no longer ready!");
                         return false;
                     }
                     // If red team is not ready
@@ -94,6 +88,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                     for (UUID uuid : TeamManager.redTeam.keySet()) {
                         Bukkit.getPlayer(uuid).sendMessage(utils.color(messages.getString("teamReady").replace("%team%", "red")));
                     }
+                    Bukkit.getLogger().info("Red team is ready!");
 
                     if (TeamManager.redReady && TeamManager.blueReady) {
                         sender.sendMessage("Both teams are ready! Starting game...");
@@ -184,7 +179,6 @@ public class IslandTurfsCommand implements CommandExecutor {
             // if player's value matches map
             if (TeamManager.redTeam.get(uuid).equals(map)) {
                 // send message to player
-                Bukkit.getLogger().info("New game starting! " + Bukkit.getPlayer(uuid).getName() + " is on " + map + " map");
                 Bukkit.getPlayer(uuid).sendMessage(utils.color(messages.getString("gameStarting")));
             }
 
@@ -193,7 +187,6 @@ public class IslandTurfsCommand implements CommandExecutor {
         for (UUID uuid : TeamManager.blueTeam.keySet()) {
             // if player's value matches map
             if (TeamManager.blueTeam.get(uuid).equals(map)) {
-                Bukkit.getLogger().info("New game starting! " + Bukkit.getPlayer(uuid).getName() + " is on " + map + " map");
                 Bukkit.getPlayer(uuid).sendMessage(utils.color(messages.getString("gameStarting")));
             }
         }
