@@ -47,20 +47,14 @@ public class IslandTurfsTabCompleter implements TabCompleter {
                 } else if (args[0].equalsIgnoreCase("game")) {
                     if (args[1].equalsIgnoreCase("start")) {
                         List<String> maps = new ArrayList<>();
-                        maps.add("newMap");
-                        maps.add("oldMap");
+                        maps.add("ITC_2");
+                        maps.add("ITC_1");
                         return maps;
                     }
                     if (args[1].equalsIgnoreCase("end")) {
                         List<String> maps = new ArrayList<>();
-                        maps.add("newMap");
-                        maps.add("oldMap");
-                        return maps;
-                    }
-                    if (args[1].equalsIgnoreCase("reset")) {
-                        List<String> maps = new ArrayList<>();
-                        maps.add("newMap");
-                        maps.add("oldMap");
+                        maps.add("ITC_2");
+                        maps.add("ITC_1");
                         return maps;
                     }
                 }
@@ -69,8 +63,8 @@ public class IslandTurfsTabCompleter implements TabCompleter {
                 if (args[0].equalsIgnoreCase("team")) {
                     if (args[1].equalsIgnoreCase("join")) {
                         List<String> maps = new ArrayList<>();
-                        maps.add("newMap");
-                        maps.add("oldMap");
+                        maps.add("ITC_2");
+                        maps.add("ITC_1");
                         return maps;
                     }
                 }
