@@ -79,7 +79,7 @@ public class GameManager implements Listener {
     }
 
     public void endGame(String mapName, String winningTeam) {
-        if (mapName.equalsIgnoreCase("newMap")) {
+        if (mapName.equalsIgnoreCase("ITC_2")) {
             // For every entity in the world
             Bukkit.getWorld("world").getEntities().forEach(entity -> {
                 // If entity is a chicken and has a custom name that contains ITC_2
@@ -117,7 +117,7 @@ public class GameManager implements Listener {
             }
             // reset map
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "fill -18 67 9 -19 67 9 minecraft:redstone_block");
-        } else if (mapName.equalsIgnoreCase("oldMap")) {
+        } else if (mapName.equalsIgnoreCase("ITC_1")) {
             // For every entity in the world
             Bukkit.getWorld("world").getEntities().forEach(entity -> {
                 // If entity is a chicken and has a custom name that contains ITC_1
@@ -186,14 +186,14 @@ public class GameManager implements Listener {
 
     private void spawnChickens(String mapName) {
         Bukkit.getLogger().info("Spawning chickens for " + mapName + "...");
-        if (mapName.equalsIgnoreCase("newMap")) {
+        if (mapName.equalsIgnoreCase("ITC_2")) {
             // get coordinates from config
-            double xBlue = plugin.maps.getConfiguration().getDouble("newMap.blue.chicken.x");
-            double yBlue = plugin.maps.getConfiguration().getDouble("newMap.blue.chicken.y");
-            double zBlue = plugin.maps.getConfiguration().getDouble("newMap.blue.chicken.z");
-            double xRed = plugin.maps.getConfiguration().getDouble("newMap.red.chicken.x");
-            double yRed = plugin.maps.getConfiguration().getDouble("newMap.red.chicken.y");
-            double zRed = plugin.maps.getConfiguration().getDouble("newMap.red.chicken.z");
+            double xBlue = plugin.maps.getConfiguration().getDouble("ITC_2.blue.chicken.x");
+            double yBlue = plugin.maps.getConfiguration().getDouble("ITC_2.blue.chicken.y");
+            double zBlue = plugin.maps.getConfiguration().getDouble("ITC_2.blue.chicken.z");
+            double xRed = plugin.maps.getConfiguration().getDouble("ITC_2.red.chicken.x");
+            double yRed = plugin.maps.getConfiguration().getDouble("ITC_2.red.chicken.y");
+            double zRed = plugin.maps.getConfiguration().getDouble("ITC_2.red.chicken.z");
 
             // spawn blue chicken
             Chicken blueChicken = (Chicken) Bukkit.getWorld("world").spawnEntity(new Location(Bukkit.getWorld("world"), xBlue, yBlue, zBlue), org.bukkit.entity.EntityType.CHICKEN);
@@ -208,15 +208,15 @@ public class GameManager implements Listener {
             redChicken.setCustomNameVisible(false);
             redChicken.setAI(false);
             redChicken.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 999999999, 100, false, false));
-        } else if (mapName.equalsIgnoreCase("oldMap")) {
+        } else if (mapName.equalsIgnoreCase("ITC_1")) {
 
             // get coordinates from config
-            double xBlue = plugin.maps.getConfiguration().getDouble("oldMap.blue.chicken.x");
-            double yBlue = plugin.maps.getConfiguration().getDouble("oldMap.blue.chicken.y");
-            double zBlue = plugin.maps.getConfiguration().getDouble("oldMap.blue.chicken.z");
-            double xRed = plugin.maps.getConfiguration().getDouble("oldMap.red.chicken.x");
-            double yRed = plugin.maps.getConfiguration().getDouble("oldMap.red.chicken.y");
-            double zRed = plugin.maps.getConfiguration().getDouble("oldMap.red.chicken.z");
+            double xBlue = plugin.maps.getConfiguration().getDouble("ITC_1.blue.chicken.x");
+            double yBlue = plugin.maps.getConfiguration().getDouble("ITC_1.blue.chicken.y");
+            double zBlue = plugin.maps.getConfiguration().getDouble("ITC_1.blue.chicken.z");
+            double xRed = plugin.maps.getConfiguration().getDouble("ITC_1.red.chicken.x");
+            double yRed = plugin.maps.getConfiguration().getDouble("ITC_1.red.chicken.y");
+            double zRed = plugin.maps.getConfiguration().getDouble("ITC_1.red.chicken.z");
 
             // spawn blue chicken
             Chicken blueChicken = (Chicken) Bukkit.getWorld("world").spawnEntity(new Location(Bukkit.getWorld("world"), xBlue, yBlue, zBlue), org.bukkit.entity.EntityType.CHICKEN);
@@ -348,16 +348,16 @@ public class GameManager implements Listener {
         if (e.getEntity() instanceof Chicken) {
             if (e.getEntity().getCustomName().equals("ITC_1_BLUE")) {
                 Bukkit.getLogger().info("ITC_1 blue chicken died");
-                endGame("oldMap", "Red");
+                endGame("ITC_1", "Red");
             } else if (e.getEntity().getCustomName().equals("ITC_1_RED")) {
                 Bukkit.getLogger().info("ITC_1 red chicken died");
-                endGame("oldMap", "Blue");
+                endGame("ITC_1", "Blue");
             } else if (e.getEntity().getCustomName().equals("ITC_2_BLUE")) {
                 Bukkit.getLogger().info("ITC_2 blue chicken died");
-                endGame("newMap", "Red");
+                endGame("ITC_2", "Red");
             } else if (e.getEntity().getCustomName().equals("ITC_2_RED")) {
                 Bukkit.getLogger().info("ITC_2 red chicken died");
-                endGame("newMap", "Blue");
+                endGame("ITC_2", "Blue");
             }
         }
     }
