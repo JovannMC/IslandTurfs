@@ -1,0 +1,47 @@
+newMap:
+  blue:
+    spawn:
+      x: -32.5
+      y: 77.0
+      z: -32.5
+      yaw: 8279.92
+      pitch: 7.52
+    chicken:
+      x: -32.5
+      y: 69.0
+      z: -32.5
+  red:
+    spawn:
+      x: -32.50
+      y: 77.00
+      z: 52.50
+      yaw: 8100.33
+      pitch: 7.86
+    chicken:
+      x: -32.5
+      y: 69.0
+      z: 52.5
+
+oldMap:
+  blue:
+    spawn:
+      x: 57.5
+      y: 77.0
+      z: -32.5
+      yaw: 1800.08
+      pitch: 3.98
+    chicken:
+      x: 57.5
+      y: 69.0
+      z: -32.5
+  red:
+    spawn:
+      x: 57.5
+      y: 77.0
+      z: 52.5
+      yaw: 1980.23
+      pitch: 4.15
+    chicken:
+      x: 57.5
+      y: 69
+      z: 52

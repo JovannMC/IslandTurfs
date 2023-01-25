@@ -9,20 +9,10 @@ import java.util.UUID;
 
 public class TeamManager implements Listener {
 
-    IslandTurfs plugin = IslandTurfs.getInstance();
+    public static HashMap<UUID, String> redTeam = new HashMap();
+    public static HashMap<UUID, String> blueTeam = new HashMap<>();
 
-    private static TeamManager instance = new TeamManager();
-
-    Utils utils = new Utils();
-
-    public HashMap<UUID, String> redTeam = new HashMap();
-    public HashMap<UUID, String> blueTeam = new HashMap<>();
-
-    public boolean redReady = false;
-    public boolean blueReady = false;
-
-    public static TeamManager getInstance() {
-        return instance;
-    }
+    public static boolean redReady = false;
+    public static boolean blueReady = false;
 
 }

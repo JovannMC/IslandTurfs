@@ -20,6 +20,7 @@ public final class IslandTurfs extends JavaPlugin {
     private static IslandTurfs instance;
     public Config config;
     public Config messages;
+    public Config maps;
 
     @Override
     public void onEnable() {
@@ -29,6 +30,8 @@ public final class IslandTurfs extends JavaPlugin {
         config.saveDefaultConfig();
         messages = new Config(this, "messages.yml", null);
         messages.saveDefaultConfig();
+        maps = new Config(this, "maps.yml", null);
+        maps.saveDefaultConfig();
 
         Bukkit.getPluginCommand("IslandTurfs").setExecutor(new IslandTurfsCommand());
         Bukkit.getPluginCommand("IslandTurfs").setTabCompleter(new IslandTurfsTabCompleter());
@@ -39,10 +42,10 @@ public final class IslandTurfs extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        TeamManager.getInstance().redTeam.clear();
-        TeamManager.getInstance().blueTeam.clear();
-        TeamManager.getInstance().redReady = false;
-        TeamManager.getInstance().blueReady = false;
+        TeamManager.redTeam.clear();
+        TeamManager.blueTeam.clear();
+        TeamManager.redReady = false;
+        TeamManager.blueReady = false;
     }
 
     public static IslandTurfs getInstance() {

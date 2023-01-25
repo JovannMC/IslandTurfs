@@ -25,14 +25,13 @@ public class IslandTurfsCommand implements CommandExecutor {
         - Game logic
             - Start game
             - End game
-            - Reset game
      */
 
     IslandTurfs plugin = IslandTurfs.getInstance();
 
     Utils utils = new Utils();
 
-    TeamManager teamManager = new TeamManager();
+    TeamManager TeamManager = new TeamManager();
 
     Configuration messages = plugin.messages.getConfiguration();
 
@@ -40,12 +39,13 @@ public class IslandTurfsCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 0) {
             sender.sendMessage(utils.color("&6IslandTurfs v" + plugin.getDescription().getVersion()));
-            Bukkit.getLogger().info("red team: " + teamManager.redReady + " blue team: " + teamManager.blueReady);
+            sender.sendMessage("Red team: " + TeamManager.redReady + " Blue team: " + TeamManager.blueReady);
         } else if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
             if (sender.hasPermission("islandturfs.command.reload")) {
                 plugin.config.reloadConfig();
                 plugin.messages.reloadConfig();
-                sender.sendMessage(utils.color(plugin.getConfig().getString("prefix") + " &6Reloaded the config!"));
+                plugin.maps.reloadConfig();
+                sender.sendMessage(utils.color(plugin.getConfig().getString("prefix") + " &6Reloaded the configs!"));
             } else {
                 utils.noPermission(sender);
             }
@@ -59,10 +59,10 @@ public class IslandTurfsCommand implements CommandExecutor {
             if (args[1].equalsIgnoreCase("join")) {
                 if (args.length == 4) {
                     if (args[2].equalsIgnoreCase("red")) {
-                        teamManager.redTeam.put(((Player) sender).getUniqueId(), args[3]);
+                        TeamManager.redTeam.put(((Player) sender).getUniqueId(), args[3]);
                         sender.sendMessage(utils.color(messages.getString("teamSelected").replace("%team%", "red")));
                     } else if (args[2].equalsIgnoreCase("blue")) {
-                        teamManager.blueTeam.put(((Player) sender).getUniqueId(), args[3]);
+                        TeamManager.blueTeam.put(((Player) sender).getUniqueId(), args[3]);
                         sender.sendMessage(utils.color(messages.getString("teamSelected").replace("%team%", "blue")));
                     } else {
                         utils.invalidUsage(sender, cmd);
@@ -74,80 +74,65 @@ public class IslandTurfsCommand implements CommandExecutor {
                     READY COMMAND
                 */
             } else if (args[1].equalsIgnoreCase("ready")) {
-                if (sender instanceof Player) {
-                    utils.consoleOnly(sender);
-                    return false;
-                }
                 if (args[2].equalsIgnoreCase("red")) {
                     // If no players in red team
-                    if (teamManager.redTeam.size() == 0) {
-                        Bukkit.getLogger().log(Level.WARNING, "from red: no players in red team");
+                    if (TeamManager.redTeam.size() == 0) {
+                        sender.sendMessage("There are no players in the red team!");
                         return false;
                     }
                     // If red team is ready
-                    if (teamManager.redReady) {
+                    if (TeamManager.redReady) {
                         // Unready team
-                        teamManager.redReady = false;
-                        for (UUID uuid : teamManager.redTeam.keySet()) {
+                        TeamManager.redReady = false;
+                        for (UUID uuid : TeamManager.redTeam.keySet()) {
                             Bukkit.getPlayer(uuid).sendMessage(utils.color(messages.getString("teamUnready").replace("%team%", "red")));
                         }
-                        Bukkit.getLogger().log(Level.INFO, "Red team: " + teamManager.redReady + " Blue team: " + teamManager.blueReady);
                         return false;
                     }
                     // If red team is not ready
-                    teamManager.redReady = true;
-                    for (UUID uuid : teamManager.redTeam.keySet()) {
+                    TeamManager.redReady = true;
+                    for (UUID uuid : TeamManager.redTeam.keySet()) {
                         Bukkit.getPlayer(uuid).sendMessage(utils.color(messages.getString("teamReady").replace("%team%", "red")));
                     }
-                    Bukkit.getLogger().log(Level.INFO, "Red team: " + teamManager.redReady + " Blue team: " + teamManager.blueReady);
 
-                    if (teamManager.redReady && teamManager.blueReady) {
-                        Bukkit.getLogger().info("from red: both teams are ready");
-                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "islandturfs game start " + args[3]);
-                        teamManager.redReady = false;
-                        teamManager.blueReady = false;
+                    if (TeamManager.redReady && TeamManager.blueReady) {
+                        sender.sendMessage("Both teams are ready! Starting game...");
+                        StartGame(args[3]);
                     }
                     return false;
                 } else if (args[2].equalsIgnoreCase("blue")) {
                     // If no players in blue team
-                    if (teamManager.blueTeam.size() == 0) {
-                        Bukkit.getLogger().log(Level.WARNING, "from blue: no players in blue team");
+                    if (TeamManager.blueTeam.size() == 0) {
+                        sender.sendMessage("There are no players in the blue team!");
                         return false;
                     }
                     // If blue team is ready
-                    if (teamManager.blueReady) {
+                    if (TeamManager.blueReady) {
                         // Unready team
-                        teamManager.blueReady = false;
-                        for (UUID uuid : teamManager.blueTeam.keySet()) {
+                        TeamManager.blueReady = false;
+                        for (UUID uuid : TeamManager.blueTeam.keySet()) {
                             Bukkit.getPlayer(uuid).sendMessage(utils.color(messages.getString("teamUnready").replace("%team%", "blue")));
                         }
-                        Bukkit.getLogger().log(Level.INFO, "Red team: " + teamManager.redReady + " Blue team: " + teamManager.blueReady);
                         return false;
                     }
                     // If blue team is not ready
-                    teamManager.blueReady = true;
-                    for (UUID uuid : teamManager.blueTeam.keySet()) {
+                    TeamManager.blueReady = true;
+                    for (UUID uuid : TeamManager.blueTeam.keySet()) {
                         Bukkit.getPlayer(uuid).sendMessage(utils.color(messages.getString("teamReady").replace("%team%", "blue")));
                     }
-                    Bukkit.getLogger().log(Level.INFO, "Red team: " + teamManager.redReady + " Blue team: " + teamManager.blueReady);
 
-                    if (teamManager.redReady && teamManager.blueReady) {
-                        Bukkit.getLogger().info("from blue: both teams are ready");
-                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "islandturfs game start " + args[3]);
-                        teamManager.redReady = false;
-                        teamManager.blueReady = false;
-                    }
+                    if (TeamManager.redReady && TeamManager.blueReady) { StartGame(args[3]); }
                 }
 
                 /*
                     LEAVE COMMAND
                 */
             } else if (args[1].equalsIgnoreCase("leave")) {
-                if (teamManager.redTeam.containsKey(((Player) sender).getUniqueId())) {
-                    teamManager.redTeam.remove(((Player) sender).getUniqueId());
+                if (TeamManager.redTeam.containsKey(((Player) sender).getUniqueId())) {
+                    TeamManager.redTeam.remove(((Player) sender).getUniqueId());
                     sender.sendMessage(utils.color(messages.getString("teamLeft").replace("%team%", "red")));
-                } else if (teamManager.blueTeam.containsKey(((Player) sender).getUniqueId())) {
-                    teamManager.blueTeam.remove(((Player) sender).getUniqueId());
+                } else if (TeamManager.blueTeam.containsKey(((Player) sender).getUniqueId())) {
+                    TeamManager.blueTeam.remove(((Player) sender).getUniqueId());
                     sender.sendMessage(utils.color(messages.getString("teamLeft").replace("%team%", "blue")));
                 } else {
                     sender.sendMessage(utils.color(messages.getString("notInTeam")));
@@ -176,19 +161,9 @@ public class IslandTurfsCommand implements CommandExecutor {
                     END COMMAND
                 */
             } else if (args[1].equalsIgnoreCase("end")) {
-                if (args.length == 3) {
+                if (args.length == 4) {
                     GameManager gameManager = new GameManager();
-                    gameManager.endGame(args[2]);
-                } else {
-                    utils.invalidUsage(sender, cmd);
-                }
-                /*
-                    RESET COMMAND
-                */
-            } else if (args[1].equalsIgnoreCase("reset")) {
-                if (args.length == 3) {
-                    GameManager gameManager = new GameManager();
-                    gameManager.resetGame(args[2]);
+                    gameManager.endGame(args[2], args[3]);
                 } else {
                     utils.invalidUsage(sender, cmd);
                 }
@@ -201,4 +176,30 @@ public class IslandTurfsCommand implements CommandExecutor {
 
         return false;
     }
+
+    private void StartGame(String map)
+    {
+        // for every player in red team
+        for (UUID uuid : TeamManager.redTeam.keySet()) {
+            // if player's value matches map
+            if (TeamManager.redTeam.get(uuid).equals(map)) {
+                // send message to player
+                Bukkit.getLogger().info("New game starting! " + Bukkit.getPlayer(uuid).getName() + " is on " + map + " map");
+                Bukkit.getPlayer(uuid).sendMessage(utils.color(messages.getString("gameStarting")));
+            }
+
+        }
+        // for every player in blue team
+        for (UUID uuid : TeamManager.blueTeam.keySet()) {
+            // if player's value matches map
+            if (TeamManager.blueTeam.get(uuid).equals(map)) {
+                Bukkit.getLogger().info("New game starting! " + Bukkit.getPlayer(uuid).getName() + " is on " + map + " map");
+                Bukkit.getPlayer(uuid).sendMessage(utils.color(messages.getString("gameStarting")));
+            }
+        }
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "islandturfs game start " + map);
+        TeamManager.redReady = false;
+        TeamManager.blueReady = false;
+    }
+
 }
