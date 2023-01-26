@@ -433,7 +433,7 @@ public class IslandTurfsCommand implements CommandExecutor {
 
                     if (args.length == 4) {
                         GameManager gameManager = new GameManager();
-                        gameManager.endGame(args[2], args[3]);
+                        gameManager.endGame(args[2].toLowerCase(), args[3]);
                     } else {
                         utils.invalidUsage(sender, "/islandturfs game end <map> <winningTeam>");
                     }

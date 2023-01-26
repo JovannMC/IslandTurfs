@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -339,22 +340,22 @@ public class GameManager implements Listener {
             if (e.getEntity().getCustomName().equalsIgnoreCase("ITC_1_BLUE")) {
                 // End game for ITC_1, winners are red team
                 Bukkit.getLogger().info("ITC_1 blue chicken died");
-                endGame("ITC_1", "Red");
+                endGame("ITC_1", "red");
                 // Check if the chicken was a chicken from ITC_2
             } else if (e.getEntity().getCustomName().equalsIgnoreCase("ITC_1_RED")) {
                 // End game for ITC_1, winners are blue team
                 Bukkit.getLogger().info("ITC_1 red chicken died");
-                endGame("ITC_1", "Blue");
+                endGame("ITC_1", "blue");
                 // Check if the chicken was a chicken from ITC_2
             } else if (e.getEntity().getCustomName().equalsIgnoreCase("ITC_2_BLUE")) {
                 // End game for ITC_2, winners are red team
                 Bukkit.getLogger().info("ITC_2 blue chicken died");
-                endGame("ITC_2", "Red");
+                endGame("ITC_2", "red");
                 // Check if the chicken was a chicken from ITC_2
             } else if (e.getEntity().getCustomName().equalsIgnoreCase("ITC_2_RED")) {
                 // End game for ITC_2, winners are blue team
                 Bukkit.getLogger().info("ITC_2 red chicken died");
-                endGame("ITC_2", "Blue");
+                endGame("ITC_2", "blue");
             }
         }
     }
@@ -409,5 +410,62 @@ public class GameManager implements Listener {
             }
         }
     }
+
+    @EventHandler
+    public void onPlayerLeave(PlayerQuitEvent e) {
+        if (gameStarted) {
+            Player p = e.getPlayer();
+
+            // Stores the last map the player was in before removing them from the team
+            String lastMap = null;
+
+            // If the player is in the blue team
+            if (TeamManager.blueTeam.containsKey(e.getPlayer().getUniqueId())) {
+                // If the player is in ITC_1
+                if (TeamManager.blueTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_1")) {
+                    lastMap = "ITC_1";
+                    // Remove the player from the blue team
+                    TeamManager.blueTeam.remove(e.getPlayer().getUniqueId());
+                    p.getInventory().clear();
+                    // If the player is in ITC_2
+                } else if (TeamManager.blueTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_2")) {
+                    lastMap = "ITC_2";
+                    // Remove the player from the blue team
+                    TeamManager.blueTeam.remove(e.getPlayer().getUniqueId());
+                    p.getInventory().clear();
+                }
+                // If the player is in the red team
+            } else if (TeamManager.redTeam.containsKey(e.getPlayer().getUniqueId())) {
+                // If the player is in ITC_1
+                if (TeamManager.redTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_1")) {
+                    lastMap = "ITC_1";
+                    // Remove the player from the red team
+                    TeamManager.redTeam.remove(e.getPlayer().getUniqueId());
+                    p.getInventory().clear();
+                    // If the player is in ITC_2
+                } else if (TeamManager.redTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_2")) {
+                    lastMap = "ITC_2";
+                    // Remove the player from the red team
+                    TeamManager.redTeam.remove(e.getPlayer().getUniqueId());
+                    p.getInventory().clear();
+                }
+            }
+
+            // If lastMap is null, return
+            if (lastMap == null) { return; }
+
+            // If the blue team is empty
+            if (TeamManager.blueTeam.isEmpty()) {
+                // End the game
+                endGame(lastMap, "red");
+                // If the red team is empty
+            } else if (TeamManager.redTeam.isEmpty()) {
+                // End the game
+                endGame(lastMap, "blue");
+            }
+
+        }
+    }
+
 
 }
