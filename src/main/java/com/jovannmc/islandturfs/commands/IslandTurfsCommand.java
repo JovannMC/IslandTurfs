@@ -8,8 +8,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
@@ -219,29 +219,42 @@ public class IslandTurfsCommand implements CommandExecutor {
     }
 
     private void StartGame(String map) {
-        // For each player in red team
-        for (UUID uuid : TeamManager.redTeam.keySet()) {
-            // If player's value matches map
-            if (TeamManager.redTeam.get(uuid).equals(map)) {
-                // send message to player
-                Bukkit.getPlayer(uuid).sendMessage(utils.color(
-                        plugin.messages.getConfiguration().getString("gameStarting")
-                                .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
-            }
+        new BukkitRunnable() {
+            int i = 0;
+            @Override
+            public void run() {
+                if (i < plugin.config.getConfiguration().getInt("timeBeforeStart")) {
+                    // For each player in red team
+                    for (UUID uuid : TeamManager.redTeam.keySet()) {
+                        // If player's value matches map
+                        if (TeamManager.redTeam.get(uuid).equals(map)) {
+                            Player player = Bukkit.getPlayer(uuid);
+                            player.sendMessage(utils.color(plugin.messages.getConfiguration().getString("gameStarting")
+                                    .replace("%time%", String.valueOf(plugin.config.getConfiguration().getInt("timeBeforeStart") - i))
+                                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
 
-        }
-        // For each player in blue team
-        for (UUID uuid : TeamManager.blueTeam.keySet()) {
-            // If player's value matches map
-            if (TeamManager.blueTeam.get(uuid).equals(map)) {
-                Bukkit.getPlayer(uuid).sendMessage(utils.color(
-                        plugin.messages.getConfiguration().getString("gameStarting")
-                                .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                        }
+                    }
+                    // For each player in blue team
+                    for (UUID uuid : TeamManager.blueTeam.keySet()) {
+                        // If player's value matches map
+                        if (TeamManager.blueTeam.get(uuid).equals(map)) {
+                            Player player = Bukkit.getPlayer(uuid);
+                            player.sendMessage(utils.color(plugin.messages.getConfiguration().getString("gameStarting")
+                                    .replace("%time%", String.valueOf(plugin.config.getConfiguration().getInt("timeBeforeStart") - i))
+                                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+
+                        }
+                    }
+                    i++;
+                    return;
+                }
+                cancel();
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "islandturfs game start " + map);
+                TeamManager.redReady = false;
+                TeamManager.blueReady = false;
             }
-        }
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "islandturfs game start " + map);
-        TeamManager.redReady = false;
-        TeamManager.blueReady = false;
+        }.runTaskTimer(plugin, 0, 20);
     }
 
 }
