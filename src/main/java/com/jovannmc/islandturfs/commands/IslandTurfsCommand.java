@@ -137,7 +137,7 @@ public class IslandTurfsCommand implements CommandExecutor {
 
                         if (TeamManager.redReady && TeamManager.blueReady) {
                             sender.sendMessage("Both teams are ready! Starting game...");
-                            StartGame(args[3]);
+                            startCountdown(args[3]);
                         }
                         return false;
                     } else if (args[2].equalsIgnoreCase("blue")) {
@@ -176,7 +176,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                         }
 
                         if (TeamManager.redReady && TeamManager.blueReady) {
-                            StartGame(args[3]);
+                            startCountdown(args[3]);
                         }
                     }
 
@@ -244,6 +244,16 @@ public class IslandTurfsCommand implements CommandExecutor {
                     } else {
                         utils.invalidUsage(sender, cmd);
                     }
+                /*
+                    SPECTATE COMMAND
+                */
+                } else if (args[1].equalsIgnoreCase("spectate")) {
+                    if (args.length == 4) {
+                        GameManager gameManager = new GameManager();
+                        gameManager.spectateGame(args[2], args[3]);
+                    } else {
+                        utils.invalidUsage(sender, cmd);
+                    }
                 } else {
                     utils.invalidUsage(sender, cmd);
                 }
@@ -257,7 +267,7 @@ public class IslandTurfsCommand implements CommandExecutor {
         return false;
     }
 
-    private void StartGame(String map) {
+    private void startCountdown(String map) {
         // Start countdown
         new BukkitRunnable() {
             int i = 0;

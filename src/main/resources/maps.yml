@@ -27,6 +27,12 @@ ITC_1:
       x: 57.5
       y: 69
       z: 52
+  spectate:
+    x: 39.5
+    y: 80.0
+    z: 9.5
+    yaw: -90
+    pitch: 0
 
 ITC_2:
   blue:
@@ -51,3 +57,9 @@ ITC_2:
       x: -32.5
       y: 69.0
       z: 52.5
+  spectate:
+    x: -14.5
+    y: 80.0
+    z: 9.5
+    yaw: 90
+    pitch: 0

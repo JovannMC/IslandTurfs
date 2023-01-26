@@ -14,6 +14,7 @@ public final class IslandTurfs extends JavaPlugin {
     TODO:
     - Add logic to add new maps
     - Add a config option to add new maps
+    (basically don't hardcode everything)
      */
 
     private static IslandTurfs instance;

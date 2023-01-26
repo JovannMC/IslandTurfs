@@ -32,6 +32,7 @@ public class IslandTurfsTabCompleter implements TabCompleter {
                     List<String> gameCommands = new ArrayList<>();
                     gameCommands.add("start");
                     gameCommands.add("end");
+                    gameCommands.add("spectate");
                     return gameCommands;
                 }
             }
@@ -56,6 +57,12 @@ public class IslandTurfsTabCompleter implements TabCompleter {
                         return maps;
                     }
                     if (args[1].equalsIgnoreCase("end")) {
+                        List<String> maps = new ArrayList<>();
+                        maps.add("ITC_1");
+                        maps.add("ITC_2");
+                        return maps;
+                    }
+                    if (args[1].equalsIgnoreCase("spectate")) {
                         List<String> maps = new ArrayList<>();
                         maps.add("ITC_1");
                         maps.add("ITC_2");

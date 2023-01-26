@@ -2,11 +2,13 @@ package com.jovannmc.islandturfs.managers;
 
 import com.jovannmc.islandturfs.IslandTurfs;
 import com.jovannmc.islandturfs.utils.Utils;
-import de.tr7zw.nbtapi.*;
+import de.tr7zw.nbtapi.NBTItem;
+import de.tr7zw.nbtapi.NBTList;
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Color;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Chicken;
@@ -35,7 +37,7 @@ public class GameManager implements Listener {
     Utils utils = new Utils();
 
     // TODO: implement gameStarted to code
-    private boolean gameStarted = false;
+    private static boolean gameStarted = false;
 
     public void startGame(String mapName) {
         Configuration maps = plugin.maps.getConfiguration();
@@ -82,6 +84,39 @@ public class GameManager implements Listener {
         gameStarted = true;
     }
 
+    public void spectateGame(String map, String player) {
+        Bukkit.getLogger().info("Spectating game on " + map + " for player " + player);
+        if (gameStarted) {
+            Bukkit.getLogger().info("Game has started");
+            // If specified player does not exist
+            if (Bukkit.getPlayer(player) == null) {
+                Bukkit.getLogger().info("Player does not exist");
+                return;
+            }
+
+            Player p = Bukkit.getPlayer(player);
+            // If map is ITC_1
+            if (map.equalsIgnoreCase("ITC_1")) {
+                Bukkit.getLogger().info("Map is ITC_1");
+                // Set player to be spectator
+                Location loc = new Location(p.getWorld(), plugin.maps.getConfiguration().getDouble("ITC_1.spectate.x"), plugin.maps.getConfiguration().getDouble("ITC_1.spectate.y"), plugin.maps.getConfiguration().getDouble("ITC_1.spectate.z"), (float) plugin.maps.getConfiguration().getDouble("ITC_1.spectate.yaw"), (float) plugin.maps.getConfiguration().getDouble("ITC_1.spectate.pitch"));
+                p.setGameMode(GameMode.SPECTATOR);
+                p.teleport(loc);
+                TeamManager.spectators.put(p.getUniqueId(), "ITC_1");
+                // If map is ITC_2
+            } else if (map.equalsIgnoreCase("ITC_2")) {
+                Bukkit.getLogger().info("Map is ITC_2");
+                // Set player to be spectator
+                Location loc = new Location(p.getWorld(), plugin.maps.getConfiguration().getDouble("ITC_2.spectate.x"), plugin.maps.getConfiguration().getDouble("ITC_2.spectate.y"), plugin.maps.getConfiguration().getDouble("ITC_2.spectate.z"), (float) plugin.maps.getConfiguration().getDouble("ITC_2.spectate.yaw"), (float) plugin.maps.getConfiguration().getDouble("ITC_2.spectate.pitch"));
+                p.setGameMode(GameMode.SPECTATOR);
+                p.teleport(loc);
+                TeamManager.spectators.put(p.getUniqueId(), "ITC_2");
+            } else {
+                // TODO: add invalid map message
+            }
+        }
+    }
+
     public void endGame(String mapName, String winningTeam) {
         if (mapName.equalsIgnoreCase("ITC_2")) {
             // For every entity in the world
@@ -99,7 +134,7 @@ public class GameManager implements Listener {
                 if (TeamManager.redTeam.get(uuid).equals(mapName)) {
                     // teleport player to spawn
                     Player player = Bukkit.getPlayer(uuid);
-                    Location loc = new Location(player.getWorld(), 12, 66, 9);
+                    Location loc = new Location(player.getWorld(), plugin.maps.getConfiguration().getDouble("spawn.x"), plugin.maps.getConfiguration().getDouble("spawn.y"), plugin.maps.getConfiguration().getDouble("spawn.z"));
                     player.teleport(loc);
                     player.sendMessage(utils.color(
                             plugin.messages.getConfiguration().getString("winner")
@@ -115,7 +150,7 @@ public class GameManager implements Listener {
                 if (TeamManager.blueTeam.get(uuid).equals(mapName)) {
                     // teleport player to spawn
                     Player player = Bukkit.getPlayer(uuid);
-                    Location loc = new Location(player.getWorld(), 12, 66, 9);
+                    Location loc = new Location(player.getWorld(), plugin.maps.getConfiguration().getDouble("spawn.x"), plugin.maps.getConfiguration().getDouble("spawn.y"), plugin.maps.getConfiguration().getDouble("spawn.z"));
                     player.teleport(loc);
                     player.sendMessage(utils.color(
                             plugin.messages.getConfiguration().getString("winner")
@@ -123,6 +158,24 @@ public class GameManager implements Listener {
                                     .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                     // Clear the player's inventory
                     player.getInventory().clear();
+                }
+            }
+            // for every player in spectators
+            for (UUID uuid : TeamManager.spectators.keySet()) {
+                // if value of player matches mapName
+                if (TeamManager.spectators.get(uuid).equals(mapName)) {
+                    // teleport player to spawn
+                    Player player = Bukkit.getPlayer(uuid);
+                    Location loc = new Location(player.getWorld(), plugin.maps.getConfiguration().getDouble("spawn.x"), plugin.maps.getConfiguration().getDouble("spawn.y"), plugin.maps.getConfiguration().getDouble("spawn.z"));
+                    player.teleport(loc);
+                    player.sendMessage(utils.color(
+                            plugin.messages.getConfiguration().getString("winner")
+                                    .replace("%team%", winningTeam)
+                                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                    // Clear the player's inventory
+                    player.getInventory().clear();
+                    // Set player's gamemode to adventure
+                    player.setGameMode(GameMode.ADVENTURE);
                 }
             }
             // reset map
@@ -143,7 +196,7 @@ public class GameManager implements Listener {
                 if (TeamManager.redTeam.get(uuid).equals(mapName)) {
                     // teleport player to spawn
                     Player player = Bukkit.getPlayer(uuid);
-                    Location loc = new Location(player.getWorld(), 12, 66, 9);
+                    Location loc = new Location(player.getWorld(), plugin.maps.getConfiguration().getDouble("spawn.x"), plugin.maps.getConfiguration().getDouble("spawn.y"), plugin.maps.getConfiguration().getDouble("spawn.z"));
                     player.teleport(loc);
                     player.sendMessage(utils.color(
                             plugin.messages.getConfiguration().getString("winner")
@@ -159,7 +212,7 @@ public class GameManager implements Listener {
                 if (TeamManager.blueTeam.get(uuid).equals(mapName)) {
                     // teleport player to spawn
                     Player player = Bukkit.getPlayer(uuid);
-                    Location loc = new Location(player.getWorld(), 12, 66, 9);
+                    Location loc = new Location(player.getWorld(), plugin.maps.getConfiguration().getDouble("spawn.x"), plugin.maps.getConfiguration().getDouble("spawn.y"), plugin.maps.getConfiguration().getDouble("spawn.z"));
                     player.teleport(loc);
                     player.sendMessage(utils.color(
                             plugin.messages.getConfiguration().getString("winner")
@@ -167,6 +220,24 @@ public class GameManager implements Listener {
                                     .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                     // Clear the player's inventory
                     player.getInventory().clear();
+                }
+            }
+            // for every player in spectators
+            for (UUID uuid : TeamManager.spectators.keySet()) {
+                // if value of player matches mapName
+                if (TeamManager.spectators.get(uuid).equals(mapName)) {
+                    // teleport player to spawn
+                    Player player = Bukkit.getPlayer(uuid);
+                    Location loc = new Location(player.getWorld(), plugin.maps.getConfiguration().getDouble("spawn.x"), plugin.maps.getConfiguration().getDouble("spawn.y"), plugin.maps.getConfiguration().getDouble("spawn.z"));
+                    player.teleport(loc);
+                    player.sendMessage(utils.color(
+                            plugin.messages.getConfiguration().getString("winner")
+                                    .replace("%team%", winningTeam)
+                                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                    // Clear the player's inventory
+                    player.getInventory().clear();
+                    // Set player's gamemode to adventure
+                    player.setGameMode(GameMode.ADVENTURE);
                 }
             }
 
@@ -189,8 +260,6 @@ public class GameManager implements Listener {
                 TeamManager.blueTeam.remove(uuid);
             }
         }
-
-        Bukkit.getLogger().info("Game ended on " + mapName + ", the winners were " + winningTeam + "!");
 
         // set gameStarted to false
         gameStarted = false;
