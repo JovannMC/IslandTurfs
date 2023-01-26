@@ -15,7 +15,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -29,7 +28,6 @@ public class GameManager implements Listener {
     /*
         TODO: ability to instantiate GameManager and TeamManager classes to prevent issues with multiple games running at once
         - or at least make the code work with multiple games running at once without rewriting the code for both classes to support it
-        - Add username to commands to work with ServerSigns
     */
 
     IslandTurfs plugin = IslandTurfs.getInstance();
