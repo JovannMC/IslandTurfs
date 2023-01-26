@@ -24,10 +24,16 @@ public class IslandTurfsCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 0) {
-            sender.sendMessage(utils.color("&3IslandTurfs &7v" + plugin.getDescription().getVersion()));
+            // Send info about the plugin
+            sender.sendMessage(utils.color("&3IslandTurfs &7v" + plugin.getDescription().getVersion() + " &3by &7JovannMC"));
         } else if (args.length > 1) {
+            /*
+                RELOAD COMMAND
+            */
             if (args[0].equalsIgnoreCase("reload")) {
+                // Check if sender has permission
                 if (sender.hasPermission("islandturfs.command.reload")) {
+                    // Reload the configs and send messages
                     plugin.config.reloadConfig();
                     plugin.messages.reloadConfig();
                     plugin.maps.reloadConfig();
@@ -55,12 +61,13 @@ public class IslandTurfsCommand implements CommandExecutor {
                         // If specified player does not exist
                     } else if (Bukkit.getPlayer(args[4]) == null) {
                         sender.sendMessage(utils.color(
-                                plugin.messages.getConfiguration().getString("noPlayer")
+                                plugin.messages.getConfiguration().getString("playerNotFound")
                                         .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                     }
                     
                     Player target = Bukkit.getPlayer(args[4]);
                     if (args[2].equalsIgnoreCase("red")) {
+                        // Place player in red team and send messages
                         TeamManager.redTeam.put(target.getUniqueId(), args[3]);
                         target.sendMessage(utils.color(
                                 plugin.messages.getConfiguration().getString("teamSelected")
@@ -70,6 +77,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                         Bukkit.getLogger().info("Red team size: " + TeamManager.redTeam.size());
                         Bukkit.getLogger().info("Red team: " + TeamManager.redTeam);
                     } else if (args[2].equalsIgnoreCase("blue")) {
+                        // Place player in the blue team and send messages
                         TeamManager.blueTeam.put(target.getUniqueId(), args[3]);
                         target.sendMessage(utils.color(
                                 plugin.messages.getConfiguration().getString("teamSelected")
@@ -94,7 +102,10 @@ public class IslandTurfsCommand implements CommandExecutor {
                     if (args[2].equalsIgnoreCase("red")) {
                         // If no players in red team
                         if (TeamManager.redTeam.size() == 0) {
-                            sender.sendMessage("There are no players in the red team!");
+                            sender.sendMessage(utils.color(
+                                    plugin.messages.getConfiguration().getString("noPlayersInTeam")
+                                            .replace("%team%", "red")
+                                            .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                             return false;
                         }
                         // If red team is ready
@@ -132,7 +143,10 @@ public class IslandTurfsCommand implements CommandExecutor {
                     } else if (args[2].equalsIgnoreCase("blue")) {
                         // If no players in blue team
                         if (TeamManager.blueTeam.size() == 0) {
-                            sender.sendMessage("There are no players in the blue team!");
+                            sender.sendMessage(utils.color(
+                                    plugin.messages.getConfiguration().getString("noPlayersInTeam")
+                                            .replace("%team%", "blue")
+                                            .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                             return false;
                         }
                         // If blue team is ready
@@ -177,7 +191,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                         // If specified player does not exist
                     } else if (Bukkit.getPlayer(args[2]) == null) {
                         sender.sendMessage(utils.color(
-                                plugin.messages.getConfiguration().getString("noPlayer")
+                                plugin.messages.getConfiguration().getString("playerNotFound")
                                         .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                         return false;
                     }
@@ -244,6 +258,7 @@ public class IslandTurfsCommand implements CommandExecutor {
     }
 
     private void StartGame(String map) {
+        // Start countdown
         new BukkitRunnable() {
             int i = 0;
 
@@ -275,6 +290,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                     i++;
                     return;
                 }
+                // If countdown is over
                 cancel();
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "islandturfs game start " + map);
                 TeamManager.redReady = false;

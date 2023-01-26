@@ -1,7 +1,7 @@
 # Command messages
-noPlayer: "&cThat player is offline or does not exist."
 noPermission: "&cYou do not have permission to do this."
 playerOnly: "&cYou must be a player to do this."
+playerNotFound: "&cThat player is offline or does not exist."
 consoleOnly: "&cYou must be the console to do this."
 invalidUsage: "&cInvalid usage. &7%usage%"
 
@@ -14,6 +14,7 @@ teamLeft: "%prefix% &3You have left team &7%team%&3."
 teamReady: "%prefix% &3Your team is now ready."
 teamUnready: "%prefix% &cYour team is no longer ready."
 notInTeam: "%prefix% &cYou are not in a team."
+noPlayersInTeam: "&cThere are no players in the %team% team."
 
 otherTeamReady: "%prefix% &3Team &7%team%&3 is now ready."
 otherTeamUnready: "%prefix% &cTeam &7%team%&c is no longer ready."

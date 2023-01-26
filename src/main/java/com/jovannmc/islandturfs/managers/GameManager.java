@@ -192,7 +192,7 @@ public class GameManager implements Listener {
             }
         }
 
-        Bukkit.getLogger().info("Game ended");
+        Bukkit.getLogger().info("Game ended on " + mapName + ", the winners were " + winningTeam + "!");
 
         // set gameStarted to false
         gameStarted = false;
@@ -383,18 +383,26 @@ public class GameManager implements Listener {
 
     @EventHandler
     public void onChickenDeath(EntityDeathEvent e) {
-        // Old map
+        // Check if the entity that died was a chicken
         if (e.getEntity() instanceof Chicken) {
+            // Check if the chicken was a chicken from ITC_1
             if (e.getEntity().getCustomName().equals("ITC_1_BLUE")) {
+                // End game for ITC_1, winners are red team
                 Bukkit.getLogger().info("ITC_1 blue chicken died");
                 endGame("ITC_1", "Red");
+                // Check if the chicken was a chicken from ITC_2
             } else if (e.getEntity().getCustomName().equals("ITC_1_RED")) {
+                // End game for ITC_1, winners are blue team
                 Bukkit.getLogger().info("ITC_1 red chicken died");
                 endGame("ITC_1", "Blue");
+                // Check if the chicken was a chicken from ITC_2
             } else if (e.getEntity().getCustomName().equals("ITC_2_BLUE")) {
+                // End game for ITC_2, winners are red team
                 Bukkit.getLogger().info("ITC_2 blue chicken died");
                 endGame("ITC_2", "Red");
+                // Check if the chicken was a chicken from ITC_2
             } else if (e.getEntity().getCustomName().equals("ITC_2_RED")) {
+                // End game for ITC_2, winners are blue team
                 Bukkit.getLogger().info("ITC_2 red chicken died");
                 endGame("ITC_2", "Blue");
             }
@@ -404,7 +412,7 @@ public class GameManager implements Listener {
     @EventHandler
     public void onVoidFall(PlayerMoveEvent e) {
         if (e.getPlayer().getLocation().getY() < plugin.config.getConfiguration().getDouble("teleportY")) {
-            Bukkit.getLogger().info("Player fell into the void");
+            Bukkit.getLogger().info(e.getPlayer().getName() + " fell into the void");
 
             // Maps config
             Configuration maps = plugin.maps.getConfiguration();
@@ -452,9 +460,9 @@ public class GameManager implements Listener {
         }
     }
 
-    private static ItemStack forgeCanItem(ItemStack item, String can, String[] blocks, ItemFlag itemFlag) {
+    // Create "can" item
+    private static ItemStack forgeCanItem(ItemStack item, String can, String[] blocks) {
         ItemMeta meta = item.getItemMeta();
-        meta.addItemFlags(itemFlag);
         item.setItemMeta(meta);
         NBTItem nbt = new NBTItem(item);
         NBTList<String> canNbt = nbt.getStringList(can);
@@ -464,12 +472,14 @@ public class GameManager implements Listener {
         return nbt.getItem();
     }
 
+    // Create "canPlaceOn" item
     public static ItemStack forgeCanBePlacedOnItem(ItemStack item, String... blocks) {
-        return forgeCanItem(item, "CanPlaceOn", blocks, ItemFlag.HIDE_PLACED_ON);
+        return forgeCanItem(item, "CanPlaceOn", blocks);
     }
 
+    // Create "canDestroy" item
     public static ItemStack forgeCanDestroyItem(ItemStack item, String... blocks) {
-        return forgeCanItem(item, "CanDestroy", blocks, ItemFlag.HIDE_DESTROYS);
+        return forgeCanItem(item, "CanDestroy", blocks);
     }
 
 }
