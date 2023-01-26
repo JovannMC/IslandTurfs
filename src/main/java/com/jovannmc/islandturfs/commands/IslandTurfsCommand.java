@@ -4,11 +4,19 @@ import com.jovannmc.islandturfs.managers.GameManager;
 import com.jovannmc.islandturfs.managers.TeamManager;
 import com.jovannmc.islandturfs.IslandTurfs;
 import com.jovannmc.islandturfs.utils.Utils;
+import de.tr7zw.nbtapi.NBTItem;
+import de.tr7zw.nbtapi.NBTList;
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
@@ -62,13 +70,13 @@ public class IslandTurfsCommand implements CommandExecutor {
                                 plugin.messages.getConfiguration().getString("invalidPlayer")
                                         .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                         // If specified map does not exist
-                    } else if (!args[3].equalsIgnoreCase("ITC_1") || !args[3].equalsIgnoreCase("ITC_2")) {
+                    } else if (!args[3].equalsIgnoreCase("ITC_1") && !args[3].equalsIgnoreCase("ITC_2")) {
                         sender.sendMessage(utils.color(
                                 plugin.messages.getConfiguration().getString("invalidMap")
                                         .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                         return false;
                         // If specified team does not exist
-                    } else if (!args[2].equalsIgnoreCase("red") || !args[2].equalsIgnoreCase("blue")) {
+                    } else if (!args[2].equalsIgnoreCase("red") && !args[2].equalsIgnoreCase("blue")) {
                         sender.sendMessage(utils.color(
                                 plugin.messages.getConfiguration().getString("invalidTeam")
                                         .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
@@ -82,6 +90,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                                 plugin.messages.getConfiguration().getString("teamSelected")
                                         .replace("%team%", "red")
                                         .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                        giveItems(target, "red", args[3]);
                         Bukkit.getLogger().info("Added " + target.getName() + " to the red team!");
                         Bukkit.getLogger().info("Red team size: " + TeamManager.redTeam.size());
                         Bukkit.getLogger().info("Red team: " + TeamManager.redTeam);
@@ -92,6 +101,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                                 plugin.messages.getConfiguration().getString("teamSelected")
                                         .replace("%team%", "blue")
                                         .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                        giveItems(target, "blue", args[3]);
                         Bukkit.getLogger().info("Added " + target.getName() + " to the blue team!");
                         Bukkit.getLogger().info("Blue team size: " + TeamManager.blueTeam.size());
                         Bukkit.getLogger().info("Blue team: " + TeamManager.blueTeam);
@@ -107,13 +117,13 @@ public class IslandTurfsCommand implements CommandExecutor {
                         utils.invalidUsage(sender, "/islandturfs team ready <team> <map>");
                         return false;
                         // If specified map does not exist
-                    } else if (!args[3].equalsIgnoreCase("ITC_1") || !args[3].equalsIgnoreCase("ITC_2")) {
+                    } else if (!args[3].equalsIgnoreCase("ITC_1") && !args[3].equalsIgnoreCase("ITC_2")) {
                         sender.sendMessage(utils.color(
                                 plugin.messages.getConfiguration().getString("invalidMap")
                                         .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                         return false;
                         // If specified team does not exist
-                    } else if (!args[2].equalsIgnoreCase("red") || !args[2].equalsIgnoreCase("blue")) {
+                    } else if (!args[2].equalsIgnoreCase("red") && !args[2].equalsIgnoreCase("blue")) {
                         sender.sendMessage(utils.color(
                                 plugin.messages.getConfiguration().getString("invalidTeam")
                                         .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
@@ -366,7 +376,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                 */
                 if (args[1].equalsIgnoreCase("start")) {
                     // If specified map does not exist
-                    if (!args[2].equalsIgnoreCase("ITC_1") || !args[2].equalsIgnoreCase("ITC_2")) {
+                    if (!args[2].equalsIgnoreCase("ITC_1") && !args[2].equalsIgnoreCase("ITC_2")) {
                         sender.sendMessage(utils.color(
                                 plugin.messages.getConfiguration().getString("invalidMap")
                                         .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
@@ -383,13 +393,13 @@ public class IslandTurfsCommand implements CommandExecutor {
                 */
                 } else if (args[1].equalsIgnoreCase("end")) {
                     // If specified map does not exist
-                    if (!args[2].equalsIgnoreCase("ITC_1") || !args[2].equalsIgnoreCase("ITC_2")) {
+                    if (!args[2].equalsIgnoreCase("ITC_1") && !args[2].equalsIgnoreCase("ITC_2")) {
                         sender.sendMessage(utils.color(
                                 plugin.messages.getConfiguration().getString("invalidMap")
                                         .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                         return false;
                         // If specified team does not exist
-                    } else if (!args[3].equalsIgnoreCase("red") || !args[3].equalsIgnoreCase("blue")) {
+                    } else if (!args[3].equalsIgnoreCase("red") && !args[3].equalsIgnoreCase("blue")) {
                         sender.sendMessage(utils.color(
                                 plugin.messages.getConfiguration().getString("invalidTeam")
                                         .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
@@ -406,7 +416,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                 */
                 } else if (args[1].equalsIgnoreCase("spectate")) {
                     // If specified map does not exist
-                    if (!args[2].equalsIgnoreCase("ITC_1") || !args[2].equalsIgnoreCase("ITC_2")) {
+                    if (!args[2].equalsIgnoreCase("ITC_1") && !args[2].equalsIgnoreCase("ITC_2")) {
                         sender.sendMessage(utils.color(
                                 plugin.messages.getConfiguration().getString("invalidMap")
                                         .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
@@ -438,8 +448,144 @@ public class IslandTurfsCommand implements CommandExecutor {
         return false;
     }
 
+    private void giveItems(Player player, String team, String mapName) {
+        Bukkit.getLogger().info("Creating items for " + mapName + "...");
+
+        // Create an unbreakable iron sword
+        ItemStack ironSword = new ItemStack(Material.IRON_SWORD);
+        ItemMeta ironSwordMeta = ironSword.getItemMeta();
+        ironSwordMeta.setUnbreakable(true);
+        ironSword.setItemMeta(ironSwordMeta);
+
+        // Create unbreakable shears
+        ItemStack shears = new ItemStack(Material.SHEARS);
+        ItemMeta shearsMeta = shears.getItemMeta();
+        shearsMeta.setUnbreakable(true);
+        shears.setItemMeta(shearsMeta);
+
+        // Create the unbreakable bow with punch 2 and infinity
+        ItemStack bow = new ItemStack(Material.BOW);
+        ItemMeta bowMeta = bow.getItemMeta();
+        bowMeta.setUnbreakable(true);
+        bowMeta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
+        bowMeta.addEnchant(Enchantment.ARROW_KNOCKBACK, 2, true);
+        bow.setItemMeta(bowMeta);
+
+        // If the player is on the blue team
+        if (team.equalsIgnoreCase("red")) {
+            Bukkit.getLogger().info(player.getName() + " is on the red team, giving them red items...");
+            // Create the full set of unbreakable red leather armor
+            ItemStack redLeatherHelmet = new ItemStack(Material.LEATHER_HELMET);
+            LeatherArmorMeta redLeatherHelmetMeta = (LeatherArmorMeta) redLeatherHelmet.getItemMeta();
+            redLeatherHelmetMeta.setColor(Color.RED);
+            redLeatherHelmet.setItemMeta(redLeatherHelmetMeta);
+            redLeatherHelmetMeta.setUnbreakable(true);
+
+            ItemStack redLeatherChestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
+            LeatherArmorMeta redLeatherChestplateMeta = (LeatherArmorMeta) redLeatherChestplate.getItemMeta();
+            redLeatherChestplateMeta.setColor(Color.RED);
+            redLeatherChestplate.setItemMeta(redLeatherChestplateMeta);
+            redLeatherChestplateMeta.setUnbreakable(true);
+
+            ItemStack redLeatherLeggings = new ItemStack(Material.LEATHER_LEGGINGS);
+            LeatherArmorMeta redLeatherLeggingsMeta = (LeatherArmorMeta) redLeatherLeggings.getItemMeta();
+            redLeatherLeggingsMeta.setColor(Color.RED);
+            redLeatherLeggings.setItemMeta(redLeatherLeggingsMeta);
+            redLeatherLeggingsMeta.setUnbreakable(true);
+
+            ItemStack redLeatherBoots = new ItemStack(Material.LEATHER_BOOTS);
+            LeatherArmorMeta redLeatherBootsMeta = (LeatherArmorMeta) redLeatherBoots.getItemMeta();
+            redLeatherBootsMeta.setColor(Color.RED);
+            redLeatherBoots.setItemMeta(redLeatherBootsMeta);
+            redLeatherBootsMeta.setUnbreakable(true);
+
+            // Clear the player's inventory
+            player.getInventory().clear();
+
+            // Give the player the items
+            player.getInventory().setItem(0, ironSword);
+            player.getInventory().setItem(1, bow);
+            player.getInventory().setItem(2, forgeCanDestroyItem(shears, "minecraft:red_wool", "minecraft:blue_wool"));
+            player.getInventory().setItem(3, forgeCanBePlacedOnItem(new ItemStack(Material.RED_WOOL, 64), "minecraft:red_wool", "minecraft:blue_wool", "minecraft:red_concrete", "minecraft:blue_concrete"));
+            player.getInventory().setItem(4, forgeCanBePlacedOnItem(new ItemStack(Material.RED_WOOL, 64), "minecraft:red_wool", "minecraft:blue_wool", "minecraft:red_concrete", "minecraft:blue_concrete"));
+            player.getInventory().setItem(6, new ItemStack(Material.ARROW));
+            player.getInventory().setHelmet(redLeatherHelmet);
+            player.getInventory().setChestplate(redLeatherChestplate);
+            player.getInventory().setLeggings(redLeatherLeggings);
+            player.getInventory().setBoots(redLeatherBoots);
+            player.getInventory().setItemInOffHand(forgeCanBePlacedOnItem(new ItemStack(Material.RED_WOOL, 64), "minecraft:red_wool", "minecraft:blue_wool", "minecraft:red_concrete", "minecraft:blue_concrete"));
+
+            // If the player is in the blue team
+        } else if (team.equalsIgnoreCase("blue")) {
+
+            // Create the full set of unbreakable blue leather armor
+            ItemStack blueLeatherHelmet = new ItemStack(Material.LEATHER_HELMET);
+            LeatherArmorMeta blueLeatherHelmetMeta = (LeatherArmorMeta) blueLeatherHelmet.getItemMeta();
+            blueLeatherHelmetMeta.setColor(Color.BLUE);
+            blueLeatherHelmet.setItemMeta(blueLeatherHelmetMeta);
+            blueLeatherHelmetMeta.setUnbreakable(true);
+
+            ItemStack blueLeatherChestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
+            LeatherArmorMeta blueLeatherChestplateMeta = (LeatherArmorMeta) blueLeatherChestplate.getItemMeta();
+            blueLeatherChestplateMeta.setColor(Color.BLUE);
+            blueLeatherChestplate.setItemMeta(blueLeatherChestplateMeta);
+            blueLeatherChestplateMeta.setUnbreakable(true);
+
+            ItemStack blueLeatherLeggings = new ItemStack(Material.LEATHER_LEGGINGS);
+            LeatherArmorMeta blueLeatherLeggingsMeta = (LeatherArmorMeta) blueLeatherLeggings.getItemMeta();
+            blueLeatherLeggingsMeta.setColor(Color.BLUE);
+            blueLeatherLeggings.setItemMeta(blueLeatherLeggingsMeta);
+            blueLeatherLeggingsMeta.setUnbreakable(true);
+
+            ItemStack blueLeatherBoots = new ItemStack(Material.LEATHER_BOOTS);
+            LeatherArmorMeta blueLeatherBootsMeta = (LeatherArmorMeta) blueLeatherBoots.getItemMeta();
+            blueLeatherBootsMeta.setColor(Color.BLUE);
+            blueLeatherBoots.setItemMeta(blueLeatherBootsMeta);
+            blueLeatherBootsMeta.setUnbreakable(true);
+
+            // Clear the player's inventory
+            player.getInventory().clear();
+
+            // Give the player the items
+            player.getInventory().setItem(0, ironSword);
+            player.getInventory().setItem(1, bow);
+            player.getInventory().setItem(2, forgeCanDestroyItem(shears, "minecraft:red_wool", "minecraft:blue_wool"));
+            player.getInventory().setItem(3, forgeCanBePlacedOnItem(new ItemStack(Material.BLUE_WOOL, 64), "minecraft:red_wool", "minecraft:blue_wool", "minecraft:red_concrete", "minecraft:blue_concrete"));
+            player.getInventory().setItem(4, forgeCanBePlacedOnItem(new ItemStack(Material.BLUE_WOOL, 64), "minecraft:red_wool", "minecraft:blue_wool", "minecraft:red_concrete", "minecraft:blue_concrete"));
+            player.getInventory().setItem(6, new ItemStack(Material.ARROW));
+            player.getInventory().setHelmet(blueLeatherHelmet);
+            player.getInventory().setChestplate(blueLeatherChestplate);
+            player.getInventory().setLeggings(blueLeatherLeggings);
+            player.getInventory().setBoots(blueLeatherBoots);
+            player.getInventory().setItemInOffHand(forgeCanBePlacedOnItem(new ItemStack(Material.BLUE_WOOL, 64), "minecraft:red_wool", "minecraft:blue_wool", "minecraft:red_concrete", "minecraft:blue_concrete"));
+
+        }
+    }
+
+    // Create "can" item
+    private static ItemStack forgeCanItem(ItemStack item, String can, String[] blocks) {
+        ItemMeta meta = item.getItemMeta();
+        item.setItemMeta(meta);
+        NBTItem nbt = new NBTItem(item);
+        NBTList<String> canNbt = nbt.getStringList(can);
+        for (int i = 0; i < blocks.length; i++) {
+            canNbt.add(blocks[i]);
+        }
+        return nbt.getItem();
+    }
+
+    // Create "canPlaceOn" item
+    public static ItemStack forgeCanBePlacedOnItem(ItemStack item, String... blocks) {
+        return forgeCanItem(item, "CanPlaceOn", blocks);
+    }
+
+    // Create "canDestroy" item
+    public static ItemStack forgeCanDestroyItem(ItemStack item, String... blocks) {
+        return forgeCanItem(item, "CanDestroy", blocks);
+    }
+
     private void startCountdown(CommandSender sender, String map) {
-        if (!map.equalsIgnoreCase("ITC_1") || !map.equalsIgnoreCase("ITC_2")) {
+        if (!map.equalsIgnoreCase("ITC_1") && !map.equalsIgnoreCase("ITC_2")) {
             sender.sendMessage(utils.color(
                     plugin.messages.getConfiguration().getString("invalidMap")
                             .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
