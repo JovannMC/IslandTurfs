@@ -84,6 +84,18 @@ public class IslandTurfsCommand implements CommandExecutor {
 
                     Player target = Bukkit.getPlayer(args[4]);
                     if (args[2].equalsIgnoreCase("red")) {
+                        // If player is already in the blue team
+                        if (TeamManager.blueTeam.containsKey(target.getUniqueId())) {
+                            TeamManager.blueTeam.remove(target.getUniqueId());
+                            target.sendMessage(utils.color(
+                                    plugin.messages.getConfiguration().getString("teamChanged")
+                                            .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))
+                                            .replace("%originalteam%", "blue")
+                                            .replace("%newteam%", "red")));
+                            TeamManager.redTeam.put(target.getUniqueId(), args[3]);
+                            giveItems(target, "red", args[3]);
+                            return true;
+                        }
                         // Place player in red team and send messages
                         TeamManager.redTeam.put(target.getUniqueId(), args[3]);
                         target.sendMessage(utils.color(
@@ -95,6 +107,18 @@ public class IslandTurfsCommand implements CommandExecutor {
                         Bukkit.getLogger().info("Red team size: " + TeamManager.redTeam.size());
                         Bukkit.getLogger().info("Red team: " + TeamManager.redTeam);
                     } else if (args[2].equalsIgnoreCase("blue")) {
+                        // Check if player is already in the red team
+                        if (TeamManager.redTeam.containsKey(target.getUniqueId())) {
+                            TeamManager.redTeam.remove(target.getUniqueId());
+                            target.sendMessage(utils.color(
+                                    plugin.messages.getConfiguration().getString("teamChanged")
+                                            .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))
+                                            .replace("%originalteam%", "red")
+                                            .replace("%newteam%", "blue")));
+                            TeamManager.blueTeam.put(target.getUniqueId(), args[3]);
+                            giveItems(target, "blue", args[3]);
+                            return true;
+                        }
                         // Place player in the blue team and send messages
                         TeamManager.blueTeam.put(target.getUniqueId(), args[3]);
                         target.sendMessage(utils.color(
@@ -351,6 +375,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                                 plugin.messages.getConfiguration().getString("teamLeft")
                                         .replace("%team%", "red")
                                         .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                        target.getInventory().clear();
                         // If player is in blue team
                     } else if (TeamManager.blueTeam.containsKey(target.getUniqueId())) {
                         // Remove player from blue team and send message
@@ -359,11 +384,12 @@ public class IslandTurfsCommand implements CommandExecutor {
                                 plugin.messages.getConfiguration().getString("teamLeft")
                                         .replace("%team%", "blue")
                                         .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                        target.getInventory().clear();
                         // If player is not in a team
                     } else {
                         sender.sendMessage(utils.color(
                                 plugin.messages.getConfiguration()
-                                        .getString("notInTeam")
+                                        .getString("noTeam")
                                         .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                     }
                 }

@@ -9,16 +9,16 @@ invalidTeam: "&cThat team does not exist."
 reloadConfig: "%prefix% &3The configs have been reloaded."
 
 teamSelected: "%prefix% &3You have selected team &7%team%&3."
-teamAlreadySelected: "&%prefix% cYou have already selected team &7%team%&c."
+teamChanged: "%prefix% &3You have left team &7%originalteam%&3 and joined team &7%newteam%&3."
 teamLeft: "%prefix% &3You have left team &7%team%&3."
 teamReady: "%prefix% &3Your team is now ready."
 teamUnready: "%prefix% &cYour team is no longer ready."
 
-notInTeam: "%prefix% &cYou are not in a team."
-noPlayersInTeam: "&cThere are no players in the %team% team."
+noTeam: "%prefix% &cYou are not in a team."
+noPlayersInTeam: "&cThere are no players in the &7%team%&3 team."
 
 otherTeamReady: "%prefix% &3Team &7%team%&3 is now ready."
-otherTeamUnready: "%prefix% &cTeam &7%team%&c is no longer ready."
+otherTeamUnready: "%prefix% &3Team &7%team%&3 is no longer ready."
 
 gameStarting: "%prefix% &3The game is starting in &7%time%&3."
 gameStarted: "%prefix% &3The game has started."
