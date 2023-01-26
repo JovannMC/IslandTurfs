@@ -223,6 +223,7 @@ public class GameManager implements Listener {
             blueChicken.setCustomNameVisible(false);
             blueChicken.setAI(false);
             blueChicken.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 999999999, 100, false, false));
+            blueChicken.setHealth(plugin.config.getConfiguration().getDouble("chickenHealth"));
 
             // spawn red chicken
             Chicken redChicken = (Chicken) Bukkit.getWorld("world").spawnEntity(new Location(Bukkit.getWorld("world"), xRed, yRed, zRed), org.bukkit.entity.EntityType.CHICKEN);
@@ -230,6 +231,7 @@ public class GameManager implements Listener {
             redChicken.setCustomNameVisible(false);
             redChicken.setAI(false);
             redChicken.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 999999999, 100, false, false));
+            redChicken.setHealth(plugin.config.getConfiguration().getDouble("chickenHealth"));
         } else if (mapName.equalsIgnoreCase("ITC_1")) {
 
             // get coordinates from config
@@ -246,7 +248,7 @@ public class GameManager implements Listener {
             blueChicken.setCustomNameVisible(false);
             blueChicken.setAI(false);
             blueChicken.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 999999999, 100, false, false));
-            Bukkit.getLogger().info(blueChicken.toString());
+            blueChicken.setHealth(plugin.config.getConfiguration().getDouble("chickenHealth"));
 
             // spawn red chicken
             Chicken redChicken = (Chicken) Bukkit.getWorld("world").spawnEntity(new Location(Bukkit.getWorld("world"), xRed, yRed, zRed), org.bukkit.entity.EntityType.CHICKEN);
@@ -254,6 +256,7 @@ public class GameManager implements Listener {
             redChicken.setCustomNameVisible(false);
             redChicken.setAI(false);
             redChicken.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 999999999, 100, false, false));
+            redChicken.setHealth(plugin.config.getConfiguration().getDouble("chickenHealth"));
         }
     }
 
@@ -403,6 +406,8 @@ public class GameManager implements Listener {
     @EventHandler
     public void onVoidFall(PlayerMoveEvent e) {
         if (e.getPlayer().getLocation().getY() < plugin.config.getConfiguration().getDouble("teleportY")) {
+            Bukkit.getLogger().info("Player fell into the void");
+
             // Maps config
             Configuration maps = plugin.maps.getConfiguration();
 
