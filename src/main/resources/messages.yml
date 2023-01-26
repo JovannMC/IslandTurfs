@@ -11,6 +11,7 @@ teamAlreadySelected: "&%prefix% cYou have already selected team &7%team%&c."
 teamLeft: "%prefix% &3You have left team &7%team%&3."
 teamReady: "%prefix% &3Your team is now ready."
 teamUnready: "%prefix% &cYour team is no longer ready."
+
 notInTeam: "%prefix% &cYou are not in a team."
 noPlayersInTeam: "&cThere are no players in the %team% team."
 
