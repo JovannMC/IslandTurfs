@@ -1,7 +1,9 @@
 # Error messages
-noPermission: "&cYou do not have permission to do this."
-playerNotFound: "&cThat player is offline or does not exist."
+invalidPermission: "&cYou do not have permission to do this."
+invalidPlayer: "&cThat player is offline or does not exist."
 invalidUsage: "&cInvalid usage. &7%usage%"
+invalidMap: "&cThat map does not exist."
+invalidTeam: "&cThat team does not exist."
 
 # In-game messages (you can use %prefix% to add the prefix)
 reloadConfig: "%prefix% &3The configs have been reloaded."
@@ -23,5 +25,6 @@ gameStarted: "%prefix% &3The game has started."
 gameEnded: "%prefix% &3The game has ended."
 
 spectating: "%prefix% &3You are now spectating map &7%map%."
+spectatingNoGame: "%prefix% &cThat map is not being played."
 
 winner: "%prefix% &7%team%&3 wins!"

@@ -42,7 +42,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                             plugin.messages.getConfiguration().getString("reloadConfig")
                                     .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                 } else {
-                    utils.noPermission(sender);
+                    utils.invalidPermission(sender);
                 }
             /*
                 TEAM SUBCOMMANDS
@@ -59,7 +59,18 @@ public class IslandTurfsCommand implements CommandExecutor {
                         // If specified player does not exist
                     } else if (Bukkit.getPlayer(args[4]) == null) {
                         sender.sendMessage(utils.color(
-                                plugin.messages.getConfiguration().getString("playerNotFound")
+                                plugin.messages.getConfiguration().getString("invalidPlayer")
+                                        .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                        // If specified map does not exist
+                    } else if (!args[3].equalsIgnoreCase("ITC_1") || !args[3].equalsIgnoreCase("ITC_2")) {
+                        sender.sendMessage(utils.color(
+                                plugin.messages.getConfiguration().getString("invalidMap")
+                                        .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                        return false;
+                        // If specified team does not exist
+                    } else if (!args[2].equalsIgnoreCase("red") || !args[2].equalsIgnoreCase("blue")) {
+                        sender.sendMessage(utils.color(
+                                plugin.messages.getConfiguration().getString("invalidTeam")
                                         .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                     }
 
@@ -91,10 +102,21 @@ public class IslandTurfsCommand implements CommandExecutor {
                     READY COMMAND
                 */
                 } else if (args[1].equalsIgnoreCase("ready")) {
-                    // If args length is not 5
+                    // If args length is not 4
                     if (args.length != 4) {
                         utils.invalidUsage(sender, "/islandturfs team ready <team> <map>");
                         return false;
+                        // If specified map does not exist
+                    } else if (!args[3].equalsIgnoreCase("ITC_1") || !args[3].equalsIgnoreCase("ITC_2")) {
+                        sender.sendMessage(utils.color(
+                                plugin.messages.getConfiguration().getString("invalidMap")
+                                        .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                        return false;
+                        // If specified team does not exist
+                    } else if (!args[2].equalsIgnoreCase("red") || !args[2].equalsIgnoreCase("blue")) {
+                        sender.sendMessage(utils.color(
+                                plugin.messages.getConfiguration().getString("invalidTeam")
+                                        .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                     }
 
                     if (args[2].equalsIgnoreCase("red")) {
@@ -114,7 +136,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                                 TeamManager.ITC_1_redReady = false;
                                 for (UUID uuid : TeamManager.redTeam.keySet()) {
                                     // Check if player's key matches map name
-                                    if (TeamManager.redTeam.get(uuid).equals(args[3])) {
+                                    if (TeamManager.redTeam.get(uuid).equalsIgnoreCase(args[3])) {
                                         Bukkit.getPlayer(uuid).sendMessage(utils.color(
                                                 plugin.messages.getConfiguration().getString("teamUnready")
                                                         .replace("%team%", "red")
@@ -127,7 +149,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                             // For each player in red team
                             for (UUID uuid : TeamManager.redTeam.keySet()) {
                                 // Check if player's key matches map name
-                                if (TeamManager.redTeam.get(uuid).equals(args[3])) {
+                                if (TeamManager.redTeam.get(uuid).equalsIgnoreCase(args[3])) {
                                     Bukkit.getPlayer(uuid).sendMessage(utils.color(
                                             plugin.messages.getConfiguration().getString("teamReady")
                                                     .replace("%team%", "red")
@@ -137,7 +159,7 @@ public class IslandTurfsCommand implements CommandExecutor {
 
                             for (UUID uuid : TeamManager.blueTeam.keySet()) {
                                 // Check if player's key matches map name
-                                if (TeamManager.blueTeam.get(uuid).equals(args[3])) {
+                                if (TeamManager.blueTeam.get(uuid).equalsIgnoreCase(args[3])) {
                                     Bukkit.getPlayer(uuid).sendMessage(utils.color(
                                             plugin.messages.getConfiguration().getString("otherTeamReady")
                                                     .replace("%team%", "red")
@@ -147,7 +169,7 @@ public class IslandTurfsCommand implements CommandExecutor {
 
                             if (TeamManager.ITC_1_redReady && TeamManager.ITC_1_blueReady) {
                                 sender.sendMessage("Both teams are ready! Starting game on ITC_1...");
-                                startCountdown(args[3]);
+                                startCountdown(sender, args[3]);
                             }
                             return false;
                         } else if (args[3].equalsIgnoreCase("ITC_2")) {
@@ -157,7 +179,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                                 TeamManager.ITC_2_redReady = false;
                                 for (UUID uuid : TeamManager.redTeam.keySet()) {
                                     // Check if player's key matches map name
-                                    if (TeamManager.redTeam.get(uuid).equals(args[3])) {
+                                    if (TeamManager.redTeam.get(uuid).equalsIgnoreCase(args[3])) {
                                         Bukkit.getPlayer(uuid).sendMessage(utils.color(
                                                 plugin.messages.getConfiguration().getString("teamUnready")
                                                         .replace("%team%", "red")
@@ -170,7 +192,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                             // For each player in red team
                             for (UUID uuid : TeamManager.redTeam.keySet()) {
                                 // Check if player's key matches map name
-                                if (TeamManager.redTeam.get(uuid).equals(args[3])) {
+                                if (TeamManager.redTeam.get(uuid).equalsIgnoreCase(args[3])) {
                                     Bukkit.getPlayer(uuid).sendMessage(utils.color(
                                             plugin.messages.getConfiguration().getString("teamReady")
                                                     .replace("%team%", "red")
@@ -180,7 +202,7 @@ public class IslandTurfsCommand implements CommandExecutor {
 
                             for (UUID uuid : TeamManager.blueTeam.keySet()) {
                                 // Check if player's key matches map name
-                                if (TeamManager.blueTeam.get(uuid).equals(args[3])) {
+                                if (TeamManager.blueTeam.get(uuid).equalsIgnoreCase(args[3])) {
                                     Bukkit.getPlayer(uuid).sendMessage(utils.color(
                                             plugin.messages.getConfiguration().getString("otherTeamReady")
                                                     .replace("%team%", "red")
@@ -190,7 +212,7 @@ public class IslandTurfsCommand implements CommandExecutor {
 
                             if (TeamManager.ITC_2_redReady && TeamManager.ITC_2_blueReady) {
                                 sender.sendMessage("Both teams are ready! Starting game on ITC_2...");
-                                startCountdown(args[3]);
+                                startCountdown(sender, args[3]);
                             }
                             return false;
                         }
@@ -212,7 +234,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                                 // For each player in blue team
                                 for (UUID uuid : TeamManager.blueTeam.keySet()) {
                                     // Check if player's key matches map name
-                                    if (TeamManager.blueTeam.get(uuid).equals(args[3])) {
+                                    if (TeamManager.blueTeam.get(uuid).equalsIgnoreCase(args[3])) {
                                         Bukkit.getPlayer(uuid).sendMessage(utils.color(
                                                 plugin.messages.getConfiguration().getString("teamUnready")
                                                         .replace("%team%", "blue")
@@ -226,7 +248,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                             // For each player in blue team
                             for (UUID uuid : TeamManager.blueTeam.keySet()) {
                                 // Check if player's key matches map name
-                                if (TeamManager.blueTeam.get(uuid).equals(args[3])) {
+                                if (TeamManager.blueTeam.get(uuid).equalsIgnoreCase(args[3])) {
                                     Bukkit.getPlayer(uuid).sendMessage(utils.color(
                                             plugin.messages.getConfiguration().getString("teamReady")
                                                     .replace("%team%", "blue")
@@ -237,7 +259,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                             // For each player in red team
                             for (UUID uuid : TeamManager.redTeam.keySet()) {
                                 // Check if player's key matches map name
-                                if (TeamManager.redTeam.get(uuid).equals(args[3])) {
+                                if (TeamManager.redTeam.get(uuid).equalsIgnoreCase(args[3])) {
                                     Bukkit.getPlayer(uuid).sendMessage(utils.color(
                                             plugin.messages.getConfiguration().getString("otherTeamReady")
                                                     .replace("%team%", "blue")
@@ -246,7 +268,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                             }
 
                             if (TeamManager.ITC_1_redReady && TeamManager.ITC_1_blueReady) {
-                                startCountdown(args[3]);
+                                startCountdown(sender, args[3]);
                             }
                         } else if (args[3].equalsIgnoreCase("ITC_2")) {
                             // If blue team is ready
@@ -256,7 +278,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                                 // For each player in blue team
                                 for (UUID uuid : TeamManager.blueTeam.keySet()) {
                                     // Check if player's key matches map name
-                                    if (TeamManager.blueTeam.get(uuid).equals(args[3])) {
+                                    if (TeamManager.blueTeam.get(uuid).equalsIgnoreCase(args[3])) {
                                         Bukkit.getPlayer(uuid).sendMessage(utils.color(
                                                 plugin.messages.getConfiguration().getString("teamUnready")
                                                         .replace("%team%", "blue")
@@ -270,7 +292,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                             // For each player in blue team
                             for (UUID uuid : TeamManager.blueTeam.keySet()) {
                                 // Check if player's key matches map name
-                                if (TeamManager.blueTeam.get(uuid).equals(args[3])) {
+                                if (TeamManager.blueTeam.get(uuid).equalsIgnoreCase(args[3])) {
                                     Bukkit.getPlayer(uuid).sendMessage(utils.color(
                                             plugin.messages.getConfiguration().getString("teamReady")
                                                     .replace("%team%", "blue")
@@ -281,7 +303,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                             // For each player in red team
                             for (UUID uuid : TeamManager.redTeam.keySet()) {
                                 // Check if player's key matches map name
-                                if (TeamManager.redTeam.get(uuid).equals(args[3])) {
+                                if (TeamManager.redTeam.get(uuid).equalsIgnoreCase(args[3])) {
                                     Bukkit.getPlayer(uuid).sendMessage(utils.color(
                                             plugin.messages.getConfiguration().getString("otherTeamReady")
                                                     .replace("%team%", "blue")
@@ -290,7 +312,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                             }
 
                             if (TeamManager.ITC_2_redReady && TeamManager.ITC_2_blueReady) {
-                                startCountdown(args[3]);
+                                startCountdown(sender, args[3]);
                             }
                         }
                     }
@@ -306,7 +328,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                         // If specified player does not exist
                     } else if (Bukkit.getPlayer(args[2]) == null) {
                         sender.sendMessage(utils.color(
-                                plugin.messages.getConfiguration().getString("playerNotFound")
+                                plugin.messages.getConfiguration().getString("invalidPlayer")
                                         .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                         return false;
                     }
@@ -343,6 +365,13 @@ public class IslandTurfsCommand implements CommandExecutor {
                     START COMMAND
                 */
                 if (args[1].equalsIgnoreCase("start")) {
+                    // If specified map does not exist
+                    if (!args[2].equalsIgnoreCase("ITC_1") || !args[2].equalsIgnoreCase("ITC_2")) {
+                        sender.sendMessage(utils.color(
+                                plugin.messages.getConfiguration().getString("invalidMap")
+                                        .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                        return false;
+                    }
                     if (args.length == 3) {
                         GameManager gameManager = new GameManager();
                         gameManager.startGame(args[2]);
@@ -353,6 +382,19 @@ public class IslandTurfsCommand implements CommandExecutor {
                     END COMMAND
                 */
                 } else if (args[1].equalsIgnoreCase("end")) {
+                    // If specified map does not exist
+                    if (!args[2].equalsIgnoreCase("ITC_1") || !args[2].equalsIgnoreCase("ITC_2")) {
+                        sender.sendMessage(utils.color(
+                                plugin.messages.getConfiguration().getString("invalidMap")
+                                        .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                        return false;
+                        // If specified team does not exist
+                    } else if (!args[3].equalsIgnoreCase("red") || !args[3].equalsIgnoreCase("blue")) {
+                        sender.sendMessage(utils.color(
+                                plugin.messages.getConfiguration().getString("invalidTeam")
+                                        .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                    }
+
                     if (args.length == 4) {
                         GameManager gameManager = new GameManager();
                         gameManager.endGame(args[2], args[3]);
@@ -363,6 +405,20 @@ public class IslandTurfsCommand implements CommandExecutor {
                     SPECTATE COMMAND
                 */
                 } else if (args[1].equalsIgnoreCase("spectate")) {
+                    // If specified map does not exist
+                    if (!args[2].equalsIgnoreCase("ITC_1") || !args[2].equalsIgnoreCase("ITC_2")) {
+                        sender.sendMessage(utils.color(
+                                plugin.messages.getConfiguration().getString("invalidMap")
+                                        .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                        return false;
+                        // If specified player does not exist
+                    } else if (Bukkit.getPlayer(args[3]) == null) {
+                        sender.sendMessage(utils.color(
+                                plugin.messages.getConfiguration().getString("invalidPlayer")
+                                        .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                        return false;
+                    }
+
                     if (args.length == 4) {
                         GameManager gameManager = new GameManager();
                         gameManager.spectateGame(args[2], args[3]);
@@ -382,7 +438,14 @@ public class IslandTurfsCommand implements CommandExecutor {
         return false;
     }
 
-    private void startCountdown(String map) {
+    private void startCountdown(CommandSender sender, String map) {
+        if (!map.equalsIgnoreCase("ITC_1") || !map.equalsIgnoreCase("ITC_2")) {
+            sender.sendMessage(utils.color(
+                    plugin.messages.getConfiguration().getString("invalidMap")
+                            .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+            return;
+        }
+
         // Start countdown
         new BukkitRunnable() {
             int i = 0;
@@ -393,23 +456,21 @@ public class IslandTurfsCommand implements CommandExecutor {
                     // For each player in red team
                     for (UUID uuid : TeamManager.redTeam.keySet()) {
                         // If player's value matches map
-                        if (TeamManager.redTeam.get(uuid).equals(map)) {
+                        if (TeamManager.redTeam.get(uuid).equalsIgnoreCase(map)) {
                             Player player = Bukkit.getPlayer(uuid);
                             player.sendMessage(utils.color(plugin.messages.getConfiguration().getString("gameStarting")
                                     .replace("%time%", String.valueOf(plugin.config.getConfiguration().getInt("timeBeforeStart") - i))
                                     .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
-
                         }
                     }
                     // For each player in blue team
                     for (UUID uuid : TeamManager.blueTeam.keySet()) {
                         // If player's value matches map
-                        if (TeamManager.blueTeam.get(uuid).equals(map)) {
+                        if (TeamManager.blueTeam.get(uuid).equalsIgnoreCase(map)) {
                             Player player = Bukkit.getPlayer(uuid);
                             player.sendMessage(utils.color(plugin.messages.getConfiguration().getString("gameStarting")
                                     .replace("%time%", String.valueOf(plugin.config.getConfiguration().getInt("timeBeforeStart") - i))
                                     .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
-
                         }
                     }
                     i++;

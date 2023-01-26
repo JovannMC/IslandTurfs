@@ -19,7 +19,7 @@ public class Utils {
 		return colored;
 	}
 	
-	public void noPermission(CommandSender player) { player.sendMessage(color(plugin.messages.getConfiguration().getString("noPermission"))); }
+	public void invalidPermission(CommandSender player) { player.sendMessage(color(plugin.messages.getConfiguration().getString("invalidPermission"))); }
 
 	public void invalidUsage(CommandSender player, String usage) { player.sendMessage(color(plugin.messages.getConfiguration().getString("invalidUsage").replace("%prefix%", plugin.config.getConfiguration().getString("prefix")).replace("%usage%", usage))); }
 
