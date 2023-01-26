@@ -13,27 +13,20 @@ public class Utils {
 
 	private IslandTurfs plugin = IslandTurfs.getInstance();
 	private Configuration config = plugin.config.getConfiguration();
-	private Configuration messages = plugin.messages.getConfiguration();
 	
 	public String color(String string) {
 		String colored = ChatColor.translateAlternateColorCodes('&', string);
 		return colored;
 	}
 	
-	public void noPermission(CommandSender player) { player.sendMessage(color(messages.getString("noPermission"))); }
+	public void noPermission(CommandSender player) { player.sendMessage(color(plugin.messages.getConfiguration().getString("noPermission"))); }
 
-	public void noPlayer(CommandSender player) { player.sendMessage(color(messages.getString("noPlayer"))); }
+	public void noPlayer(CommandSender player) { player.sendMessage(color(plugin.messages.getConfiguration().getString("noPlayer"))); }
 
-	public void playerOnly(CommandSender player) { player.sendMessage(color(messages.getString("playerOnly"))); }
+	public void playerOnly(CommandSender player) { player.sendMessage(color(plugin.messages.getConfiguration().getString("playerOnly"))); }
 
-	public void consoleOnly(CommandSender player) { player.sendMessage(color(messages.getString("consoleOnly"))); }
-	
-	public void invalidUsage(CommandSender player, Command cmd) {
-		if (cmd != null) {
-			player.sendMessage(color(messages.getString("invalidUsage").replace("%usage%", cmd.getUsage())));
-		} else {
-			Bukkit.getLogger().log(Level.SEVERE, "Invalid command set!");
-		}
-	}
+	public void consoleOnly(CommandSender player) { player.sendMessage(color(plugin.messages.getConfiguration().getString("consoleOnly"))); }
+
+	public void invalidUsage(CommandSender player, String usage) { player.sendMessage(color(plugin.messages.getConfiguration().getString("invalidUsage").replace("%usage%", usage))); }
 
 }

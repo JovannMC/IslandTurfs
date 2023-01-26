@@ -54,9 +54,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                 if (args[1].equalsIgnoreCase("join")) {
                     // If args length is not 5
                     if (args.length != 5) {
-                        sender.sendMessage(utils.color(
-                                plugin.messages.getConfiguration().getString("invalidUsage")
-                                        .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                        utils.invalidUsage(sender, "/islandturfs team join <team> <map> <player>");
                         return false;
                         // If specified player does not exist
                     } else if (Bukkit.getPlayer(args[4]) == null) {
@@ -87,7 +85,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                         Bukkit.getLogger().info("Blue team size: " + TeamManager.blueTeam.size());
                         Bukkit.getLogger().info("Blue team: " + TeamManager.blueTeam);
                     } else {
-                        utils.invalidUsage(sender, cmd);
+                        utils.invalidUsage(sender, "/islandturfs team join <team> <map> <player>");
                     }
                 /*
                     READY COMMAND
@@ -95,7 +93,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                 } else if (args[1].equalsIgnoreCase("ready")) {
                     // If args length is not 5
                     if (args.length != 4) {
-                        utils.invalidUsage(sender, cmd);
+                        utils.invalidUsage(sender, "/islandturfs team ready <team> <map>");
                         return false;
                     }
 
@@ -186,7 +184,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                 } else if (args[1].equalsIgnoreCase("leave")) {
                     // If args length is not 3
                     if (args.length != 3) {
-                        utils.invalidUsage(sender, cmd);
+                        utils.invalidUsage(sender, "/islandturfs team leave <player>");
                         return false;
                         // If specified player does not exist
                     } else if (Bukkit.getPlayer(args[2]) == null) {
@@ -232,7 +230,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                         GameManager gameManager = new GameManager();
                         gameManager.startGame(args[2]);
                     } else {
-                        utils.invalidUsage(sender, cmd);
+                        utils.invalidUsage(sender, "/islandturfs game start <map>");
                     }
                 /*
                     END COMMAND
@@ -242,7 +240,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                         GameManager gameManager = new GameManager();
                         gameManager.endGame(args[2], args[3]);
                     } else {
-                        utils.invalidUsage(sender, cmd);
+                        utils.invalidUsage(sender, "/islandturfs game end <map> <winningTeam>");
                     }
                 /*
                     SPECTATE COMMAND
@@ -252,16 +250,16 @@ public class IslandTurfsCommand implements CommandExecutor {
                         GameManager gameManager = new GameManager();
                         gameManager.spectateGame(args[2], args[3]);
                     } else {
-                        utils.invalidUsage(sender, cmd);
+                        utils.invalidUsage(sender, "/islandturfs game spectate <map> <player>");
                     }
                 } else {
-                    utils.invalidUsage(sender, cmd);
+                    utils.invalidUsage(sender, "/islandturfs game <start/end/spectate>");
                 }
             } else {
-                utils.invalidUsage(sender, cmd);
+                utils.invalidUsage(sender, "/islandturfs <team/game>");
             }
         } else {
-            utils.invalidUsage(sender, cmd);
+            utils.invalidUsage(sender, "/islandturfs <team/game>");
         }
 
         return false;
