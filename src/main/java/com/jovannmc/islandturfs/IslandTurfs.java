@@ -49,6 +49,7 @@ public final class IslandTurfs extends JavaPlugin {
         Bukkit.getLogger().info("Shutting down...");
         TeamManager.redTeam.clear();
         TeamManager.blueTeam.clear();
+        TeamManager.spectators.clear();
         TeamManager.ITC_1_redReady = false;
         TeamManager.ITC_1_blueReady = false;
         TeamManager.ITC_2_redReady = false;

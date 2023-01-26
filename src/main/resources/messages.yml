@@ -22,6 +22,6 @@ gameStarting: "%prefix% &3The game is starting in &7%time%&3."
 gameStarted: "%prefix% &3The game has started."
 gameEnded: "%prefix% &3The game has ended."
 
-spectating: "%prefix% &3You are now spectating."
+spectating: "%prefix% &3You are now spectating map &7%map%."
 
 winner: "%prefix% &7%team%&3 wins!"

@@ -102,6 +102,10 @@ public class GameManager implements Listener {
                 Location loc = new Location(p.getWorld(), plugin.maps.getConfiguration().getDouble("ITC_1.spectate.x"), plugin.maps.getConfiguration().getDouble("ITC_1.spectate.y"), plugin.maps.getConfiguration().getDouble("ITC_1.spectate.z"), (float) plugin.maps.getConfiguration().getDouble("ITC_1.spectate.yaw"), (float) plugin.maps.getConfiguration().getDouble("ITC_1.spectate.pitch"));
                 p.setGameMode(GameMode.SPECTATOR);
                 p.teleport(loc);
+                p.sendMessage(utils.color(
+                        plugin.messages.getConfiguration().getString("spectating")
+                                .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))
+                                .replace("%map%", "ITC_1")));
                 TeamManager.spectators.put(p.getUniqueId(), "ITC_1");
                 // If map is ITC_2
             } else if (map.equalsIgnoreCase("ITC_2")) {
@@ -110,6 +114,10 @@ public class GameManager implements Listener {
                 Location loc = new Location(p.getWorld(), plugin.maps.getConfiguration().getDouble("ITC_2.spectate.x"), plugin.maps.getConfiguration().getDouble("ITC_2.spectate.y"), plugin.maps.getConfiguration().getDouble("ITC_2.spectate.z"), (float) plugin.maps.getConfiguration().getDouble("ITC_2.spectate.yaw"), (float) plugin.maps.getConfiguration().getDouble("ITC_2.spectate.pitch"));
                 p.setGameMode(GameMode.SPECTATOR);
                 p.teleport(loc);
+                p.sendMessage(utils.color(
+                        plugin.messages.getConfiguration().getString("spectating")
+                                .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))
+                                .replace("%map%", "ITC_2")));
                 TeamManager.spectators.put(p.getUniqueId(), "ITC_2");
             } else {
                 // TODO: add invalid map message
