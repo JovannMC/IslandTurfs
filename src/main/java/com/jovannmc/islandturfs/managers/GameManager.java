@@ -247,7 +247,7 @@ public class GameManager implements Listener {
         // for every player in redTeam
         for (UUID uuid : TeamManager.redTeam.keySet()) {
             // if redTeam contains player
-            if (TeamManager.redTeam.containsKey(uuid)) {
+            if (TeamManager.redTeam.containsKey(uuid) && TeamManager.redTeam.get(uuid).equals(mapName)) {
                 // remove player from redTeam
                 TeamManager.redTeam.remove(uuid);
             }
@@ -255,7 +255,7 @@ public class GameManager implements Listener {
         // for every player in blueTeam
         for (UUID uuid : TeamManager.blueTeam.keySet()) {
             // if blueTeam contains player
-            if (TeamManager.blueTeam.containsKey(uuid)) {
+            if (TeamManager.blueTeam.containsKey(uuid) && TeamManager.blueTeam.get(uuid).equals(mapName)) {
                 // remove player from blueTeam
                 TeamManager.blueTeam.remove(uuid);
             }

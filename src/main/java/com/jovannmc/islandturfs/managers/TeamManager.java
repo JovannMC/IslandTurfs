@@ -10,7 +10,9 @@ public class TeamManager implements Listener {
     public static HashMap<UUID, String> blueTeam = new HashMap<>();
     public static HashMap<UUID, String> spectators = new HashMap<>();
 
-    public static boolean redReady = false;
-    public static boolean blueReady = false;
+    public static boolean ITC_1_redReady = false;
+    public static boolean ITC_1_blueReady = false;
+    public static boolean ITC_2_redReady = false;
+    public static boolean ITC_2_blueReady = false;
 
 }

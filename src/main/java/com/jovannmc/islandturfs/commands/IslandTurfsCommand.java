@@ -106,48 +106,94 @@ public class IslandTurfsCommand implements CommandExecutor {
                                             .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                             return false;
                         }
-                        // If red team is ready
-                        if (TeamManager.redReady) {
-                            // Unready team
-                            TeamManager.redReady = false;
+
+                        if (args[3].equalsIgnoreCase("ITC_1")) {
+                            // If red team is ready
+                            if (TeamManager.ITC_1_redReady) {
+                                // Unready team
+                                TeamManager.ITC_1_redReady = false;
+                                for (UUID uuid : TeamManager.redTeam.keySet()) {
+                                    // Check if player's key matches map name
+                                    if (TeamManager.redTeam.get(uuid).equals(args[3])) {
+                                        Bukkit.getPlayer(uuid).sendMessage(utils.color(
+                                                plugin.messages.getConfiguration().getString("teamUnready")
+                                                        .replace("%team%", "red")
+                                                        .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                                    }
+                                }
+                            }
+                            // If red team is not ready
+                            TeamManager.ITC_1_redReady = true;
+                            // For each player in red team
                             for (UUID uuid : TeamManager.redTeam.keySet()) {
                                 // Check if player's key matches map name
                                 if (TeamManager.redTeam.get(uuid).equals(args[3])) {
                                     Bukkit.getPlayer(uuid).sendMessage(utils.color(
-                                            plugin.messages.getConfiguration().getString("teamUnready")
+                                            plugin.messages.getConfiguration().getString("teamReady")
                                                     .replace("%team%", "red")
                                                     .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                                 }
                             }
-                        }
-                        // If red team is not ready
-                        TeamManager.redReady = true;
-                        // For each player in red team
-                        for (UUID uuid : TeamManager.redTeam.keySet()) {
-                            // Check if player's key matches map name
-                            if (TeamManager.redTeam.get(uuid).equals(args[3])) {
-                                Bukkit.getPlayer(uuid).sendMessage(utils.color(
-                                        plugin.messages.getConfiguration().getString("teamReady")
-                                                .replace("%team%", "red")
-                                                .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
-                            }
-                        }
 
-                        for (UUID uuid : TeamManager.blueTeam.keySet()) {
-                            // Check if player's key matches map name
-                            if (TeamManager.blueTeam.get(uuid).equals(args[3])) {
-                                Bukkit.getPlayer(uuid).sendMessage(utils.color(
-                                        plugin.messages.getConfiguration().getString("otherTeamReady")
-                                                .replace("%team%", "red")
-                                                .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                            for (UUID uuid : TeamManager.blueTeam.keySet()) {
+                                // Check if player's key matches map name
+                                if (TeamManager.blueTeam.get(uuid).equals(args[3])) {
+                                    Bukkit.getPlayer(uuid).sendMessage(utils.color(
+                                            plugin.messages.getConfiguration().getString("otherTeamReady")
+                                                    .replace("%team%", "red")
+                                                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                                }
                             }
-                        }
 
-                        if (TeamManager.redReady && TeamManager.blueReady) {
-                            sender.sendMessage("Both teams are ready! Starting game...");
-                            startCountdown(args[3]);
+                            if (TeamManager.ITC_1_redReady && TeamManager.ITC_1_blueReady) {
+                                sender.sendMessage("Both teams are ready! Starting game on ITC_1...");
+                                startCountdown(args[3]);
+                            }
+                            return false;
+                        } else if (args[3].equalsIgnoreCase("ITC_2")) {
+                            // If red team is ready
+                            if (TeamManager.ITC_2_redReady) {
+                                // Unready team
+                                TeamManager.ITC_2_redReady = false;
+                                for (UUID uuid : TeamManager.redTeam.keySet()) {
+                                    // Check if player's key matches map name
+                                    if (TeamManager.redTeam.get(uuid).equals(args[3])) {
+                                        Bukkit.getPlayer(uuid).sendMessage(utils.color(
+                                                plugin.messages.getConfiguration().getString("teamUnready")
+                                                        .replace("%team%", "red")
+                                                        .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                                    }
+                                }
+                            }
+                            // If red team is not ready
+                            TeamManager.ITC_2_redReady = true;
+                            // For each player in red team
+                            for (UUID uuid : TeamManager.redTeam.keySet()) {
+                                // Check if player's key matches map name
+                                if (TeamManager.redTeam.get(uuid).equals(args[3])) {
+                                    Bukkit.getPlayer(uuid).sendMessage(utils.color(
+                                            plugin.messages.getConfiguration().getString("teamReady")
+                                                    .replace("%team%", "red")
+                                                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                                }
+                            }
+
+                            for (UUID uuid : TeamManager.blueTeam.keySet()) {
+                                // Check if player's key matches map name
+                                if (TeamManager.blueTeam.get(uuid).equals(args[3])) {
+                                    Bukkit.getPlayer(uuid).sendMessage(utils.color(
+                                            plugin.messages.getConfiguration().getString("otherTeamReady")
+                                                    .replace("%team%", "red")
+                                                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                                }
+                            }
+
+                            if (TeamManager.ITC_2_redReady && TeamManager.ITC_2_blueReady) {
+                                sender.sendMessage("Both teams are ready! Starting game on ITC_2...");
+                                startCountdown(args[3]);
+                            }
+                            return false;
                         }
-                        return false;
                     } else if (args[2].equalsIgnoreCase("blue")) {
                         // If no players in blue team
                         if (TeamManager.blueTeam.size() == 0) {
@@ -157,48 +203,95 @@ public class IslandTurfsCommand implements CommandExecutor {
                                             .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                             return false;
                         }
-                        // If blue team is ready
-                        if (TeamManager.blueReady) {
-                            // Unready team
-                            TeamManager.blueReady = false;
+
+                        if (args[3].equalsIgnoreCase("ITC_1")) {
+                            // If blue team is ready
+                            if (TeamManager.ITC_1_blueReady) {
+                                // Unready team
+                                TeamManager.ITC_1_blueReady = false;
+                                // For each player in blue team
+                                for (UUID uuid : TeamManager.blueTeam.keySet()) {
+                                    // Check if player's key matches map name
+                                    if (TeamManager.blueTeam.get(uuid).equals(args[3])) {
+                                        Bukkit.getPlayer(uuid).sendMessage(utils.color(
+                                                plugin.messages.getConfiguration().getString("teamUnready")
+                                                        .replace("%team%", "blue")
+                                                        .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                                    }
+                                }
+                                return false;
+                            }
+                            // If blue team is not ready
+                            TeamManager.ITC_1_blueReady = true;
                             // For each player in blue team
                             for (UUID uuid : TeamManager.blueTeam.keySet()) {
                                 // Check if player's key matches map name
                                 if (TeamManager.blueTeam.get(uuid).equals(args[3])) {
                                     Bukkit.getPlayer(uuid).sendMessage(utils.color(
-                                            plugin.messages.getConfiguration().getString("teamUnready")
+                                            plugin.messages.getConfiguration().getString("teamReady")
                                                     .replace("%team%", "blue")
                                                     .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                                 }
                             }
-                            return false;
-                        }
-                        // If blue team is not ready
-                        TeamManager.blueReady = true;
-                        // For each player in blue team
-                        for (UUID uuid : TeamManager.blueTeam.keySet()) {
-                            // Check if player's key matches map name
-                            if (TeamManager.blueTeam.get(uuid).equals(args[3])) {
-                                Bukkit.getPlayer(uuid).sendMessage(utils.color(
-                                        plugin.messages.getConfiguration().getString("teamReady")
-                                                .replace("%team%", "blue")
-                                                .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
-                            }
-                        }
 
-                        // For each player in red team
-                        for (UUID uuid : TeamManager.redTeam.keySet()) {
-                            // Check if player's key matches map name
-                            if (TeamManager.redTeam.get(uuid).equals(args[3])) {
-                                Bukkit.getPlayer(uuid).sendMessage(utils.color(
-                                        plugin.messages.getConfiguration().getString("otherTeamReady")
-                                                .replace("%team%", "blue")
-                                                .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                            // For each player in red team
+                            for (UUID uuid : TeamManager.redTeam.keySet()) {
+                                // Check if player's key matches map name
+                                if (TeamManager.redTeam.get(uuid).equals(args[3])) {
+                                    Bukkit.getPlayer(uuid).sendMessage(utils.color(
+                                            plugin.messages.getConfiguration().getString("otherTeamReady")
+                                                    .replace("%team%", "blue")
+                                                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                                }
                             }
-                        }
 
-                        if (TeamManager.redReady && TeamManager.blueReady) {
-                            startCountdown(args[3]);
+                            if (TeamManager.ITC_1_redReady && TeamManager.ITC_1_blueReady) {
+                                startCountdown(args[3]);
+                            }
+                        } else if (args[3].equalsIgnoreCase("ITC_2")) {
+                            // If blue team is ready
+                            if (TeamManager.ITC_2_blueReady) {
+                                // Unready team
+                                TeamManager.ITC_2_blueReady = false;
+                                // For each player in blue team
+                                for (UUID uuid : TeamManager.blueTeam.keySet()) {
+                                    // Check if player's key matches map name
+                                    if (TeamManager.blueTeam.get(uuid).equals(args[3])) {
+                                        Bukkit.getPlayer(uuid).sendMessage(utils.color(
+                                                plugin.messages.getConfiguration().getString("teamUnready")
+                                                        .replace("%team%", "blue")
+                                                        .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                                    }
+                                }
+                                return false;
+                            }
+                            // If blue team is not ready
+                            TeamManager.ITC_2_blueReady = true;
+                            // For each player in blue team
+                            for (UUID uuid : TeamManager.blueTeam.keySet()) {
+                                // Check if player's key matches map name
+                                if (TeamManager.blueTeam.get(uuid).equals(args[3])) {
+                                    Bukkit.getPlayer(uuid).sendMessage(utils.color(
+                                            plugin.messages.getConfiguration().getString("teamReady")
+                                                    .replace("%team%", "blue")
+                                                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                                }
+                            }
+
+                            // For each player in red team
+                            for (UUID uuid : TeamManager.redTeam.keySet()) {
+                                // Check if player's key matches map name
+                                if (TeamManager.redTeam.get(uuid).equals(args[3])) {
+                                    Bukkit.getPlayer(uuid).sendMessage(utils.color(
+                                            plugin.messages.getConfiguration().getString("otherTeamReady")
+                                                    .replace("%team%", "blue")
+                                                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                                }
+                            }
+
+                            if (TeamManager.ITC_2_redReady && TeamManager.ITC_2_blueReady) {
+                                startCountdown(args[3]);
+                            }
                         }
                     }
 
@@ -325,8 +418,13 @@ public class IslandTurfsCommand implements CommandExecutor {
                 // If countdown is over
                 cancel();
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "islandturfs game start " + map);
-                TeamManager.redReady = false;
-                TeamManager.blueReady = false;
+                if (map.equalsIgnoreCase("ITC_1")) {
+                    TeamManager.ITC_1_redReady = false;
+                    TeamManager.ITC_1_blueReady = false;
+                } else if (map.equalsIgnoreCase("ITC_2")) {
+                    TeamManager.ITC_2_redReady = false;
+                    TeamManager.ITC_2_blueReady = false;
+                }
             }
         }.runTaskTimer(plugin, 0, 20);
     }
