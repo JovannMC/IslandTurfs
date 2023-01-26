@@ -27,4 +27,6 @@ gameEnded: "%prefix% &3The game has ended."
 spectating: "%prefix% &3You are now spectating map &7%map%."
 spectatingNoGame: "%prefix% &cThat map is not being played."
 
+commandDisabled: "%prefix% &3You cannot use that command in-game."
+
 winner: "%prefix% &3Team &7%team%&3 wins!"

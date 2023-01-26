@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffect;
@@ -372,6 +373,25 @@ public class GameManager implements Listener {
                 // End game for ITC_2, winners are blue team
                 Bukkit.getLogger().info("ITC_2 red chicken died");
                 endGame("ITC_2", "blue");
+            }
+        }
+    }
+
+    @EventHandler
+    public void onCommand(PlayerCommandPreprocessEvent e) {
+        if (ITC_1_gameStarted || ITC_2_gameStarted) {
+            if (TeamManager.blueTeam.containsKey(e.getPlayer().getUniqueId()) || TeamManager.redTeam.containsKey(e.getPlayer().getUniqueId())) {
+                if (TeamManager.blueTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_1") || TeamManager.redTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_1")) {
+                    Bukkit.getLogger().info(e.getPlayer().getName() + " used a command during ITC_1");
+                    for (String command : plugin.config.getConfiguration().getStringList("commandsDisabled")) {
+                        if (e.getMessage().contains(command)) {
+                            Bukkit.getLogger().info(e.getPlayer().getName() + " used a disabled command during ITC_1");
+                            e.setCancelled(true);
+                            e.getPlayer().sendMessage(utils.color(plugin.messages.getConfiguration().getString("commandDisabled")
+                                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                        }
+                    }
+                }
             }
         }
     }

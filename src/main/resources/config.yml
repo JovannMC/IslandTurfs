@@ -8,3 +8,5 @@ timeBeforeStart: 5
 chickenHealth: 2
 # If player falls below this Y level, they will be teleported to their spawn
 teleportY: 30.0
+# Commands that cannot be used in-game
+commandsDisabled: [/hub, /spawn, /lobby, /islandturfs, /it]
