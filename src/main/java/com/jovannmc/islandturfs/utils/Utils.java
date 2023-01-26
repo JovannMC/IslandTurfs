@@ -21,12 +21,6 @@ public class Utils {
 	
 	public void noPermission(CommandSender player) { player.sendMessage(color(plugin.messages.getConfiguration().getString("noPermission"))); }
 
-	public void noPlayer(CommandSender player) { player.sendMessage(color(plugin.messages.getConfiguration().getString("noPlayer"))); }
-
-	public void playerOnly(CommandSender player) { player.sendMessage(color(plugin.messages.getConfiguration().getString("playerOnly"))); }
-
-	public void consoleOnly(CommandSender player) { player.sendMessage(color(plugin.messages.getConfiguration().getString("consoleOnly"))); }
-
-	public void invalidUsage(CommandSender player, String usage) { player.sendMessage(color(plugin.messages.getConfiguration().getString("invalidUsage").replace("%usage%", usage))); }
+	public void invalidUsage(CommandSender player, String usage) { player.sendMessage(color(plugin.messages.getConfiguration().getString("invalidUsage").replace("%prefix%", plugin.config.getConfiguration().getString("prefix")).replace("%usage%", usage))); }
 
 }

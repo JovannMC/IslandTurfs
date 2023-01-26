@@ -1,13 +1,11 @@
-# Command messages
+# Error messages
 noPermission: "&cYou do not have permission to do this."
-playerOnly: "&cYou must be a player to do this."
 playerNotFound: "&cThat player is offline or does not exist."
-consoleOnly: "&cYou must be the console to do this."
 invalidUsage: "&cInvalid usage. &7%usage%"
 
+# In-game messages (you can use %prefix% to add the prefix)
 reloadConfig: "%prefix% &3The configs have been reloaded."
 
-# In-game messages
 teamSelected: "%prefix% &3You have selected team &7%team%&3."
 teamAlreadySelected: "&%prefix% cYou have already selected team &7%team%&c."
 teamLeft: "%prefix% &3You have left team &7%team%&3."
@@ -19,10 +17,10 @@ noPlayersInTeam: "&cThere are no players in the %team% team."
 otherTeamReady: "%prefix% &3Team &7%team%&3 is now ready."
 otherTeamUnready: "%prefix% &cTeam &7%team%&c is no longer ready."
 
-spectating: "%prefix% &3You are now spectating."
-
-winner: "%prefix% &7%team%&3 wins!"
-
 gameStarting: "%prefix% &3The game is starting in &7%time%&3."
 gameStarted: "%prefix% &3The game has started."
 gameEnded: "%prefix% &3The game has ended."
+
+spectating: "%prefix% &3You are now spectating."
+
+winner: "%prefix% &7%team%&3 wins!"
