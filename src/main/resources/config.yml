@@ -6,3 +6,5 @@ prefix: '&3[&bIslandTurfs&3]&r'
 timeBeforeStart: 5
 # Chicken's health in hearts
 chickenHealth: 2
+# If player falls below this Y level, they will be teleported to their spawn
+teleportY: 30.0

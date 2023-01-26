@@ -1,3 +1,9 @@
+spawn:
+  x: 12.5
+  y: 66.0
+  z: 21.5
+  yaw: -180.0
+  pitch: -1
 ITC_1:
   blue:
     spawn:

@@ -6,17 +6,20 @@ import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.configuration.Configuration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scoreboard.Team;
 
 import java.util.UUID;
 
@@ -27,6 +30,7 @@ public class GameManager implements Listener {
         - or at least make the code work with multiple games running at once without rewriting the code for both classes to support it
         - Allow wool blocks to be only placed on red concrete/wool and blue concrete/wool
         https://www.spigotmc.org/threads/tutorial-the-complete-guide-to-itemstack-nbttags-attributes.131458/
+        - Add username to commands to work with ServerSigns
     */
 
     IslandTurfs plugin = IslandTurfs.getInstance();
@@ -37,6 +41,8 @@ public class GameManager implements Listener {
     private boolean gameStarted = false;
 
     public void startGame(String mapName) {
+        Configuration maps = plugin.maps.getConfiguration();
+
         Bukkit.getLogger().info("Starting game on " + mapName);
 
         Bukkit.getLogger().info("Teleporting players to their team spawns");
@@ -45,11 +51,11 @@ public class GameManager implements Listener {
             // if value of player matches mapName
             if (TeamManager.redTeam.get(uuid).equals(mapName)) {
                 Player player = Bukkit.getPlayer(uuid);
-                float x = (float) plugin.maps.getConfiguration().getDouble(mapName + ".red.spawn.x");
-                float y = (float) plugin.maps.getConfiguration().getDouble(mapName + ".red.spawn.y");
-                float z = (float) plugin.maps.getConfiguration().getDouble(mapName + ".red.spawn.z");
-                float yaw = (float) plugin.maps.getConfiguration().getDouble(mapName + ".red.spawn.yaw");
-                float pitch = (float) plugin.maps.getConfiguration().getDouble(mapName + ".red.spawn.pitch");
+                float x = (float) maps.getDouble(mapName + ".red.spawn.x");
+                float y = (float) maps.getDouble(mapName + ".red.spawn.y");
+                float z = (float) maps.getDouble(mapName + ".red.spawn.z");
+                float yaw = (float) maps.getDouble(mapName + ".red.spawn.yaw");
+                float pitch = (float) maps.getDouble(mapName + ".red.spawn.pitch");
                 Location loc = new Location(player.getWorld(), x, y, z, yaw, pitch);
                 player.teleport(loc);
             }
@@ -59,11 +65,11 @@ public class GameManager implements Listener {
             // if value of player matches mapName
             if (TeamManager.blueTeam.get(uuid).equals(mapName)) {
                 Player player = Bukkit.getPlayer(uuid);
-                float x = (float) plugin.maps.getConfiguration().getDouble(mapName + ".blue.spawn.x");
-                float y = (float) plugin.maps.getConfiguration().getDouble(mapName + ".blue.spawn.y");
-                float z = (float) plugin.maps.getConfiguration().getDouble(mapName + ".blue.spawn.z");
-                float yaw = (float) plugin.maps.getConfiguration().getDouble(mapName + ".blue.spawn.yaw");
-                float pitch = (float) plugin.maps.getConfiguration().getDouble(mapName + ".blue.spawn.pitch");
+                float x = (float) maps.getDouble(mapName + ".blue.spawn.x");
+                float y = (float) maps.getDouble(mapName + ".blue.spawn.y");
+                float z = (float) maps.getDouble(mapName + ".blue.spawn.z");
+                float yaw = (float) maps.getDouble(mapName + ".blue.spawn.yaw");
+                float pitch = (float) maps.getDouble(mapName + ".blue.spawn.pitch");
                 Location loc = new Location(player.getWorld(), x, y, z, yaw, pitch);
                 player.teleport(loc);
             }
@@ -198,15 +204,17 @@ public class GameManager implements Listener {
     */
 
     private void spawnChickens(String mapName) {
+        Configuration maps = plugin.maps.getConfiguration();
+
         Bukkit.getLogger().info("Spawning chickens for " + mapName + "...");
         if (mapName.equalsIgnoreCase("ITC_2")) {
             // get coordinates from config
-            double xBlue = plugin.maps.getConfiguration().getDouble("ITC_2.blue.chicken.x");
-            double yBlue = plugin.maps.getConfiguration().getDouble("ITC_2.blue.chicken.y");
-            double zBlue = plugin.maps.getConfiguration().getDouble("ITC_2.blue.chicken.z");
-            double xRed = plugin.maps.getConfiguration().getDouble("ITC_2.red.chicken.x");
-            double yRed = plugin.maps.getConfiguration().getDouble("ITC_2.red.chicken.y");
-            double zRed = plugin.maps.getConfiguration().getDouble("ITC_2.red.chicken.z");
+            double xBlue = maps.getDouble("ITC_2.blue.chicken.x");
+            double yBlue = maps.getDouble("ITC_2.blue.chicken.y");
+            double zBlue = maps.getDouble("ITC_2.blue.chicken.z");
+            double xRed = maps.getDouble("ITC_2.red.chicken.x");
+            double yRed = maps.getDouble("ITC_2.red.chicken.y");
+            double zRed = maps.getDouble("ITC_2.red.chicken.z");
 
             // spawn blue chicken
             Chicken blueChicken = (Chicken) Bukkit.getWorld("world").spawnEntity(new Location(Bukkit.getWorld("world"), xBlue, yBlue, zBlue), org.bukkit.entity.EntityType.CHICKEN);
@@ -224,12 +232,12 @@ public class GameManager implements Listener {
         } else if (mapName.equalsIgnoreCase("ITC_1")) {
 
             // get coordinates from config
-            double xBlue = plugin.maps.getConfiguration().getDouble("ITC_1.blue.chicken.x");
-            double yBlue = plugin.maps.getConfiguration().getDouble("ITC_1.blue.chicken.y");
-            double zBlue = plugin.maps.getConfiguration().getDouble("ITC_1.blue.chicken.z");
-            double xRed = plugin.maps.getConfiguration().getDouble("ITC_1.red.chicken.x");
-            double yRed = plugin.maps.getConfiguration().getDouble("ITC_1.red.chicken.y");
-            double zRed = plugin.maps.getConfiguration().getDouble("ITC_1.red.chicken.z");
+            double xBlue = maps.getDouble("ITC_1.blue.chicken.x");
+            double yBlue = maps.getDouble("ITC_1.blue.chicken.y");
+            double zBlue = maps.getDouble("ITC_1.blue.chicken.z");
+            double xRed = maps.getDouble("ITC_1.red.chicken.x");
+            double yRed = maps.getDouble("ITC_1.red.chicken.y");
+            double zRed = maps.getDouble("ITC_1.red.chicken.z");
 
             // spawn blue chicken
             Chicken blueChicken = (Chicken) Bukkit.getWorld("world").spawnEntity(new Location(Bukkit.getWorld("world"), xBlue, yBlue, zBlue), org.bukkit.entity.EntityType.CHICKEN);
@@ -379,6 +387,55 @@ public class GameManager implements Listener {
             } else if (e.getEntity().getCustomName().equals("ITC_2_RED")) {
                 Bukkit.getLogger().info("ITC_2 red chicken died");
                 endGame("ITC_2", "Blue");
+            }
+        }
+    }
+
+    @EventHandler
+    public void onVoidFall(PlayerMoveEvent e) {
+        if (e.getPlayer().getLocation().getY() < plugin.config.getConfiguration().getDouble("teleportY")) {
+            // Maps config
+            Configuration maps = plugin.maps.getConfiguration();
+
+            // Grab spawns from maps config
+            Location spawn = new Location(Bukkit.getWorld("world"), maps.getDouble("spawn.x"), maps.getDouble("spawn.y"), maps.getDouble("spawn.z"), (float) maps.getDouble("spawn.yaw"), (float) maps.getDouble("spawn.pitch"));
+            Location ITC_1_BLUE_SPAWN = new Location(Bukkit.getWorld("world"), maps.getDouble("ITC_1.blue.spawn.x"), maps.getDouble("ITC_1.blue.spawn.y"), maps.getDouble("ITC_1.blue.spawn.z"), (float) maps.getDouble("ITC_1.blue.spawn.yaw"), (float) maps.getDouble("ITC_1.blue.spawn.pitch"));
+            Location ITC_1_RED_SPAWN = new Location(Bukkit.getWorld("world"), maps.getDouble("ITC_1.red.spawn.x"), maps.getDouble("ITC_1.red.spawn.y"), maps.getDouble("ITC_1.red.spawn.z"), (float) maps.getDouble("ITC_1.red.spawn.yaw"), (float) maps.getDouble("ITC_1.red.spawn.pitch"));
+            Location ITC_2_BLUE_SPAWN = new Location(Bukkit.getWorld("world"), maps.getDouble("ITC_2.blue.spawn.x"), maps.getDouble("ITC_2.blue.spawn.y"), maps.getDouble("ITC_2.blue.spawn.z"), (float) maps.getDouble("ITC_2.blue.spawn.yaw"), (float) maps.getDouble("ITC_2.blue.spawn.pitch"));
+            Location ITC_2_RED_SPAWN = new Location(Bukkit.getWorld("world"), maps.getDouble("ITC_2.red.spawn.x"), maps.getDouble("ITC_2.red.spawn.y"), maps.getDouble("ITC_2.red.spawn.z"), (float) maps.getDouble("ITC_2.red.spawn.yaw"), (float) maps.getDouble("ITC_2.red.spawn.pitch"));
+
+            // If the player is in the blue team
+            if (TeamManager.blueTeam.containsKey(e.getPlayer().getUniqueId())) {
+                Bukkit.getLogger().info("Player is in blue team");
+                // If the player is in ITC_1
+                if (TeamManager.blueTeam.get(e.getPlayer().getUniqueId()).equals("ITC_1")) {
+                    Bukkit.getLogger().info("Player is in ITC_1");
+                    // Teleport the player to ITC_1 blue spawn
+                    e.getPlayer().teleport(ITC_1_BLUE_SPAWN);
+                // If the player is in ITC_2
+                } else if (TeamManager.blueTeam.get(e.getPlayer().getUniqueId()).equals("ITC_2")) {
+                    Bukkit.getLogger().info("Player is in ITC_2");
+                    // Teleport the player to ITC_2 blue spawn
+                    e.getPlayer().teleport(ITC_2_BLUE_SPAWN);
+                }
+            // If the player is in the red team
+            } else if (TeamManager.redTeam.containsKey(e.getPlayer().getUniqueId())) {
+                Bukkit.getLogger().info("Player is in red team");
+                // If the player is in ITC_1
+                if (TeamManager.redTeam.get(e.getPlayer().getUniqueId()).equals("ITC_1")) {
+                    Bukkit.getLogger().info("Player is in ITC_1");
+                    // Teleport the player to ITC_1 red spawn
+                    e.getPlayer().teleport(ITC_1_RED_SPAWN);
+                // If the player is in ITC_2
+                } else if (TeamManager.redTeam.get(e.getPlayer().getUniqueId()).equals("ITC_2")) {
+                    Bukkit.getLogger().info("Player is in ITC_2");
+                    // Teleport the player to ITC_2 red spawn
+                    e.getPlayer().teleport(ITC_2_RED_SPAWN);
+                }
+            // If the player is not in a team
+            } else {
+                Bukkit.getLogger().info("Player is not in a team");
+                e.getPlayer().teleport(spawn);
             }
         }
     }
