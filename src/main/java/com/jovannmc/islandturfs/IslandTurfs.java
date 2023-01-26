@@ -12,7 +12,6 @@ public final class IslandTurfs extends JavaPlugin {
 
     /*
     TODO:
-    - Actually create the game logic
     - Add logic to add new maps
     - Add a config option to add new maps
      */
