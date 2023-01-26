@@ -2,5 +2,6 @@ name: IslandTurfs
 version: '${project.version}'
 main: com.jovannmc.islandturfs.IslandTurfs
 api-version: 1.19
+depend: [NBTAPI]
 commands:
   islandturfs:
