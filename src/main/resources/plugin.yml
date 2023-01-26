@@ -1,4 +1,7 @@
 name: IslandTurfs
+description: The custom recreation of the IslandTurfs minigame as a Spigot plugin made for ProtoCraft.
+author: JovannMC
+website: 'https://femboyfurry.net'
 version: '${project.version}'
 main: com.jovannmc.islandturfs.IslandTurfs
 api-version: 1.19
