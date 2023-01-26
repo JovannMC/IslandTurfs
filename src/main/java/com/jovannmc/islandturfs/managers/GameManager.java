@@ -23,14 +23,15 @@ public class GameManager implements Listener {
     /*
         TODO: ability to instantiate GameManager and TeamManager classes to prevent issues with multiple games running at once
         - or at least make the code work with multiple games running at once without rewriting the code for both classes to support it
+        - currently can only run two games at once, both ITC_1 and ITC_2 maps
     */
 
     IslandTurfs plugin = IslandTurfs.getInstance();
 
     Utils utils = new Utils();
 
-    // TODO: implement gameStarted to code
-    private static boolean gameStarted = false;
+    private static boolean ITC_1_gameStarted = false;
+    private static boolean ITC_2_gameStarted = false;
 
     public void startGame(String mapName) {
         Configuration maps = plugin.maps.getConfiguration();
@@ -71,24 +72,28 @@ public class GameManager implements Listener {
         spawnChickens(mapName);
 
         // set gameStarted to true
-        gameStarted = true;
+        if (mapName.equalsIgnoreCase("ITC_1")) {
+            ITC_1_gameStarted = true;
+        } else if (mapName.equalsIgnoreCase("ITC_2")) {
+            ITC_2_gameStarted = true;
+        }
     }
 
     public void spectateGame(String map, String player) {
         Bukkit.getLogger().info("Spectating game on " + map + " for player " + player);
-        if (gameStarted) {
-            Bukkit.getLogger().info("Game has started");
-            // If specified player does not exist
-            if (Bukkit.getPlayer(player) == null) {
-                Bukkit.getPlayer(player).sendMessage(utils.color(
-                        plugin.messages.getConfiguration().getString("invalidPlayer")
-                                .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
-                return;
-            }
+        Bukkit.getLogger().info("Game has started");
+        // If specified player does not exist
+        if (Bukkit.getPlayer(player) == null) {
+            Bukkit.getPlayer(player).sendMessage(utils.color(
+                    plugin.messages.getConfiguration().getString("invalidPlayer")
+                            .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+            return;
+        }
 
-            Player p = Bukkit.getPlayer(player);
-            // If map is ITC_1
-            if (map.equalsIgnoreCase("ITC_1")) {
+        Player p = Bukkit.getPlayer(player);
+        // If map is ITC_1
+        if (map.equalsIgnoreCase("ITC_1")) {
+            if (ITC_1_gameStarted) {
                 Bukkit.getLogger().info("Map is ITC_1");
                 // Set player to be spectator
                 Location loc = new Location(p.getWorld(), plugin.maps.getConfiguration().getDouble("ITC_1.spectate.x"), plugin.maps.getConfiguration().getDouble("ITC_1.spectate.y"), plugin.maps.getConfiguration().getDouble("ITC_1.spectate.z"), (float) plugin.maps.getConfiguration().getDouble("ITC_1.spectate.yaw"), (float) plugin.maps.getConfiguration().getDouble("ITC_1.spectate.pitch"));
@@ -99,8 +104,15 @@ public class GameManager implements Listener {
                                 .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))
                                 .replace("%map%", "ITC_1")));
                 TeamManager.spectators.put(p.getUniqueId(), "ITC_1");
-                // If map is ITC_2
-            } else if (map.equalsIgnoreCase("ITC_2")) {
+            } else {
+                p.sendMessage(utils.color(
+                        plugin.messages.getConfiguration().getString("spectatingNoGame")
+                                .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+            }
+
+            // If map is ITC_2
+        } else if (map.equalsIgnoreCase("ITC_2")) {
+            if (ITC_2_gameStarted) {
                 Bukkit.getLogger().info("Map is ITC_2");
                 // Set player to be spectator
                 Location loc = new Location(p.getWorld(), plugin.maps.getConfiguration().getDouble("ITC_2.spectate.x"), plugin.maps.getConfiguration().getDouble("ITC_2.spectate.y"), plugin.maps.getConfiguration().getDouble("ITC_2.spectate.z"), (float) plugin.maps.getConfiguration().getDouble("ITC_2.spectate.yaw"), (float) plugin.maps.getConfiguration().getDouble("ITC_2.spectate.pitch"));
@@ -113,13 +125,13 @@ public class GameManager implements Listener {
                 TeamManager.spectators.put(p.getUniqueId(), "ITC_2");
             } else {
                 p.sendMessage(utils.color(
-                        plugin.messages.getConfiguration().getString("invalidMap")
+                        plugin.messages.getConfiguration().getString("spectatingNoGame")
                                 .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
             }
+
         } else {
-            ;
-            Bukkit.getPlayer(player).sendMessage(utils.color(
-                    plugin.messages.getConfiguration().getString("spectatingNoGame")
+            p.sendMessage(utils.color(
+                    plugin.messages.getConfiguration().getString("invalidMap")
                             .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
         }
     }
@@ -269,7 +281,11 @@ public class GameManager implements Listener {
         }
 
         // set gameStarted to false
-        gameStarted = false;
+        if (mapName.equalsIgnoreCase("ITC_1")) {
+            ITC_1_gameStarted = false;
+        } else if (mapName.equalsIgnoreCase("ITC_2")) {
+            ITC_2_gameStarted = false;
+        }
     }
 
     /*
@@ -413,7 +429,7 @@ public class GameManager implements Listener {
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent e) {
-        if (gameStarted) {
+        if (ITC_1_gameStarted || ITC_2_gameStarted) {
             Player p = e.getPlayer();
 
             // Stores the last map the player was in before removing them from the team
@@ -452,7 +468,9 @@ public class GameManager implements Listener {
             }
 
             // If lastMap is null, return
-            if (lastMap == null) { return; }
+            if (lastMap == null) {
+                return;
+            }
 
             // If the blue team is empty
             if (TeamManager.blueTeam.isEmpty()) {

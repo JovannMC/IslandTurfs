@@ -33,7 +33,7 @@ public class IslandTurfsCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 0) {
             // Send info about the plugin
-            sender.sendMessage(utils.color("&3IslandTurfs &7v" + plugin.getDescription().getVersion() + " &3by &7" + plugin.getDescription().getAuthors()));
+            sender.sendMessage(utils.color("&3IslandTurfs &7v" + plugin.getDescription().getVersion() + " &3by &7" + plugin.getDescription().getAuthors() + "&3 - &7" + plugin.getDescription().getWebsite()));
             sender.sendMessage(utils.color("&7&o" + plugin.getDescription().getDescription()));
             return true;
         }
