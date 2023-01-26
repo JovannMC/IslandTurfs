@@ -42,6 +42,11 @@ public class IslandTurfsTabCompleter implements TabCompleter {
                         teamColors.add("red");
                         teamColors.add("blue");
                         return teamColors;
+                    } else if (args[1].equalsIgnoreCase("ready")) {
+                        List<String> teams = new ArrayList<>();
+                        teams.add("red");
+                        teams.add("blue");
+                        return teams;
                     }
                 } else if (args[0].equalsIgnoreCase("game")) {
                     if (args[1].equalsIgnoreCase("start")) {
@@ -56,7 +61,28 @@ public class IslandTurfsTabCompleter implements TabCompleter {
                         maps.add("ITC_2");
                         return maps;
                     }
-                    if (args[2].equalsIgnoreCase("end")) {
+                }
+            }
+            if (args.length == 4) {
+                if (args[0].equalsIgnoreCase("team")) {
+                    if (args[1].equalsIgnoreCase("ready")) {
+                        List<String> maps = new ArrayList<>();
+                        maps.add("ITC_1");
+                        maps.add("ITC_2");
+                        return maps;
+                    } else if (args[1].equalsIgnoreCase("join")) {
+                        List<String> maps = new ArrayList<>();
+                        maps.add("ITC_1");
+                        maps.add("ITC_2");
+                        return maps;
+                    } else if (args[1].equalsIgnoreCase("end")) {
+                        List<String> teams = new ArrayList<>();
+                        teams.add("red");
+                        teams.add("blue");
+                        return teams;
+                    }
+                } else if (args[0].equalsIgnoreCase("game")) {
+                    if (args[1].equalsIgnoreCase("end")) {
                         List<String> teams = new ArrayList<>();
                         teams.add("red");
                         teams.add("blue");
@@ -64,27 +90,12 @@ public class IslandTurfsTabCompleter implements TabCompleter {
                     }
                 }
             }
-            if (args.length == 4) {
-                if (args[0].equalsIgnoreCase("team")) {
-                    if (args[1].equalsIgnoreCase("join")) {
-                        List<String> maps = new ArrayList<>();
-                        maps.add("ITC_1");
-                        maps.add("ITC_2");
-                        return maps;
-                    }
-                } else if (args[0].equalsIgnoreCase("ready")) {
-                    if (args[1].equalsIgnoreCase("join")) {
-                        List<String> maps = new ArrayList<>();
-                        maps.add("ITC_1");
-                        maps.add("ITC_2");
-                        return maps;
-                    }
-                }
-            }
         }
         return null;
     }
+
 }
+
 
 
 
