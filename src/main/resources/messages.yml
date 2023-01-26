@@ -5,7 +5,7 @@ playerNotFound: "&cThat player is offline or does not exist."
 consoleOnly: "&cYou must be the console to do this."
 invalidUsage: "&cInvalid usage. &7%usage%"
 
-reloadConfig: "%prefix% &3The config has been reloaded."
+reloadConfig: "%prefix% &3The configs have been reloaded."
 
 # In-game messages
 teamSelected: "%prefix% &3You have selected team &7%team%&3."
