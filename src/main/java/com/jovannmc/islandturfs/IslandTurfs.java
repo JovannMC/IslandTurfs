@@ -54,6 +54,8 @@ public final class IslandTurfs extends JavaPlugin {
         TeamManager.ITC_1_blueReady = false;
         TeamManager.ITC_2_redReady = false;
         TeamManager.ITC_2_blueReady = false;
+        GameManager.ITC_1_gameStarted = false;
+        GameManager.ITC_2_gameStarted = false;
     }
 
     public static IslandTurfs getInstance() {

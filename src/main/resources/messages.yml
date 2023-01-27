@@ -23,6 +23,7 @@ otherTeamUnready: "%prefix% &3Team &7%team%&3 is no longer ready."
 gameStarting: "%prefix% &3The game is starting in &7%time%&3."
 gameStarted: "%prefix% &3The game has started."
 gameEnded: "%prefix% &3The game has ended."
+gameAlreadyStarted: "%prefix% &cA game has already started on that map."
 
 spectating: "%prefix% &3You are now spectating map &7%map%."
 spectatingNoGame: "%prefix% &cThat map is not being played."

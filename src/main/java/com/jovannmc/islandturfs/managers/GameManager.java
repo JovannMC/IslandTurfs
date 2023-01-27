@@ -5,6 +5,7 @@ import com.jovannmc.islandturfs.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Player;
@@ -31,10 +32,20 @@ public class GameManager implements Listener {
 
     Utils utils = new Utils();
 
-    private static boolean ITC_1_gameStarted = false;
-    private static boolean ITC_2_gameStarted = false;
+    public static boolean ITC_1_gameStarted = false;
+    public static boolean ITC_2_gameStarted = false;
 
-    public void startGame(String mapName) {
+    public void startGame(CommandSender sender, String mapName) {
+        if (mapName.equalsIgnoreCase("ITC_1") && ITC_1_gameStarted == true) {
+            sender.sendMessage(utils.color(plugin.messages.getConfiguration().getString("gameAlreadyStarted")
+                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+            return;
+        } else if (mapName.equalsIgnoreCase("ITC_2") && ITC_2_gameStarted == true) {
+            sender.sendMessage(utils.color(plugin.messages.getConfiguration().getString("gameAlreadyStarted")
+                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+            return;
+        }
+
         Configuration maps = plugin.maps.getConfiguration();
 
         Bukkit.getLogger().info("Starting game on " + mapName);
@@ -160,6 +171,7 @@ public class GameManager implements Listener {
                             plugin.messages.getConfiguration().getString("winner")
                                     .replace("%team%", winningTeam)
                                     .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                    TeamManager.redTeam.remove(uuid);
                     // Clear the player's inventory
                     player.getInventory().clear();
                 }
@@ -176,6 +188,7 @@ public class GameManager implements Listener {
                             plugin.messages.getConfiguration().getString("winner")
                                     .replace("%team%", winningTeam)
                                     .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                    TeamManager.blueTeam.remove(uuid);
                     // Clear the player's inventory
                     player.getInventory().clear();
                 }
@@ -192,6 +205,7 @@ public class GameManager implements Listener {
                             plugin.messages.getConfiguration().getString("winner")
                                     .replace("%team%", winningTeam)
                                     .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                    TeamManager.spectators.remove(uuid);
                     // Clear the player's inventory
                     player.getInventory().clear();
                     // Set player's gamemode to adventure
@@ -222,6 +236,7 @@ public class GameManager implements Listener {
                             plugin.messages.getConfiguration().getString("winner")
                                     .replace("%team%", winningTeam)
                                     .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                    TeamManager.redTeam.remove(uuid);
                     // Clear the player's inventory
                     player.getInventory().clear();
                 }
@@ -238,6 +253,7 @@ public class GameManager implements Listener {
                             plugin.messages.getConfiguration().getString("winner")
                                     .replace("%team%", winningTeam)
                                     .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                    TeamManager.blueTeam.remove(uuid);
                     // Clear the player's inventory
                     player.getInventory().clear();
                 }
@@ -254,6 +270,7 @@ public class GameManager implements Listener {
                             plugin.messages.getConfiguration().getString("winner")
                                     .replace("%team%", winningTeam)
                                     .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                    TeamManager.spectators.remove(uuid);
                     // Clear the player's inventory
                     player.getInventory().clear();
                     // Set player's gamemode to adventure
@@ -264,23 +281,6 @@ public class GameManager implements Listener {
             // reset map
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "fill 42 67 9 43 67 9 minecraft:redstone_block");
         }
-        // for every player in redTeam
-        for (UUID uuid : TeamManager.redTeam.keySet()) {
-            // if redTeam contains player
-            if (TeamManager.redTeam.containsKey(uuid) && TeamManager.redTeam.get(uuid).equalsIgnoreCase(mapName)) {
-                // remove player from redTeam
-                TeamManager.redTeam.remove(uuid);
-            }
-        }
-        // for every player in blueTeam
-        for (UUID uuid : TeamManager.blueTeam.keySet()) {
-            // if blueTeam contains player
-            if (TeamManager.blueTeam.containsKey(uuid) && TeamManager.blueTeam.get(uuid).equalsIgnoreCase(mapName)) {
-                // remove player from blueTeam
-                TeamManager.blueTeam.remove(uuid);
-            }
-        }
-
         // set gameStarted to false
         if (mapName.equalsIgnoreCase("ITC_1")) {
             ITC_1_gameStarted = false;

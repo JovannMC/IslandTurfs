@@ -419,7 +419,7 @@ public class IslandTurfsCommand implements CommandExecutor {
             if (args[1].equalsIgnoreCase("start")) {
                 if (args.length == 3) {
                     GameManager gameManager = new GameManager();
-                    gameManager.startGame(args[2]);
+                    gameManager.startGame(sender, args[2]);
                 } else {
                     utils.invalidUsage(sender, "/islandturfs game start <map>");
                     return false;
