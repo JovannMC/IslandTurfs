@@ -12,13 +12,16 @@ teamSelected: "%prefix% &3You have selected team &7%team%&3."
 teamChanged: "%prefix% &3You have left team &7%originalteam%&3 and joined team &7%newteam%&3."
 teamLeft: "%prefix% &3You have left team &7%team%&3."
 teamReady: "%prefix% &3Your team is now ready."
-teamUnready: "%prefix% &cYour team is no longer ready."
+teamUnready: "%prefix% &3Your team is no longer ready."
 
-noTeam: "%prefix% &cYou are not in a team."
-noPlayersInTeam: "&cThere are no players in the &7%team%&3 team."
+playerReady: "%prefix% &3You are now ready."
+playerUnready: "%prefix% &3You are no longer ready."
 
 otherTeamReady: "%prefix% &3Team &7%team%&3 is now ready."
 otherTeamUnready: "%prefix% &3Team &7%team%&3 is no longer ready."
+
+noTeam: "%prefix% &cYou are not in a team."
+noPlayersInTeam: "&cThere are no players in the &7%team%&3 team."
 
 gameStarting: "%prefix% &3The game is starting in &7%time%&3."
 gameStarted: "%prefix% &3The game has started."
