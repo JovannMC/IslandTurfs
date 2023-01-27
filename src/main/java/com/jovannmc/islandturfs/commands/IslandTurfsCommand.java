@@ -701,4 +701,85 @@ public class IslandTurfsCommand implements CommandExecutor {
         }.runTaskTimer(plugin, 0, 20);
     }
 
+    private boolean ready(Player player, String team, String map) {
+        if (map.equalsIgnoreCase("ITC_1")) {
+            if (team == "red") {
+                if (TeamManager.redTeam.get(player.getUniqueId()).equals(new Tuple<>(true, map))) {
+                    TeamManager.redTeam.put(player.getUniqueId(), new Tuple<>(false, map));
+                } else {
+                    TeamManager.redTeam.put(player.getUniqueId(), new Tuple<>(true, map));
+                }
+            } else if (team == "blue") {
+                if (TeamManager.blueTeam.get(player.getUniqueId()).equals(new Tuple<>(true, map))) {
+                    TeamManager.blueTeam.put(player.getUniqueId(), new Tuple<>(false, map));
+                } else {
+                    TeamManager.blueTeam.put(player.getUniqueId(), new Tuple<>(true, map));
+                }
+            }
+
+            boolean allReady = TeamManager.redTeam.containsValue(new Tuple<>(true, map));
+            if (allReady) {
+                if (team == "red") {
+                    TeamManager.ITC_1_redReady = true;
+                    return true;
+                } else if (team == "blue") {
+                    TeamManager.ITC_1_blueReady = true;
+                    return true;
+                } else {
+                    // Invalid team
+                }
+            } else {
+                if (team == "red") {
+                    TeamManager.ITC_1_redReady = false;
+                    return false;
+                } else if (team == "blue") {
+                    TeamManager.ITC_1_blueReady = false;
+                    return false;
+                } else {
+                    // Invalid team
+                }
+            }
+        } else if (map.equalsIgnoreCase("ITC_2")) {
+            if (team == "red") {
+                if (TeamManager.redTeam.get(player.getUniqueId()).equals(new Tuple<>(true, map))) {
+                    TeamManager.redTeam.put(player.getUniqueId(), new Tuple<>(false, map));
+                } else {
+                    TeamManager.redTeam.put(player.getUniqueId(), new Tuple<>(true, map));
+                }
+            } else if (team == "blue") {
+                if (TeamManager.blueTeam.get(player.getUniqueId()).equals(new Tuple<>(true, map))) {
+                    TeamManager.blueTeam.put(player.getUniqueId(), new Tuple<>(false, map));
+                } else {
+                    TeamManager.blueTeam.put(player.getUniqueId(), new Tuple<>(true, map));
+                }
+            }
+
+            boolean allReady = TeamManager.redTeam.containsValue(new Tuple<>(true, map));
+            if (allReady) {
+                if (team == "red") {
+                    TeamManager.ITC_2_redReady = true;
+                    return true;
+                } else if (team == "blue") {
+                    TeamManager.ITC_2_blueReady = true;
+                    return true;
+                } else {
+                    // Invalid team
+                }
+            } else {
+                if (team == "red") {
+                    TeamManager.ITC_2_redReady = false;
+                    return false;
+                } else if (team == "blue") {
+                    TeamManager.ITC_2_blueReady = false;
+                    return false;
+                } else {
+                    // Invalid team
+                }
+            }
+        } else {
+            // Invalid map
+        }
+        return false;
+    }
+
 }
