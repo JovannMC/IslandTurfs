@@ -391,6 +391,16 @@ public class GameManager implements Listener {
                                     .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                         }
                     }
+                } else if (TeamManager.blueTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_2") || TeamManager.redTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_2")) {
+                    Bukkit.getLogger().info(e.getPlayer().getName() + " used a command during ITC_2");
+                    for (String command : plugin.config.getConfiguration().getStringList("commandsDisabled")) {
+                        if (e.getMessage().contains(command)) {
+                            Bukkit.getLogger().info(e.getPlayer().getName() + " used a disabled command during ITC_2");
+                            e.setCancelled(true);
+                            e.getPlayer().sendMessage(utils.color(plugin.messages.getConfiguration().getString("commandDisabled")
+                                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                        }
+                    }
                 }
             }
         }
