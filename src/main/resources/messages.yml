@@ -5,7 +5,7 @@ invalidUsage: "&cInvalid usage. &7%usage%"
 invalidMap: "&cThat map does not exist."
 invalidTeam: "&cThat team does not exist."
 
-# In-game messages (you can use %prefix% to add the prefix)
+# In-game (chat) messages (you can use %prefix% to add the prefix)
 reloadConfig: "%prefix% &3The configs have been reloaded."
 
 teamSelected: "%prefix% &3You have selected team &7%team%&3."
@@ -31,3 +31,9 @@ spectatingNoGame: "%prefix% &cThat map is not being played."
 commandDisabled: "%prefix% &3You cannot use that command in-game."
 
 winner: "%prefix% &3Team &7%team%&3 wins!"
+
+# Title message, using ticks
+winnerTitle: "&3Team &7%team%&3 wins!"
+winnerFadeIn: 20
+winnerStay: 70
+winnerFadeOut: 20

@@ -10,3 +10,5 @@ chickenHealth: 2
 teleportY: 30.0
 # Commands that cannot be used in-game
 commandsDisabled: [/hub, /spawn, /lobby, /islandturfs, /it]
+# Method to announce winners [CHAT, TITLE, BOTH]
+winnerAnnouncement: BOTH

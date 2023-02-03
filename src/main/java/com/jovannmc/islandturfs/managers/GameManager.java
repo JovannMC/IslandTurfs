@@ -7,7 +7,6 @@ import de.tr7zw.nbtapi.NBTList;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.Configuration;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,7 +17,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -171,10 +169,7 @@ public class GameManager implements Listener {
                     Player player = Bukkit.getPlayer(uuid);
                     Location loc = new Location(player.getWorld(), plugin.maps.getConfiguration().getDouble("spawn.x"), plugin.maps.getConfiguration().getDouble("spawn.y"), plugin.maps.getConfiguration().getDouble("spawn.z"));
                     player.teleport(loc);
-                    player.sendMessage(utils.color(
-                            plugin.messages.getConfiguration().getString("winner")
-                                    .replace("%team%", winningTeam)
-                                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                    announceWinner(player, winningTeam);
                     TeamManager.redTeam.remove(uuid);
                     // Clear the player's inventory
                     player.getInventory().clear();
@@ -188,10 +183,7 @@ public class GameManager implements Listener {
                     Player player = Bukkit.getPlayer(uuid);
                     Location loc = new Location(player.getWorld(), plugin.maps.getConfiguration().getDouble("spawn.x"), plugin.maps.getConfiguration().getDouble("spawn.y"), plugin.maps.getConfiguration().getDouble("spawn.z"));
                     player.teleport(loc);
-                    player.sendMessage(utils.color(
-                            plugin.messages.getConfiguration().getString("winner")
-                                    .replace("%team%", winningTeam)
-                                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                    announceWinner(player, winningTeam);
                     TeamManager.blueTeam.remove(uuid);
                     // Clear the player's inventory
                     player.getInventory().clear();
@@ -205,10 +197,7 @@ public class GameManager implements Listener {
                     Player player = Bukkit.getPlayer(uuid);
                     Location loc = new Location(player.getWorld(), plugin.maps.getConfiguration().getDouble("spawn.x"), plugin.maps.getConfiguration().getDouble("spawn.y"), plugin.maps.getConfiguration().getDouble("spawn.z"));
                     player.teleport(loc);
-                    player.sendMessage(utils.color(
-                            plugin.messages.getConfiguration().getString("winner")
-                                    .replace("%team%", winningTeam)
-                                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                    announceWinner(player, winningTeam);
                     TeamManager.spectators.remove(uuid);
                     // Clear the player's inventory
                     player.getInventory().clear();
@@ -296,6 +285,35 @@ public class GameManager implements Listener {
     /*
         Game logic
     */
+
+    private void announceWinner(Player player, String winningTeam) {
+        if (plugin.config.getConfiguration().getString("winnerAnnouncement").equalsIgnoreCase("chat")) {
+            player.sendMessage(utils.color(
+                    plugin.messages.getConfiguration().getString("winner")
+                            .replace("%team%", winningTeam)
+                            .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+        } else if (plugin.config.getConfiguration().getString("winnerAnnouncement").equalsIgnoreCase("title")) {
+            player.sendTitle(utils.color(
+                            plugin.messages.getConfiguration().getString("winnerTitle")
+                                    .replace("%team%", winningTeam))
+                    , null
+                    , plugin.messages.getConfiguration().getInt("winnerFadeIn")
+                    , plugin.messages.getConfiguration().getInt("winnerStay")
+                    , plugin.messages.getConfiguration().getInt("winnerFadeOut"));
+        } else if (plugin.config.getConfiguration().getString("winnerAnnouncement").equalsIgnoreCase("both")) {
+            player.sendTitle(utils.color(
+                            plugin.messages.getConfiguration().getString("winnerTitle")
+                                    .replace("%team%", winningTeam))
+                    , null
+                    , plugin.messages.getConfiguration().getInt("winnerFadeIn")
+                    , plugin.messages.getConfiguration().getInt("winnerStay")
+                    , plugin.messages.getConfiguration().getInt("winnerFadeOut"));
+            player.sendMessage(utils.color(
+                    plugin.messages.getConfiguration().getString("winner")
+                            .replace("%team%", winningTeam)
+                            .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+        }
+    }
 
     private void spawnChickens(String mapName) {
         Configuration maps = plugin.maps.getConfiguration();
