@@ -2,11 +2,12 @@ package com.jovannmc.islandturfs.managers;
 
 import com.jovannmc.islandturfs.IslandTurfs;
 import com.jovannmc.islandturfs.utils.Utils;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
+import de.tr7zw.nbtapi.NBTItem;
+import de.tr7zw.nbtapi.NBTList;
+import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.Configuration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,6 +16,9 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -429,11 +433,15 @@ public class GameManager implements Listener {
                     Bukkit.getLogger().info("Player is in ITC_1");
                     // Teleport the player to ITC_1 blue spawn
                     e.getPlayer().teleport(ITC_1_BLUE_SPAWN);
+                    // Give the player the items for ITC_1
+                    giveItems(e.getPlayer(), "blue", "ITC_1");
                     // If the player is in ITC_2
                 } else if (TeamManager.blueTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_2")) {
                     Bukkit.getLogger().info("Player is in ITC_2");
                     // Teleport the player to ITC_2 blue spawn
                     e.getPlayer().teleport(ITC_2_BLUE_SPAWN);
+                    // Give the player the items for ITC_2
+                    giveItems(e.getPlayer(), "blue", "ITC_2");
                 }
                 // If the player is in the red team
             } else if (TeamManager.redTeam.containsKey(e.getPlayer().getUniqueId())) {
@@ -443,11 +451,15 @@ public class GameManager implements Listener {
                     Bukkit.getLogger().info("Player is in ITC_1");
                     // Teleport the player to ITC_1 red spawn
                     e.getPlayer().teleport(ITC_1_RED_SPAWN);
+                    // Give the player the items for ITC_1
+                    giveItems(e.getPlayer(), "red", "ITC_1");
                     // If the player is in ITC_2
                 } else if (TeamManager.redTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_2")) {
                     Bukkit.getLogger().info("Player is in ITC_2");
                     // Teleport the player to ITC_2 red spawn
                     e.getPlayer().teleport(ITC_2_RED_SPAWN);
+                    // Give the player the items for ITC_2
+                    giveItems(e.getPlayer(), "red", "ITC_2");
                 }
                 // If the player is not in a team
             } else {
@@ -513,6 +525,142 @@ public class GameManager implements Listener {
             }
 
         }
+    }
+
+    private void giveItems(Player player, String team, String mapName) {
+        Bukkit.getLogger().info("Creating items for " + mapName + "...");
+
+        // Create an unbreakable iron sword
+        ItemStack ironSword = new ItemStack(Material.IRON_SWORD);
+        ItemMeta ironSwordMeta = ironSword.getItemMeta();
+        ironSwordMeta.setUnbreakable(true);
+        ironSword.setItemMeta(ironSwordMeta);
+
+        // Create unbreakable shears
+        ItemStack shears = new ItemStack(Material.SHEARS);
+        ItemMeta shearsMeta = shears.getItemMeta();
+        shearsMeta.setUnbreakable(true);
+        shears.setItemMeta(shearsMeta);
+
+        // Create the unbreakable bow with punch 2 and infinity
+        ItemStack bow = new ItemStack(Material.BOW);
+        ItemMeta bowMeta = bow.getItemMeta();
+        bowMeta.setUnbreakable(true);
+        bowMeta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
+        bowMeta.addEnchant(Enchantment.ARROW_KNOCKBACK, 2, true);
+        bow.setItemMeta(bowMeta);
+
+        // If the player is on the blue team
+        if (team.equalsIgnoreCase("red")) {
+            Bukkit.getLogger().info(player.getName() + " is on the red team, giving them red items...");
+            // Create the full set of unbreakable red leather armor
+            ItemStack redLeatherHelmet = new ItemStack(Material.LEATHER_HELMET);
+            LeatherArmorMeta redLeatherHelmetMeta = (LeatherArmorMeta) redLeatherHelmet.getItemMeta();
+            redLeatherHelmetMeta.setColor(Color.RED);
+            redLeatherHelmet.setItemMeta(redLeatherHelmetMeta);
+            redLeatherHelmetMeta.setUnbreakable(true);
+
+            ItemStack redLeatherChestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
+            LeatherArmorMeta redLeatherChestplateMeta = (LeatherArmorMeta) redLeatherChestplate.getItemMeta();
+            redLeatherChestplateMeta.setColor(Color.RED);
+            redLeatherChestplate.setItemMeta(redLeatherChestplateMeta);
+            redLeatherChestplateMeta.setUnbreakable(true);
+
+            ItemStack redLeatherLeggings = new ItemStack(Material.LEATHER_LEGGINGS);
+            LeatherArmorMeta redLeatherLeggingsMeta = (LeatherArmorMeta) redLeatherLeggings.getItemMeta();
+            redLeatherLeggingsMeta.setColor(Color.RED);
+            redLeatherLeggings.setItemMeta(redLeatherLeggingsMeta);
+            redLeatherLeggingsMeta.setUnbreakable(true);
+
+            ItemStack redLeatherBoots = new ItemStack(Material.LEATHER_BOOTS);
+            LeatherArmorMeta redLeatherBootsMeta = (LeatherArmorMeta) redLeatherBoots.getItemMeta();
+            redLeatherBootsMeta.setColor(Color.RED);
+            redLeatherBoots.setItemMeta(redLeatherBootsMeta);
+            redLeatherBootsMeta.setUnbreakable(true);
+
+            // Clear the player's inventory
+            player.getInventory().clear();
+
+            // Give the player the items
+            player.getInventory().setItem(0, ironSword);
+            player.getInventory().setItem(1, bow);
+            player.getInventory().setItem(2, forgeCanDestroyItem(shears, "minecraft:red_wool", "minecraft:blue_wool"));
+            player.getInventory().setItem(3, forgeCanBePlacedOnItem(new ItemStack(Material.RED_WOOL, 64), "minecraft:red_wool", "minecraft:blue_wool", "minecraft:red_concrete", "minecraft:blue_concrete"));
+            player.getInventory().setItem(4, forgeCanBePlacedOnItem(new ItemStack(Material.RED_WOOL, 64), "minecraft:red_wool", "minecraft:blue_wool", "minecraft:red_concrete", "minecraft:blue_concrete"));
+            player.getInventory().setItem(6, new ItemStack(Material.ARROW));
+            player.getInventory().setHelmet(redLeatherHelmet);
+            player.getInventory().setChestplate(redLeatherChestplate);
+            player.getInventory().setLeggings(redLeatherLeggings);
+            player.getInventory().setBoots(redLeatherBoots);
+            player.getInventory().setItemInOffHand(forgeCanBePlacedOnItem(new ItemStack(Material.RED_WOOL, 64), "minecraft:red_wool", "minecraft:blue_wool", "minecraft:red_concrete", "minecraft:blue_concrete"));
+
+            // If the player is in the blue team
+        } else if (team.equalsIgnoreCase("blue")) {
+
+            // Create the full set of unbreakable blue leather armor
+            ItemStack blueLeatherHelmet = new ItemStack(Material.LEATHER_HELMET);
+            LeatherArmorMeta blueLeatherHelmetMeta = (LeatherArmorMeta) blueLeatherHelmet.getItemMeta();
+            blueLeatherHelmetMeta.setColor(Color.BLUE);
+            blueLeatherHelmet.setItemMeta(blueLeatherHelmetMeta);
+            blueLeatherHelmetMeta.setUnbreakable(true);
+
+            ItemStack blueLeatherChestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
+            LeatherArmorMeta blueLeatherChestplateMeta = (LeatherArmorMeta) blueLeatherChestplate.getItemMeta();
+            blueLeatherChestplateMeta.setColor(Color.BLUE);
+            blueLeatherChestplate.setItemMeta(blueLeatherChestplateMeta);
+            blueLeatherChestplateMeta.setUnbreakable(true);
+
+            ItemStack blueLeatherLeggings = new ItemStack(Material.LEATHER_LEGGINGS);
+            LeatherArmorMeta blueLeatherLeggingsMeta = (LeatherArmorMeta) blueLeatherLeggings.getItemMeta();
+            blueLeatherLeggingsMeta.setColor(Color.BLUE);
+            blueLeatherLeggings.setItemMeta(blueLeatherLeggingsMeta);
+            blueLeatherLeggingsMeta.setUnbreakable(true);
+
+            ItemStack blueLeatherBoots = new ItemStack(Material.LEATHER_BOOTS);
+            LeatherArmorMeta blueLeatherBootsMeta = (LeatherArmorMeta) blueLeatherBoots.getItemMeta();
+            blueLeatherBootsMeta.setColor(Color.BLUE);
+            blueLeatherBoots.setItemMeta(blueLeatherBootsMeta);
+            blueLeatherBootsMeta.setUnbreakable(true);
+
+            // Clear the player's inventory
+            player.getInventory().clear();
+
+            // Give the player the items
+            player.getInventory().setItem(0, ironSword);
+            player.getInventory().setItem(1, bow);
+            player.getInventory().setItem(2, forgeCanDestroyItem(shears, "minecraft:red_wool", "minecraft:blue_wool"));
+            player.getInventory().setItem(3, forgeCanBePlacedOnItem(new ItemStack(Material.BLUE_WOOL, 64), "minecraft:red_wool", "minecraft:blue_wool", "minecraft:red_concrete", "minecraft:blue_concrete"));
+            player.getInventory().setItem(4, forgeCanBePlacedOnItem(new ItemStack(Material.BLUE_WOOL, 64), "minecraft:red_wool", "minecraft:blue_wool", "minecraft:red_concrete", "minecraft:blue_concrete"));
+            player.getInventory().setItem(6, new ItemStack(Material.ARROW));
+            player.getInventory().setHelmet(blueLeatherHelmet);
+            player.getInventory().setChestplate(blueLeatherChestplate);
+            player.getInventory().setLeggings(blueLeatherLeggings);
+            player.getInventory().setBoots(blueLeatherBoots);
+            player.getInventory().setItemInOffHand(forgeCanBePlacedOnItem(new ItemStack(Material.BLUE_WOOL, 64), "minecraft:red_wool", "minecraft:blue_wool", "minecraft:red_concrete", "minecraft:blue_concrete"));
+
+        }
+    }
+
+    // Create "can" item
+    private static ItemStack forgeCanItem(ItemStack item, String can, String[] blocks) {
+        ItemMeta meta = item.getItemMeta();
+        item.setItemMeta(meta);
+        NBTItem nbt = new NBTItem(item);
+        NBTList<String> canNbt = nbt.getStringList(can);
+        for (int i = 0; i < blocks.length; i++) {
+            canNbt.add(blocks[i]);
+        }
+        return nbt.getItem();
+    }
+
+    // Create "canPlaceOn" item
+    public static ItemStack forgeCanBePlacedOnItem(ItemStack item, String... blocks) {
+        return forgeCanItem(item, "CanPlaceOn", blocks);
+    }
+
+    // Create "canDestroy" item
+    public static ItemStack forgeCanDestroyItem(ItemStack item, String... blocks) {
+        return forgeCanItem(item, "CanDestroy", blocks);
     }
 
 
