@@ -530,10 +530,18 @@ public class GameManager implements Listener {
     private void giveBlocks(Player player, String team) {
         Bukkit.getLogger().info("Giving blocks for " + player.getName() + "...");
 
-        // If the player is on the blue team
+        // If the player is on the red team
         if (team.equalsIgnoreCase("red")) {
             Bukkit.getLogger().info(player.getName() + " is on the red team, giving them red blocks...");
             // Create the full set of unbreakable red leather armor
+
+            if (!player.getInventory().contains(Material.RED_WOOL)) {
+                Bukkit.getLogger().info("Player does not have red wool, giving them red wool...");
+                player.getInventory().addItem(forgeCanBePlacedOnItem(new ItemStack(Material.RED_WOOL, 64), "minecraft:red_wool", "minecraft:blue_wool", "minecraft:red_concrete", "minecraft:blue_concrete"));
+                player.getInventory().addItem(forgeCanBePlacedOnItem(new ItemStack(Material.RED_WOOL, 64), "minecraft:red_wool", "minecraft:blue_wool", "minecraft:red_concrete", "minecraft:blue_concrete"));
+                player.getInventory().setItemInOffHand(forgeCanBePlacedOnItem(new ItemStack(Material.RED_WOOL, 64), "minecraft:red_wool", "minecraft:blue_wool", "minecraft:red_concrete", "minecraft:blue_concrete"));
+                return;
+            }
 
             // For every item in the player's inventory
             for (int i = 0; i < player.getInventory().getSize(); i++) {
@@ -549,6 +557,14 @@ public class GameManager implements Listener {
             // If the player is in the blue team
         } else if (team.equalsIgnoreCase("blue")) {
             Bukkit.getLogger().info(player.getName() + " is on the blue team, giving them blue blocks...");
+
+            if (!player.getInventory().contains(Material.BLUE_WOOL)) {
+                Bukkit.getLogger().info("Player does not have blue wool, giving them blue wool...");
+                player.getInventory().addItem(forgeCanBePlacedOnItem(new ItemStack(Material.BLUE_WOOL, 64), "minecraft:red_wool", "minecraft:blue_wool", "minecraft:red_concrete", "minecraft:blue_concrete"));
+                player.getInventory().addItem(forgeCanBePlacedOnItem(new ItemStack(Material.BLUE_WOOL, 64), "minecraft:red_wool", "minecraft:blue_wool", "minecraft:red_concrete", "minecraft:blue_concrete"));
+                player.getInventory().setItemInOffHand(forgeCanBePlacedOnItem(new ItemStack(Material.BLUE_WOOL, 64), "minecraft:red_wool", "minecraft:blue_wool", "minecraft:red_concrete", "minecraft:blue_concrete"));
+                return;
+            }
 
             // For every item in player's inventory
             for (int i = 0; i < player.getInventory().getSize(); i++) {
