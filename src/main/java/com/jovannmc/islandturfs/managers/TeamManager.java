@@ -1,7 +1,6 @@
 package com.jovannmc.islandturfs.managers;
 
 import org.bukkit.event.Listener;
-import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
