@@ -198,9 +198,17 @@ public class IslandTurfsCommand implements CommandExecutor {
                         } else {
                             // Ready player
                             TeamManager.redTeam.put(target.getUniqueId(), new Pair<>(true, args[3]));
+                            sender.sendMessage(utils.color(
+                                    plugin.messages.getConfiguration().getString("playerReady")
+                                            .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                             Bukkit.getLogger().info("Red team: " + TeamManager.redTeam);
                         }
-                        boolean allReady = TeamManager.redTeam.values().stream().distinct().count() <= 1;;
+                        boolean allReady = false;
+                        for (Pair<Boolean, String> value : TeamManager.redTeam.values()) {
+                            if (value.getValue0() && value.getValue1().equalsIgnoreCase(args[3])) {
+                                allReady = true;
+                            }
+                        }
 
                         Bukkit.getLogger().info("Red team: " + TeamManager.redTeam);
                         Bukkit.getLogger().info("Blue team: " + TeamManager.blueTeam);
@@ -263,9 +271,17 @@ public class IslandTurfsCommand implements CommandExecutor {
                         } else {
                             // Ready player
                             TeamManager.redTeam.put(target.getUniqueId(), new Pair<>(true, args[3]));
+                            sender.sendMessage(utils.color(
+                                    plugin.messages.getConfiguration().getString("playerReady")
+                                            .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                             Bukkit.getLogger().info("Red team: " + TeamManager.redTeam);
                         }
-                        boolean allReady = TeamManager.redTeam.values().stream().distinct().count() <= 1;;
+                        boolean allReady = false;
+                        for (Pair<Boolean, String> value : TeamManager.redTeam.values()) {
+                            if (value.getValue0() && value.getValue1().equalsIgnoreCase(args[3])) {
+                                allReady = true;
+                            }
+                        }
 
                         Bukkit.getLogger().info("Red team: " + TeamManager.redTeam);
                         Bukkit.getLogger().info("Blue team: " + TeamManager.blueTeam);
@@ -340,9 +356,17 @@ public class IslandTurfsCommand implements CommandExecutor {
                         } else {
                             // Ready player
                             TeamManager.blueTeam.put(target.getUniqueId(), new Pair<>(true, args[3]));
+                            sender.sendMessage(utils.color(
+                                    plugin.messages.getConfiguration().getString("playerReady")
+                                            .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                             Bukkit.getLogger().info("Blue team: " + TeamManager.blueTeam);
                         }
-                        boolean allReady = TeamManager.blueTeam.values().stream().distinct().count() <= 1;;
+                        boolean allReady = false;
+                        for (Pair<Boolean, String> value : TeamManager.redTeam.values()) {
+                            if (value.getValue0() && value.getValue1().equalsIgnoreCase(args[3])) {
+                                allReady = true;
+                            }
+                        }
 
                         Bukkit.getLogger().info("Red team: " + TeamManager.redTeam);
                         Bukkit.getLogger().info("Blue team: " + TeamManager.blueTeam);
@@ -406,9 +430,17 @@ public class IslandTurfsCommand implements CommandExecutor {
                         } else {
                             // Ready player
                             TeamManager.blueTeam.put(target.getUniqueId(), new Pair<>(true, args[3]));
+                            sender.sendMessage(utils.color(
+                                    plugin.messages.getConfiguration().getString("playerReady")
+                                            .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                             Bukkit.getLogger().info("Blue team: " + TeamManager.blueTeam);
                         }
-                        boolean allReady = TeamManager.blueTeam.values().stream().distinct().count() <= 1;;
+                        boolean allReady = false;
+                        for (Pair<Boolean, String> value : TeamManager.redTeam.values()) {
+                            if (value.getValue0() && value.getValue1().equalsIgnoreCase(args[3])) {
+                                allReady = true;
+                            }
+                        }
 
                         Bukkit.getLogger().info("Red team: " + TeamManager.redTeam);
                         Bukkit.getLogger().info("Blue team: " + TeamManager.blueTeam);
