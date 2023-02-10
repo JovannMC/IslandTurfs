@@ -50,9 +50,9 @@ public class GameManager implements Listener {
 
         Configuration maps = plugin.maps.getConfiguration();
 
-        Bukkit.getLogger().info("Starting game on " + mapName);
+        plugin.getLogger().info("Starting game on " + mapName);
 
-        Bukkit.getLogger().info("Teleporting players to their team spawns");
+        plugin.getLogger().info("Teleporting players to their team spawns");
         // for every player in redTeam
         for (UUID uuid : TeamManager.redTeam.keySet()) {
             // if value of player matches mapName
@@ -94,8 +94,8 @@ public class GameManager implements Listener {
     }
 
     public void spectateGame(String map, String player) {
-        Bukkit.getLogger().info("Spectating game on " + map + " for player " + player);
-        Bukkit.getLogger().info("Game has started");
+        plugin.getLogger().info("Spectating game on " + map + " for player " + player);
+        plugin.getLogger().info("Game has started");
         // If specified player does not exist
         if (Bukkit.getPlayer(player) == null) {
             Bukkit.getPlayer(player).sendMessage(utils.color(
@@ -108,7 +108,7 @@ public class GameManager implements Listener {
         // If map is ITC_1
         if (map.equalsIgnoreCase("ITC_1")) {
             if (ITC_1_gameStarted) {
-                Bukkit.getLogger().info("Map is ITC_1");
+                plugin.getLogger().info("Map is ITC_1");
                 // Set player to be spectator
                 Location loc = new Location(p.getWorld(), plugin.maps.getConfiguration().getDouble("ITC_1.spectate.x"), plugin.maps.getConfiguration().getDouble("ITC_1.spectate.y"), plugin.maps.getConfiguration().getDouble("ITC_1.spectate.z"), (float) plugin.maps.getConfiguration().getDouble("ITC_1.spectate.yaw"), (float) plugin.maps.getConfiguration().getDouble("ITC_1.spectate.pitch"));
                 p.setGameMode(GameMode.SPECTATOR);
@@ -127,7 +127,7 @@ public class GameManager implements Listener {
             // If map is ITC_2
         } else if (map.equalsIgnoreCase("ITC_2")) {
             if (ITC_2_gameStarted) {
-                Bukkit.getLogger().info("Map is ITC_2");
+                plugin.getLogger().info("Map is ITC_2");
                 // Set player to be spectator
                 Location loc = new Location(p.getWorld(), plugin.maps.getConfiguration().getDouble("ITC_2.spectate.x"), plugin.maps.getConfiguration().getDouble("ITC_2.spectate.y"), plugin.maps.getConfiguration().getDouble("ITC_2.spectate.z"), (float) plugin.maps.getConfiguration().getDouble("ITC_2.spectate.yaw"), (float) plugin.maps.getConfiguration().getDouble("ITC_2.spectate.pitch"));
                 p.setGameMode(GameMode.SPECTATOR);
@@ -318,7 +318,7 @@ public class GameManager implements Listener {
     private void spawnChickens(String mapName) {
         Configuration maps = plugin.maps.getConfiguration();
 
-        Bukkit.getLogger().info("Spawning chickens for " + mapName + "...");
+        plugin.getLogger().info("Spawning chickens for " + mapName + "...");
         if (mapName.equalsIgnoreCase("ITC_2")) {
             // get coordinates from config
             double xBlue = maps.getDouble("ITC_2.blue.chicken.x");
@@ -378,22 +378,22 @@ public class GameManager implements Listener {
             // Check if the chicken was a chicken from ITC_1
             if (e.getEntity().getCustomName().equalsIgnoreCase("ITC_1_BLUE")) {
                 // End game for ITC_1, winners are red team
-                Bukkit.getLogger().info("ITC_1 blue chicken died");
+                plugin.getLogger().info("ITC_1 blue chicken died");
                 endGame("ITC_1", "red");
                 // Check if the chicken was a chicken from ITC_2
             } else if (e.getEntity().getCustomName().equalsIgnoreCase("ITC_1_RED")) {
                 // End game for ITC_1, winners are blue team
-                Bukkit.getLogger().info("ITC_1 red chicken died");
+                plugin.getLogger().info("ITC_1 red chicken died");
                 endGame("ITC_1", "blue");
                 // Check if the chicken was a chicken from ITC_2
             } else if (e.getEntity().getCustomName().equalsIgnoreCase("ITC_2_BLUE")) {
                 // End game for ITC_2, winners are red team
-                Bukkit.getLogger().info("ITC_2 blue chicken died");
+                plugin.getLogger().info("ITC_2 blue chicken died");
                 endGame("ITC_2", "red");
                 // Check if the chicken was a chicken from ITC_2
             } else if (e.getEntity().getCustomName().equalsIgnoreCase("ITC_2_RED")) {
                 // End game for ITC_2, winners are blue team
-                Bukkit.getLogger().info("ITC_2 red chicken died");
+                plugin.getLogger().info("ITC_2 red chicken died");
                 endGame("ITC_2", "blue");
             }
         }
@@ -404,20 +404,20 @@ public class GameManager implements Listener {
         if (ITC_1_gameStarted || ITC_2_gameStarted) {
             if (TeamManager.blueTeam.containsKey(e.getPlayer().getUniqueId()) || TeamManager.redTeam.containsKey(e.getPlayer().getUniqueId())) {
                 if (TeamManager.blueTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_1") || TeamManager.redTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_1")) {
-                    Bukkit.getLogger().info(e.getPlayer().getName() + " used a command during ITC_1");
+                    plugin.getLogger().info(e.getPlayer().getName() + " used a command during ITC_1");
                     for (String command : plugin.config.getConfiguration().getStringList("commandsDisabled")) {
                         if (e.getMessage().contains(command)) {
-                            Bukkit.getLogger().info(e.getPlayer().getName() + " used a disabled command during ITC_1");
+                            plugin.getLogger().info(e.getPlayer().getName() + " used a disabled command during ITC_1");
                             e.setCancelled(true);
                             e.getPlayer().sendMessage(utils.color(plugin.messages.getConfiguration().getString("commandDisabled")
                                     .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                         }
                     }
                 } else if (TeamManager.blueTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_2") || TeamManager.redTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_2")) {
-                    Bukkit.getLogger().info(e.getPlayer().getName() + " used a command during ITC_2");
+                    plugin.getLogger().info(e.getPlayer().getName() + " used a command during ITC_2");
                     for (String command : plugin.config.getConfiguration().getStringList("commandsDisabled")) {
                         if (e.getMessage().contains(command)) {
-                            Bukkit.getLogger().info(e.getPlayer().getName() + " used a disabled command during ITC_2");
+                            plugin.getLogger().info(e.getPlayer().getName() + " used a disabled command during ITC_2");
                             e.setCancelled(true);
                             e.getPlayer().sendMessage(utils.color(plugin.messages.getConfiguration().getString("commandDisabled")
                                     .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
@@ -431,7 +431,7 @@ public class GameManager implements Listener {
     @EventHandler
     public void onVoidFall(PlayerMoveEvent e) {
         if (e.getPlayer().getLocation().getY() < plugin.config.getConfiguration().getDouble("teleportY")) {
-            Bukkit.getLogger().info(e.getPlayer().getName() + " fell into the void");
+            plugin.getLogger().info(e.getPlayer().getName() + " fell into the void");
 
             // Maps config
             Configuration maps = plugin.maps.getConfiguration();
@@ -445,17 +445,17 @@ public class GameManager implements Listener {
 
             // If the player is in the blue team
             if (TeamManager.blueTeam.containsKey(e.getPlayer().getUniqueId())) {
-                Bukkit.getLogger().info("Player is in blue team");
+                plugin.getLogger().info("Player is in blue team");
                 // If the player is in ITC_1
                 if (TeamManager.blueTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_1")) {
-                    Bukkit.getLogger().info("Player is in ITC_1");
+                    plugin.getLogger().info("Player is in ITC_1");
                     // Teleport the player to ITC_1 blue spawn
                     e.getPlayer().teleport(ITC_1_BLUE_SPAWN);
                     // Give the player the blocks
                     giveBlocks(e.getPlayer(), "blue");
                     // If the player is in ITC_2
                 } else if (TeamManager.blueTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_2")) {
-                    Bukkit.getLogger().info("Player is in ITC_2");
+                    plugin.getLogger().info("Player is in ITC_2");
                     // Teleport the player to ITC_2 blue spawn
                     e.getPlayer().teleport(ITC_2_BLUE_SPAWN);
                     // Give the player the blocks
@@ -463,17 +463,17 @@ public class GameManager implements Listener {
                 }
                 // If the player is in the red team
             } else if (TeamManager.redTeam.containsKey(e.getPlayer().getUniqueId())) {
-                Bukkit.getLogger().info("Player is in red team");
+                plugin.getLogger().info("Player is in red team");
                 // If the player is in ITC_1
                 if (TeamManager.redTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_1")) {
-                    Bukkit.getLogger().info("Player is in ITC_1");
+                    plugin.getLogger().info("Player is in ITC_1");
                     // Teleport the player to ITC_1 red spawn
                     e.getPlayer().teleport(ITC_1_RED_SPAWN);
                     // Give the player the blocks
                     giveBlocks(e.getPlayer(), "red");
                     // If the player is in ITC_2
                 } else if (TeamManager.redTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_2")) {
-                    Bukkit.getLogger().info("Player is in ITC_2");
+                    plugin.getLogger().info("Player is in ITC_2");
                     // Teleport the player to ITC_2 red spawn
                     e.getPlayer().teleport(ITC_2_RED_SPAWN);
                     // Give the player the blocks
@@ -481,7 +481,7 @@ public class GameManager implements Listener {
                 }
                 // If the player is not in a team
             } else {
-                Bukkit.getLogger().info("Player is not in a team");
+                plugin.getLogger().info("Player is not in a team");
                 e.getPlayer().teleport(spawn);
             }
         }
@@ -546,15 +546,15 @@ public class GameManager implements Listener {
     }
 
     private void giveBlocks(Player player, String team) {
-        Bukkit.getLogger().info("Giving blocks for " + player.getName() + "...");
+        plugin.getLogger().info("Giving blocks for " + player.getName() + "...");
 
         // If the player is on the red team
         if (team.equalsIgnoreCase("red")) {
-            Bukkit.getLogger().info(player.getName() + " is on the red team, giving them red blocks...");
+            plugin.getLogger().info(player.getName() + " is on the red team, giving them red blocks...");
             // Create the full set of unbreakable red leather armor
 
             if (!player.getInventory().contains(Material.RED_WOOL)) {
-                Bukkit.getLogger().info("Player does not have red wool, giving them red wool...");
+                plugin.getLogger().info("Player does not have red wool, giving them red wool...");
                 player.getInventory().addItem(forgeCanBePlacedOnItem(new ItemStack(Material.RED_WOOL, 64), "minecraft:red_wool", "minecraft:blue_wool", "minecraft:red_concrete", "minecraft:blue_concrete"));
                 player.getInventory().addItem(forgeCanBePlacedOnItem(new ItemStack(Material.RED_WOOL, 64), "minecraft:red_wool", "minecraft:blue_wool", "minecraft:red_concrete", "minecraft:blue_concrete"));
                 player.getInventory().setItemInOffHand(forgeCanBePlacedOnItem(new ItemStack(Material.RED_WOOL, 64), "minecraft:red_wool", "minecraft:blue_wool", "minecraft:red_concrete", "minecraft:blue_concrete"));
@@ -574,10 +574,10 @@ public class GameManager implements Listener {
 
             // If the player is in the blue team
         } else if (team.equalsIgnoreCase("blue")) {
-            Bukkit.getLogger().info(player.getName() + " is on the blue team, giving them blue blocks...");
+            plugin.getLogger().info(player.getName() + " is on the blue team, giving them blue blocks...");
 
             if (!player.getInventory().contains(Material.BLUE_WOOL)) {
-                Bukkit.getLogger().info("Player does not have blue wool, giving them blue wool...");
+                plugin.getLogger().info("Player does not have blue wool, giving them blue wool...");
                 player.getInventory().addItem(forgeCanBePlacedOnItem(new ItemStack(Material.BLUE_WOOL, 64), "minecraft:red_wool", "minecraft:blue_wool", "minecraft:red_concrete", "minecraft:blue_concrete"));
                 player.getInventory().addItem(forgeCanBePlacedOnItem(new ItemStack(Material.BLUE_WOOL, 64), "minecraft:red_wool", "minecraft:blue_wool", "minecraft:red_concrete", "minecraft:blue_concrete"));
                 player.getInventory().setItemInOffHand(forgeCanBePlacedOnItem(new ItemStack(Material.BLUE_WOOL, 64), "minecraft:red_wool", "minecraft:blue_wool", "minecraft:red_concrete", "minecraft:blue_concrete"));

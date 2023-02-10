@@ -47,7 +47,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                 plugin.config.reloadConfig();
                 plugin.messages.reloadConfig();
                 plugin.maps.reloadConfig();
-                Bukkit.getLogger().info("Reloaded the configs!");
+                plugin.getLogger().info("Reloaded the configs!");
                 sender.sendMessage(utils.color(
                         plugin.messages.getConfiguration().getString("reloadConfig")
                                 .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
@@ -110,9 +110,9 @@ public class IslandTurfsCommand implements CommandExecutor {
                                     .replace("%team%", "red")
                                     .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                     giveItems(target, "red", args[3]);
-                    Bukkit.getLogger().info("Added " + target.getName() + " to the red team!");
-                    Bukkit.getLogger().info("Red team size: " + TeamManager.redTeam.size());
-                    Bukkit.getLogger().info("Red team: " + TeamManager.redTeam);
+                    plugin.getLogger().info("Added " + target.getName() + " to the red team!");
+                    plugin.getLogger().info("Red team size: " + TeamManager.redTeam.size());
+                    plugin.getLogger().info("Red team: " + TeamManager.redTeam);
                 } else if (args[2].equalsIgnoreCase("blue")) {
                     // Check if player is already in the red team
                     if (TeamManager.redTeam.containsKey(target.getUniqueId())) {
@@ -133,9 +133,9 @@ public class IslandTurfsCommand implements CommandExecutor {
                                     .replace("%team%", "blue")
                                     .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                     giveItems(target, "blue", args[3]);
-                    Bukkit.getLogger().info("Added " + target.getName() + " to the blue team!");
-                    Bukkit.getLogger().info("Blue team size: " + TeamManager.blueTeam.size());
-                    Bukkit.getLogger().info("Blue team: " + TeamManager.blueTeam);
+                    plugin.getLogger().info("Added " + target.getName() + " to the blue team!");
+                    plugin.getLogger().info("Blue team size: " + TeamManager.blueTeam.size());
+                    plugin.getLogger().info("Blue team: " + TeamManager.blueTeam);
                 } else {
                     utils.invalidUsage(sender, "/islandturfs team join <team> <map> <player>");
                     return false;
@@ -493,7 +493,7 @@ public class IslandTurfsCommand implements CommandExecutor {
     }
 
     private void giveItems(Player player, String team, String mapName) {
-        Bukkit.getLogger().info("Creating items for " + mapName + "...");
+        plugin.getLogger().info("Creating items for " + mapName + "...");
 
         // Create an unbreakable iron sword
         ItemStack ironSword = new ItemStack(Material.IRON_SWORD);
@@ -517,7 +517,7 @@ public class IslandTurfsCommand implements CommandExecutor {
 
         // If the player is on the blue team
         if (team.equalsIgnoreCase("red")) {
-            Bukkit.getLogger().info(player.getName() + " is on the red team, giving them red items...");
+            plugin.getLogger().info(player.getName() + " is on the red team, giving them red items...");
             // Create the full set of unbreakable red leather armor
             ItemStack redLeatherHelmet = new ItemStack(Material.LEATHER_HELMET);
             LeatherArmorMeta redLeatherHelmetMeta = (LeatherArmorMeta) redLeatherHelmet.getItemMeta();
