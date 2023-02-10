@@ -382,17 +382,47 @@ public class GameManager implements Listener {
     public void onCommand(PlayerCommandPreprocessEvent e) {
         Bukkit.getLogger().info("Red team: " + TeamManager.redTeam);
         Bukkit.getLogger().info("Blue team: " + TeamManager.blueTeam);
-        if (ITC_1_gameStarted || ITC_2_gameStarted) {
-            if (TeamManager.blueTeam.containsKey(e.getPlayer().getUniqueId()) || TeamManager.redTeam.containsKey(e.getPlayer().getUniqueId())) {
-                if (TeamManager.blueTeam.get(e.getPlayer().getUniqueId()).equals(new Pair<>(true, "ITC_2")) || TeamManager.redTeam.get(e.getPlayer().getUniqueId()).equals(new Pair<>(false, "ITC_2"))) {
-                    Bukkit.getLogger().info(e.getPlayer().getName() + " used a command during ITC_1");
-                    for (String command : plugin.config.getConfiguration().getStringList("commandsDisabled")) {
-                        if (e.getMessage().contains(command)) {
-                            Bukkit.getLogger().info(e.getPlayer().getName() + " used a disabled command during ITC_1");
-                            e.setCancelled(true);
-                            e.getPlayer().sendMessage(utils.color(plugin.messages.getConfiguration().getString("commandDisabled")
-                                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
-                        }
+        if (ITC_1_gameStarted) {
+            if (TeamManager.blueTeam.containsKey(e.getPlayer().getUniqueId())) {
+                Bukkit.getLogger().info(e.getPlayer().getName() + " used a command during ITC_1");
+                for (String command : plugin.config.getConfiguration().getStringList("commandsDisabled")) {
+                    if (e.getMessage().contains(command)) {
+                        Bukkit.getLogger().info(e.getPlayer().getName() + " used a disabled command during ITC_1");
+                        e.setCancelled(true);
+                        e.getPlayer().sendMessage(utils.color(plugin.messages.getConfiguration().getString("commandDisabled")
+                                .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                    }
+                }
+            } else if (TeamManager.redTeam.containsKey(e.getPlayer().getUniqueId())) {
+                Bukkit.getLogger().info(e.getPlayer().getName() + " used a command during ITC_1");
+                for (String command : plugin.config.getConfiguration().getStringList("commandsDisabled")) {
+                    if (e.getMessage().contains(command)) {
+                        Bukkit.getLogger().info(e.getPlayer().getName() + " used a disabled command during ITC_1");
+                        e.setCancelled(true);
+                        e.getPlayer().sendMessage(utils.color(plugin.messages.getConfiguration().getString("commandDisabled")
+                                .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                    }
+                }
+            }
+        } else if (ITC_2_gameStarted) {
+            if (TeamManager.blueTeam.containsKey(e.getPlayer().getUniqueId())) {
+                Bukkit.getLogger().info(e.getPlayer().getName() + " used a command during ITC_2");
+                for (String command : plugin.config.getConfiguration().getStringList("commandsDisabled")) {
+                    if (e.getMessage().contains(command)) {
+                        Bukkit.getLogger().info(e.getPlayer().getName() + " used a disabled command during ITC_2");
+                        e.setCancelled(true);
+                        e.getPlayer().sendMessage(utils.color(plugin.messages.getConfiguration().getString("commandDisabled")
+                                .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                    }
+                }
+            } else if (TeamManager.redTeam.containsKey(e.getPlayer().getUniqueId())) {
+                Bukkit.getLogger().info(e.getPlayer().getName() + " used a command during ITC_2");
+                for (String command : plugin.config.getConfiguration().getStringList("commandsDisabled")) {
+                    if (e.getMessage().contains(command)) {
+                        Bukkit.getLogger().info(e.getPlayer().getName() + " used a disabled command during ITC_2");
+                        e.setCancelled(true);
+                        e.getPlayer().sendMessage(utils.color(plugin.messages.getConfiguration().getString("commandDisabled")
+                                .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                     }
                 }
             }
