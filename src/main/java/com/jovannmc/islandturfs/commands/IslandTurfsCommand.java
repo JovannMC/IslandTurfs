@@ -152,6 +152,8 @@ public class IslandTurfsCommand implements CommandExecutor {
                 }
             /*
                 READY COMMAND
+
+                TODO: Fix bug where it sends the player the "team is unready" message when a player first readies up in the team
             */
             } else if (args[1].equalsIgnoreCase("ready")) {
                 // If args length is not 5
