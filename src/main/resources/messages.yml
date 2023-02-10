@@ -21,7 +21,7 @@ otherTeamReady: "%prefix% &3Team &7%team%&3 is now ready."
 otherTeamUnready: "%prefix% &3Team &7%team%&3 is no longer ready."
 
 noTeam: "%prefix% &cYou are not in a team."
-noPlayersInTeam: "&cThere are no players in the &7%team%&3 team."
+noPlayersInTeam: "&cThere are no players in the &7%team%&c team."
 
 gameStarting: "%prefix% &3The game is starting in &7%time%&3."
 gameStarted: "%prefix% &3The game has started."
