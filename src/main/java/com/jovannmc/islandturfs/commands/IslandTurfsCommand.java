@@ -312,7 +312,6 @@ public class IslandTurfsCommand implements CommandExecutor {
                         }
 
                         if (TeamManager.ITC_1_redReady && TeamManager.ITC_1_blueReady) {
-                            sender.sendMessage("Both teams are ready! Starting game on ITC_1...");
                             startCountdown(sender, args[3]);
                         }
                         return false;
@@ -434,7 +433,6 @@ public class IslandTurfsCommand implements CommandExecutor {
                         }
 
                         if (TeamManager.ITC_2_redReady && TeamManager.ITC_2_blueReady) {
-                            sender.sendMessage("Both teams are ready! Starting game on ITC_2...");
                             startCountdown(sender, args[3]);
                         }
                         return false;
@@ -578,7 +576,6 @@ public class IslandTurfsCommand implements CommandExecutor {
                         }
 
                         if (TeamManager.ITC_1_redReady && TeamManager.ITC_1_blueReady) {
-                            sender.sendMessage("Both teams are ready! Starting game on ITC_1...");
                             startCountdown(sender, args[3]);
                         }
                         return false;
@@ -700,7 +697,6 @@ public class IslandTurfsCommand implements CommandExecutor {
                         }
 
                         if (TeamManager.ITC_2_redReady && TeamManager.ITC_2_blueReady) {
-                            sender.sendMessage("Both teams are ready! Starting game on ITC_2...");
                             startCountdown(sender, args[3]);
                         }
                         return false;
