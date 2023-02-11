@@ -407,20 +407,20 @@ public class GameManager implements Listener {
     public void onCommand(PlayerCommandPreprocessEvent e) {
         if (ITC_1_gameStarted) {
             if (TeamManager.blueTeam.containsKey(e.getPlayer().getUniqueId())) {
-                Bukkit.getLogger().info(e.getPlayer().getName() + " used a command during ITC_1");
+                plugin.getLogger().info(e.getPlayer().getName() + " used a command during ITC_1");
                 for (String command : plugin.config.getConfiguration().getStringList("commandsDisabled")) {
                     if (e.getMessage().contains(command)) {
-                        Bukkit.getLogger().info(e.getPlayer().getName() + " used a disabled command during ITC_1");
+                        plugin.getLogger().info(e.getPlayer().getName() + " used a disabled command during ITC_1");
                         e.setCancelled(true);
                         e.getPlayer().sendMessage(utils.color(plugin.messages.getConfiguration().getString("commandDisabled")
                                 .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                     }
                 }
             } else if (TeamManager.redTeam.containsKey(e.getPlayer().getUniqueId())) {
-                Bukkit.getLogger().info(e.getPlayer().getName() + " used a command during ITC_1");
+                plugin.getLogger().info(e.getPlayer().getName() + " used a command during ITC_1");
                 for (String command : plugin.config.getConfiguration().getStringList("commandsDisabled")) {
                     if (e.getMessage().contains(command)) {
-                        Bukkit.getLogger().info(e.getPlayer().getName() + " used a disabled command during ITC_1");
+                        plugin.getLogger().info(e.getPlayer().getName() + " used a disabled command during ITC_1");
                         e.setCancelled(true);
                         e.getPlayer().sendMessage(utils.color(plugin.messages.getConfiguration().getString("commandDisabled")
                                 .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
@@ -429,20 +429,20 @@ public class GameManager implements Listener {
             }
         } else if (ITC_2_gameStarted) {
             if (TeamManager.blueTeam.containsKey(e.getPlayer().getUniqueId())) {
-                Bukkit.getLogger().info(e.getPlayer().getName() + " used a command during ITC_2");
+                plugin.getLogger().info(e.getPlayer().getName() + " used a command during ITC_2");
                 for (String command : plugin.config.getConfiguration().getStringList("commandsDisabled")) {
                     if (e.getMessage().contains(command)) {
-                        Bukkit.getLogger().info(e.getPlayer().getName() + " used a disabled command during ITC_2");
+                        plugin.getLogger().info(e.getPlayer().getName() + " used a disabled command during ITC_2");
                         e.setCancelled(true);
                         e.getPlayer().sendMessage(utils.color(plugin.messages.getConfiguration().getString("commandDisabled")
                                 .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                     }
                 }
             } else if (TeamManager.redTeam.containsKey(e.getPlayer().getUniqueId())) {
-                Bukkit.getLogger().info(e.getPlayer().getName() + " used a command during ITC_2");
+                plugin.getLogger().info(e.getPlayer().getName() + " used a command during ITC_2");
                 for (String command : plugin.config.getConfiguration().getStringList("commandsDisabled")) {
                     if (e.getMessage().contains(command)) {
-                        Bukkit.getLogger().info(e.getPlayer().getName() + " used a disabled command during ITC_2");
+                        plugin.getLogger().info(e.getPlayer().getName() + " used a disabled command during ITC_2");
                         e.setCancelled(true);
                         e.getPlayer().sendMessage(utils.color(plugin.messages.getConfiguration().getString("commandDisabled")
                                 .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
@@ -472,14 +472,14 @@ public class GameManager implements Listener {
                 plugin.getLogger().info("Player is in blue team");
                 // If the player is in ITC_1
                 if (TeamManager.blueTeam.get(e.getPlayer().getUniqueId()).equals(new Pair<>(false, "ITC_1"))) {
-                    Bukkit.getLogger().info("Player is in ITC_1");
+                    plugin.getLogger().info("Player is in ITC_1");
                     // Teleport the player to ITC_1 blue spawn
                     e.getPlayer().teleport(ITC_1_BLUE_SPAWN);
                     // Give the player the blocks
                     giveBlocks(e.getPlayer(), "blue");
                     // If the player is in ITC_2
                 } else if (TeamManager.blueTeam.get(e.getPlayer().getUniqueId()).equals(new Pair<>(false, "ITC_2"))) {
-                    Bukkit.getLogger().info("Player is in ITC_2");
+                    plugin.getLogger().info("Player is in ITC_2");
                     // Teleport the player to ITC_2 blue spawn
                     e.getPlayer().teleport(ITC_2_BLUE_SPAWN);
                     // Give the player the blocks
@@ -490,14 +490,14 @@ public class GameManager implements Listener {
                 plugin.getLogger().info("Player is in red team");
                 // If the player is in ITC_1
                 if (TeamManager.redTeam.get(e.getPlayer().getUniqueId()).equals(new Pair<>(false, "ITC_1"))) {
-                    Bukkit.getLogger().info("Player is in ITC_1");
+                    plugin.getLogger().info("Player is in ITC_1");
                     // Teleport the player to ITC_1 red spawn
                     e.getPlayer().teleport(ITC_1_RED_SPAWN);
                     // Give the player the blocks
                     giveBlocks(e.getPlayer(), "red");
                     // If the player is in ITC_2
                 } else if (TeamManager.redTeam.get(e.getPlayer().getUniqueId()).equals(new Pair<>(false, "ITC_2"))) {
-                    Bukkit.getLogger().info("Player is in ITC_2");
+                    plugin.getLogger().info("Player is in ITC_2");
                     // Teleport the player to ITC_2 red spawn
                     e.getPlayer().teleport(ITC_2_RED_SPAWN);
                     // Give the player the blocks
