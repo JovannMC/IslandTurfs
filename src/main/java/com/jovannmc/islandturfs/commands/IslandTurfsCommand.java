@@ -106,8 +106,6 @@ public class IslandTurfsCommand implements CommandExecutor {
                                         .replace("%originalteam%", "blue")
                                         .replace("%newteam%", "red")));
                         TeamManager.redTeam.put(target.getUniqueId(), new Pair<>(false, args[3]));
-                        Bukkit.getLogger().info("Red team: " + TeamManager.redTeam);
-                        Bukkit.getLogger().info("Blue team: " + TeamManager.blueTeam);
                         giveItems(target, "red", args[3]);
                         return true;
                     }
@@ -131,8 +129,6 @@ public class IslandTurfsCommand implements CommandExecutor {
                                         .replace("%originalteam%", "red")
                                         .replace("%newteam%", "blue")));
                         TeamManager.blueTeam.put(target.getUniqueId(), new Pair<>(false, args[3]));
-                        Bukkit.getLogger().info("Red team: " + TeamManager.redTeam);
-                        Bukkit.getLogger().info("Blue team: " + TeamManager.blueTeam);
                         giveItems(target, "blue", args[3]);
                         return true;
                     }
@@ -196,14 +192,12 @@ public class IslandTurfsCommand implements CommandExecutor {
                                     plugin.messages.getConfiguration().getString("playerUnready")
                                             .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                             TeamManager.redTeam.put(target.getUniqueId(), new Pair<>(false, args[3]));
-                            Bukkit.getLogger().info("Red team: " + TeamManager.redTeam);
                         } else {
                             // Ready player
                             TeamManager.redTeam.put(target.getUniqueId(), new Pair<>(true, args[3]));
                             sender.sendMessage(utils.color(
                                     plugin.messages.getConfiguration().getString("playerReady")
                                             .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
-                            Bukkit.getLogger().info("Red team: " + TeamManager.redTeam);
                         }
                         int readyCount = 0;
                         int totalCount = 0;
@@ -311,8 +305,6 @@ public class IslandTurfsCommand implements CommandExecutor {
 
                         if (TeamManager.ITC_1_redReady && TeamManager.ITC_1_blueReady) {
                             sender.sendMessage("Both teams are ready! Starting game on ITC_1...");
-                            Bukkit.getLogger().info("Red team: " + TeamManager.redTeam);
-                            Bukkit.getLogger().info("Blue team: " + TeamManager.blueTeam);
                             startCountdown(sender, args[3]);
                         }
                         return false;
@@ -322,14 +314,12 @@ public class IslandTurfsCommand implements CommandExecutor {
                                     plugin.messages.getConfiguration().getString("playerUnready")
                                             .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                             TeamManager.redTeam.put(target.getUniqueId(), new Pair<>(false, args[3]));
-                            Bukkit.getLogger().info("Red team: " + TeamManager.redTeam);
                         } else {
                             // Ready player
                             TeamManager.redTeam.put(target.getUniqueId(), new Pair<>(true, args[3]));
                             sender.sendMessage(utils.color(
                                     plugin.messages.getConfiguration().getString("playerReady")
                                             .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
-                            Bukkit.getLogger().info("Red team: " + TeamManager.redTeam);
                         }
                         int readyCount = 0;
                         int totalCount = 0;
@@ -437,8 +427,6 @@ public class IslandTurfsCommand implements CommandExecutor {
 
                         if (TeamManager.ITC_2_redReady && TeamManager.ITC_2_blueReady) {
                             sender.sendMessage("Both teams are ready! Starting game on ITC_2...");
-                            Bukkit.getLogger().info("Red team: " + TeamManager.redTeam);
-                            Bukkit.getLogger().info("Blue team: " + TeamManager.blueTeam);
                             startCountdown(sender, args[3]);
                         }
                         return false;
@@ -459,14 +447,12 @@ public class IslandTurfsCommand implements CommandExecutor {
                                     plugin.messages.getConfiguration().getString("playerUnready")
                                             .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                             TeamManager.blueTeam.put(target.getUniqueId(), new Pair<>(false, args[3]));
-                            Bukkit.getLogger().info("Blue team: " + TeamManager.blueTeam);
                         } else {
                             // Ready player
                             TeamManager.blueTeam.put(target.getUniqueId(), new Pair<>(true, args[3]));
                             sender.sendMessage(utils.color(
                                     plugin.messages.getConfiguration().getString("playerReady")
                                             .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
-                            Bukkit.getLogger().info("Blue team: " + TeamManager.blueTeam);
                         }
                         int readyCount = 0;
                         int totalCount = 0;
@@ -574,8 +560,6 @@ public class IslandTurfsCommand implements CommandExecutor {
 
                         if (TeamManager.ITC_1_redReady && TeamManager.ITC_1_blueReady) {
                             sender.sendMessage("Both teams are ready! Starting game on ITC_1...");
-                            Bukkit.getLogger().info("Red team: " + TeamManager.redTeam);
-                            Bukkit.getLogger().info("Blue team: " + TeamManager.blueTeam);
                             startCountdown(sender, args[3]);
                         }
                         return false;
@@ -585,14 +569,12 @@ public class IslandTurfsCommand implements CommandExecutor {
                                     plugin.messages.getConfiguration().getString("playerUnready")
                                             .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                             TeamManager.blueTeam.put(target.getUniqueId(), new Pair<>(false, args[3]));
-                            Bukkit.getLogger().info("Blue team: " + TeamManager.blueTeam);
                         } else {
                             // Ready player
                             TeamManager.blueTeam.put(target.getUniqueId(), new Pair<>(true, args[3]));
                             sender.sendMessage(utils.color(
                                     plugin.messages.getConfiguration().getString("playerReady")
                                             .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
-                            Bukkit.getLogger().info("Blue team: " + TeamManager.blueTeam);
                         }
                         int readyCount = 0;
                         int totalCount = 0;
@@ -700,8 +682,6 @@ public class IslandTurfsCommand implements CommandExecutor {
 
                         if (TeamManager.ITC_2_redReady && TeamManager.ITC_2_blueReady) {
                             sender.sendMessage("Both teams are ready! Starting game on ITC_2...");
-                            Bukkit.getLogger().info("Red team: " + TeamManager.redTeam);
-                            Bukkit.getLogger().info("Blue team: " + TeamManager.blueTeam);
                             startCountdown(sender, args[3]);
                         }
                         return false;
