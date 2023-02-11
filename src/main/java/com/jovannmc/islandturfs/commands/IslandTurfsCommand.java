@@ -148,8 +148,6 @@ public class IslandTurfsCommand implements CommandExecutor {
                 }
             /*
                 READY COMMAND
-
-                TODO: Change "if no players in team" to check if players are in same map
             */
             } else if (args[1].equalsIgnoreCase("ready")) {
                 // If args length is not 5
@@ -177,8 +175,18 @@ public class IslandTurfsCommand implements CommandExecutor {
                 Player target = Bukkit.getPlayer(args[4]);
 
                 if (args[2].equalsIgnoreCase("red")) {
-                    // If no players in red team
-                    if (TeamManager.redTeam.size() == 0) {
+                    boolean foundPlayerInMap = false;
+
+                    // For every player in red team
+                    for (Pair<Boolean, String> value : TeamManager.redTeam.values()) {
+                        if (value.getValue1().equalsIgnoreCase(args[3])) {
+                            foundPlayerInMap = true;
+                            break;
+                        }
+                    }
+
+                    // If no players in red team of same map
+                    if (!foundPlayerInMap) {
                         sender.sendMessage(utils.color(
                                 plugin.messages.getConfiguration().getString("noPlayersInTeam")
                                         .replace("%team%", "red")
@@ -432,14 +440,25 @@ public class IslandTurfsCommand implements CommandExecutor {
                         return false;
                     }
                 } else if (args[2].equalsIgnoreCase("blue")) {
-                    // If no players in blue team
-                    if (TeamManager.blueTeam.size() == 0) {
+                    boolean foundPlayerInMap = false;
+
+                    // For every player in red team
+                    for (Pair<Boolean, String> value : TeamManager.blueTeam.values()) {
+                        if (value.getValue1().equalsIgnoreCase(args[3])) {
+                            foundPlayerInMap = true;
+                            break;
+                        }
+                    }
+
+                    // If no players in blue team of same map
+                    if (!foundPlayerInMap) {
                         sender.sendMessage(utils.color(
                                 plugin.messages.getConfiguration().getString("noPlayersInTeam")
                                         .replace("%team%", "blue")
                                         .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                         return false;
                     }
+
 
                     if (args[3].equalsIgnoreCase("ITC_1")) {
                         if (TeamManager.blueTeam.get(target.getUniqueId()).equals(new Pair<>(true, args[3]))) {
