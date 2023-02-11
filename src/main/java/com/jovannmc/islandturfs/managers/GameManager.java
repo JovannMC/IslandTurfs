@@ -2,6 +2,9 @@ package com.jovannmc.islandturfs.managers;
 
 import com.jovannmc.islandturfs.IslandTurfs;
 import com.jovannmc.islandturfs.utils.Utils;
+import de.tr7zw.nbtapi.NBTItem;
+import de.tr7zw.nbtapi.NBTList;
+import org.bukkit.Material;
 import org.javatuples.*;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -402,8 +405,6 @@ public class GameManager implements Listener {
 
     @EventHandler
     public void onCommand(PlayerCommandPreprocessEvent e) {
-        Bukkit.getLogger().info("Red team: " + TeamManager.redTeam);
-        Bukkit.getLogger().info("Blue team: " + TeamManager.blueTeam);
         if (ITC_1_gameStarted) {
             if (TeamManager.blueTeam.containsKey(e.getPlayer().getUniqueId())) {
                 Bukkit.getLogger().info(e.getPlayer().getName() + " used a command during ITC_1");
