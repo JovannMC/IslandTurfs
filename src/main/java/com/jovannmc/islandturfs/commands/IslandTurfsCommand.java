@@ -196,14 +196,14 @@ public class IslandTurfsCommand implements CommandExecutor {
 
                     if (args[3].equalsIgnoreCase("ITC_1")) {
                         if (TeamManager.redTeam.get(target.getUniqueId()).equals(new Pair<>(true, args[3]))) {
-                            sender.sendMessage(utils.color(
+                            target.sendMessage(utils.color(
                                     plugin.messages.getConfiguration().getString("playerUnready")
                                             .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                             TeamManager.redTeam.put(target.getUniqueId(), new Pair<>(false, args[3]));
                         } else {
                             // Ready player
                             TeamManager.redTeam.put(target.getUniqueId(), new Pair<>(true, args[3]));
-                            sender.sendMessage(utils.color(
+                            target.sendMessage(utils.color(
                                     plugin.messages.getConfiguration().getString("playerReady")
                                             .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                         }
@@ -318,14 +318,14 @@ public class IslandTurfsCommand implements CommandExecutor {
                         return false;
                     } else if (args[3].equalsIgnoreCase("ITC_2")) {
                         if (TeamManager.redTeam.get(target.getUniqueId()).equals(new Pair<>(true, args[3]))) {
-                            sender.sendMessage(utils.color(
+                            target.sendMessage(utils.color(
                                     plugin.messages.getConfiguration().getString("playerUnready")
                                             .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                             TeamManager.redTeam.put(target.getUniqueId(), new Pair<>(false, args[3]));
                         } else {
                             // Ready player
                             TeamManager.redTeam.put(target.getUniqueId(), new Pair<>(true, args[3]));
-                            sender.sendMessage(utils.color(
+                            target.sendMessage(utils.color(
                                     plugin.messages.getConfiguration().getString("playerReady")
                                             .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                         }
@@ -502,7 +502,7 @@ public class IslandTurfsCommand implements CommandExecutor {
                             // For every player in red team
                             for (UUID uuid : TeamManager.redTeam.keySet()) {
                                 // Check if player's key matches map name
-                                if (TeamManager.blueTeam.get(uuid).getValue1().equalsIgnoreCase(args[3])) {
+                                if (TeamManager.redTeam.get(uuid).getValue1().equalsIgnoreCase(args[3])) {
                                     // Send message to player
                                     Bukkit.getPlayer(uuid).sendMessage(utils.color(
                                             plugin.messages.getConfiguration().getString("otherTeamReady")
