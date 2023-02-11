@@ -2,9 +2,10 @@ package com.jovannmc.islandturfs.managers;
 
 import com.jovannmc.islandturfs.IslandTurfs;
 import com.jovannmc.islandturfs.utils.Utils;
-import de.tr7zw.nbtapi.NBTItem;
-import de.tr7zw.nbtapi.NBTList;
-import org.bukkit.*;
+import org.javatuples.*;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Chicken;
@@ -38,11 +39,11 @@ public class GameManager implements Listener {
     public static boolean ITC_2_gameStarted = false;
 
     public void startGame(CommandSender sender, String mapName) {
-        if (mapName.equalsIgnoreCase("ITC_1") && ITC_1_gameStarted == true) {
+        if (mapName.equalsIgnoreCase("ITC_1") && ITC_1_gameStarted) {
             sender.sendMessage(utils.color(plugin.messages.getConfiguration().getString("gameAlreadyStarted")
                     .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
             return;
-        } else if (mapName.equalsIgnoreCase("ITC_2") && ITC_2_gameStarted == true) {
+        } else if (mapName.equalsIgnoreCase("ITC_2") && ITC_2_gameStarted) {
             sender.sendMessage(utils.color(plugin.messages.getConfiguration().getString("gameAlreadyStarted")
                     .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
             return;
@@ -56,7 +57,7 @@ public class GameManager implements Listener {
         // for every player in redTeam
         for (UUID uuid : TeamManager.redTeam.keySet()) {
             // if value of player matches mapName
-            if (TeamManager.redTeam.get(uuid).equalsIgnoreCase(mapName)) {
+            if (TeamManager.redTeam.get(uuid).equals(new Pair<>(false, mapName))) {
                 Player player = Bukkit.getPlayer(uuid);
                 float x = (float) maps.getDouble(mapName + ".red.spawn.x");
                 float y = (float) maps.getDouble(mapName + ".red.spawn.y");
@@ -70,7 +71,7 @@ public class GameManager implements Listener {
         // for every player in blueTeam
         for (UUID uuid : TeamManager.blueTeam.keySet()) {
             // if value of player matches mapName
-            if (TeamManager.blueTeam.get(uuid).equalsIgnoreCase(mapName)) {
+            if (TeamManager.blueTeam.get(uuid).equals(new Pair<>(false, mapName))) {
                 Player player = Bukkit.getPlayer(uuid);
                 float x = (float) maps.getDouble(mapName + ".blue.spawn.x");
                 float y = (float) maps.getDouble(mapName + ".blue.spawn.y");
@@ -117,7 +118,7 @@ public class GameManager implements Listener {
                         plugin.messages.getConfiguration().getString("spectating")
                                 .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))
                                 .replace("%map%", "ITC_1")));
-                TeamManager.spectators.put(p.getUniqueId(), "ITC_1");
+                TeamManager.spectators.put(p.getUniqueId(), new Pair<>(false, "ITC_1"));
             } else {
                 p.sendMessage(utils.color(
                         plugin.messages.getConfiguration().getString("spectatingNoGame")
@@ -136,7 +137,7 @@ public class GameManager implements Listener {
                         plugin.messages.getConfiguration().getString("spectating")
                                 .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))
                                 .replace("%map%", "ITC_2")));
-                TeamManager.spectators.put(p.getUniqueId(), "ITC_2");
+                TeamManager.spectators.put(p.getUniqueId(), new Pair<>(false, "ITC_2"));
             } else {
                 p.sendMessage(utils.color(
                         plugin.messages.getConfiguration().getString("spectatingNoGame")
@@ -164,7 +165,7 @@ public class GameManager implements Listener {
             // for every player in redTeam
             for (UUID uuid : TeamManager.redTeam.keySet()) {
                 // if value of player matches mapName
-                if (TeamManager.redTeam.get(uuid).equalsIgnoreCase(mapName)) {
+                if (TeamManager.redTeam.get(uuid).equals(new Pair<>(false, mapName))) {
                     // teleport player to spawn
                     Player player = Bukkit.getPlayer(uuid);
                     Location loc = new Location(player.getWorld(), plugin.maps.getConfiguration().getDouble("spawn.x"), plugin.maps.getConfiguration().getDouble("spawn.y"), plugin.maps.getConfiguration().getDouble("spawn.z"));
@@ -178,7 +179,7 @@ public class GameManager implements Listener {
             // for every player in blueTeam
             for (UUID uuid : TeamManager.blueTeam.keySet()) {
                 // if value of player matches mapName
-                if (TeamManager.blueTeam.get(uuid).equalsIgnoreCase(mapName)) {
+                if (TeamManager.blueTeam.get(uuid).equals(new Pair<>(false, mapName))) {
                     // teleport player to spawn
                     Player player = Bukkit.getPlayer(uuid);
                     Location loc = new Location(player.getWorld(), plugin.maps.getConfiguration().getDouble("spawn.x"), plugin.maps.getConfiguration().getDouble("spawn.y"), plugin.maps.getConfiguration().getDouble("spawn.z"));
@@ -192,7 +193,7 @@ public class GameManager implements Listener {
             // for every player in spectators
             for (UUID uuid : TeamManager.spectators.keySet()) {
                 // if value of player matches mapName
-                if (TeamManager.spectators.get(uuid).equalsIgnoreCase(mapName)) {
+                if (TeamManager.spectators.get(uuid).equals(new Pair<>(false, mapName))) {
                     // teleport player to spawn
                     Player player = Bukkit.getPlayer(uuid);
                     Location loc = new Location(player.getWorld(), plugin.maps.getConfiguration().getDouble("spawn.x"), plugin.maps.getConfiguration().getDouble("spawn.y"), plugin.maps.getConfiguration().getDouble("spawn.z"));
@@ -220,7 +221,7 @@ public class GameManager implements Listener {
             // for every player in redTeam
             for (UUID uuid : TeamManager.redTeam.keySet()) {
                 // if value of player matches mapName
-                if (TeamManager.redTeam.get(uuid).equalsIgnoreCase(mapName)) {
+                if (TeamManager.redTeam.get(uuid).equals(new Pair<>(false, mapName))) {
                     // teleport player to spawn
                     Player player = Bukkit.getPlayer(uuid);
                     Location loc = new Location(player.getWorld(), plugin.maps.getConfiguration().getDouble("spawn.x"), plugin.maps.getConfiguration().getDouble("spawn.y"), plugin.maps.getConfiguration().getDouble("spawn.z"));
@@ -237,7 +238,7 @@ public class GameManager implements Listener {
             // for every player in blueTeam
             for (UUID uuid : TeamManager.blueTeam.keySet()) {
                 // if value of player matches mapName
-                if (TeamManager.blueTeam.get(uuid).equalsIgnoreCase(mapName)) {
+                if (TeamManager.blueTeam.get(uuid).equals(new Pair<>(false, mapName))) {
                     // teleport player to spawn
                     Player player = Bukkit.getPlayer(uuid);
                     Location loc = new Location(player.getWorld(), plugin.maps.getConfiguration().getDouble("spawn.x"), plugin.maps.getConfiguration().getDouble("spawn.y"), plugin.maps.getConfiguration().getDouble("spawn.z"));
@@ -254,7 +255,7 @@ public class GameManager implements Listener {
             // for every player in spectators
             for (UUID uuid : TeamManager.spectators.keySet()) {
                 // if value of player matches mapName
-                if (TeamManager.spectators.get(uuid).equalsIgnoreCase(mapName)) {
+                if (TeamManager.spectators.get(uuid).equals(new Pair<>(false, mapName))) {
                     // teleport player to spawn
                     Player player = Bukkit.getPlayer(uuid);
                     Location loc = new Location(player.getWorld(), plugin.maps.getConfiguration().getDouble("spawn.x"), plugin.maps.getConfiguration().getDouble("spawn.y"), plugin.maps.getConfiguration().getDouble("spawn.z"));
@@ -401,27 +402,49 @@ public class GameManager implements Listener {
 
     @EventHandler
     public void onCommand(PlayerCommandPreprocessEvent e) {
-        if (ITC_1_gameStarted || ITC_2_gameStarted) {
-            if (TeamManager.blueTeam.containsKey(e.getPlayer().getUniqueId()) || TeamManager.redTeam.containsKey(e.getPlayer().getUniqueId())) {
-                if (TeamManager.blueTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_1") || TeamManager.redTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_1")) {
-                    plugin.getLogger().info(e.getPlayer().getName() + " used a command during ITC_1");
-                    for (String command : plugin.config.getConfiguration().getStringList("commandsDisabled")) {
-                        if (e.getMessage().contains(command)) {
-                            plugin.getLogger().info(e.getPlayer().getName() + " used a disabled command during ITC_1");
-                            e.setCancelled(true);
-                            e.getPlayer().sendMessage(utils.color(plugin.messages.getConfiguration().getString("commandDisabled")
-                                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
-                        }
+        Bukkit.getLogger().info("Red team: " + TeamManager.redTeam);
+        Bukkit.getLogger().info("Blue team: " + TeamManager.blueTeam);
+        if (ITC_1_gameStarted) {
+            if (TeamManager.blueTeam.containsKey(e.getPlayer().getUniqueId())) {
+                Bukkit.getLogger().info(e.getPlayer().getName() + " used a command during ITC_1");
+                for (String command : plugin.config.getConfiguration().getStringList("commandsDisabled")) {
+                    if (e.getMessage().contains(command)) {
+                        Bukkit.getLogger().info(e.getPlayer().getName() + " used a disabled command during ITC_1");
+                        e.setCancelled(true);
+                        e.getPlayer().sendMessage(utils.color(plugin.messages.getConfiguration().getString("commandDisabled")
+                                .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                     }
-                } else if (TeamManager.blueTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_2") || TeamManager.redTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_2")) {
-                    plugin.getLogger().info(e.getPlayer().getName() + " used a command during ITC_2");
-                    for (String command : plugin.config.getConfiguration().getStringList("commandsDisabled")) {
-                        if (e.getMessage().contains(command)) {
-                            plugin.getLogger().info(e.getPlayer().getName() + " used a disabled command during ITC_2");
-                            e.setCancelled(true);
-                            e.getPlayer().sendMessage(utils.color(plugin.messages.getConfiguration().getString("commandDisabled")
-                                    .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
-                        }
+                }
+            } else if (TeamManager.redTeam.containsKey(e.getPlayer().getUniqueId())) {
+                Bukkit.getLogger().info(e.getPlayer().getName() + " used a command during ITC_1");
+                for (String command : plugin.config.getConfiguration().getStringList("commandsDisabled")) {
+                    if (e.getMessage().contains(command)) {
+                        Bukkit.getLogger().info(e.getPlayer().getName() + " used a disabled command during ITC_1");
+                        e.setCancelled(true);
+                        e.getPlayer().sendMessage(utils.color(plugin.messages.getConfiguration().getString("commandDisabled")
+                                .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                    }
+                }
+            }
+        } else if (ITC_2_gameStarted) {
+            if (TeamManager.blueTeam.containsKey(e.getPlayer().getUniqueId())) {
+                Bukkit.getLogger().info(e.getPlayer().getName() + " used a command during ITC_2");
+                for (String command : plugin.config.getConfiguration().getStringList("commandsDisabled")) {
+                    if (e.getMessage().contains(command)) {
+                        Bukkit.getLogger().info(e.getPlayer().getName() + " used a disabled command during ITC_2");
+                        e.setCancelled(true);
+                        e.getPlayer().sendMessage(utils.color(plugin.messages.getConfiguration().getString("commandDisabled")
+                                .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
+                    }
+                }
+            } else if (TeamManager.redTeam.containsKey(e.getPlayer().getUniqueId())) {
+                Bukkit.getLogger().info(e.getPlayer().getName() + " used a command during ITC_2");
+                for (String command : plugin.config.getConfiguration().getStringList("commandsDisabled")) {
+                    if (e.getMessage().contains(command)) {
+                        Bukkit.getLogger().info(e.getPlayer().getName() + " used a disabled command during ITC_2");
+                        e.setCancelled(true);
+                        e.getPlayer().sendMessage(utils.color(plugin.messages.getConfiguration().getString("commandDisabled")
+                                .replace("%prefix%", plugin.config.getConfiguration().getString("prefix"))));
                     }
                 }
             }
@@ -447,15 +470,15 @@ public class GameManager implements Listener {
             if (TeamManager.blueTeam.containsKey(e.getPlayer().getUniqueId())) {
                 plugin.getLogger().info("Player is in blue team");
                 // If the player is in ITC_1
-                if (TeamManager.blueTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_1")) {
-                    plugin.getLogger().info("Player is in ITC_1");
+                if (TeamManager.blueTeam.get(e.getPlayer().getUniqueId()).equals(new Pair<>(false, "ITC_1"))) {
+                    Bukkit.getLogger().info("Player is in ITC_1");
                     // Teleport the player to ITC_1 blue spawn
                     e.getPlayer().teleport(ITC_1_BLUE_SPAWN);
                     // Give the player the blocks
                     giveBlocks(e.getPlayer(), "blue");
                     // If the player is in ITC_2
-                } else if (TeamManager.blueTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_2")) {
-                    plugin.getLogger().info("Player is in ITC_2");
+                } else if (TeamManager.blueTeam.get(e.getPlayer().getUniqueId()).equals(new Pair<>(false, "ITC_2"))) {
+                    Bukkit.getLogger().info("Player is in ITC_2");
                     // Teleport the player to ITC_2 blue spawn
                     e.getPlayer().teleport(ITC_2_BLUE_SPAWN);
                     // Give the player the blocks
@@ -465,15 +488,15 @@ public class GameManager implements Listener {
             } else if (TeamManager.redTeam.containsKey(e.getPlayer().getUniqueId())) {
                 plugin.getLogger().info("Player is in red team");
                 // If the player is in ITC_1
-                if (TeamManager.redTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_1")) {
-                    plugin.getLogger().info("Player is in ITC_1");
+                if (TeamManager.redTeam.get(e.getPlayer().getUniqueId()).equals(new Pair<>(false, "ITC_1"))) {
+                    Bukkit.getLogger().info("Player is in ITC_1");
                     // Teleport the player to ITC_1 red spawn
                     e.getPlayer().teleport(ITC_1_RED_SPAWN);
                     // Give the player the blocks
                     giveBlocks(e.getPlayer(), "red");
                     // If the player is in ITC_2
-                } else if (TeamManager.redTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_2")) {
-                    plugin.getLogger().info("Player is in ITC_2");
+                } else if (TeamManager.redTeam.get(e.getPlayer().getUniqueId()).equals(new Pair<>(false, "ITC_2"))) {
+                    Bukkit.getLogger().info("Player is in ITC_2");
                     // Teleport the player to ITC_2 red spawn
                     e.getPlayer().teleport(ITC_2_RED_SPAWN);
                     // Give the player the blocks
@@ -498,13 +521,13 @@ public class GameManager implements Listener {
             // If the player is in the blue team
             if (TeamManager.blueTeam.containsKey(e.getPlayer().getUniqueId())) {
                 // If the player is in ITC_1
-                if (TeamManager.blueTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_1")) {
+                if (TeamManager.blueTeam.get(e.getPlayer().getUniqueId()).equals(new Pair<>(false, "ITC_1"))) {
                     lastMap = "ITC_1";
                     // Remove the player from the blue team
                     TeamManager.blueTeam.remove(e.getPlayer().getUniqueId());
                     p.getInventory().clear();
                     // If the player is in ITC_2
-                } else if (TeamManager.blueTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_2")) {
+                } else if (TeamManager.blueTeam.get(e.getPlayer().getUniqueId()).equals(new Pair<>(false, "ITC_2"))) {
                     lastMap = "ITC_2";
                     // Remove the player from the blue team
                     TeamManager.blueTeam.remove(e.getPlayer().getUniqueId());
@@ -513,13 +536,13 @@ public class GameManager implements Listener {
                 // If the player is in the red team
             } else if (TeamManager.redTeam.containsKey(e.getPlayer().getUniqueId())) {
                 // If the player is in ITC_1
-                if (TeamManager.redTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_1")) {
+                if (TeamManager.redTeam.get(e.getPlayer().getUniqueId()).equals(new Pair<>(false, "ITC_1"))) {
                     lastMap = "ITC_1";
                     // Remove the player from the red team
                     TeamManager.redTeam.remove(e.getPlayer().getUniqueId());
                     p.getInventory().clear();
                     // If the player is in ITC_2
-                } else if (TeamManager.redTeam.get(e.getPlayer().getUniqueId()).equalsIgnoreCase("ITC_2")) {
+                } else if (TeamManager.redTeam.get(e.getPlayer().getUniqueId()).equals(new Pair<>(false, "ITC_2"))) {
                     lastMap = "ITC_2";
                     // Remove the player from the red team
                     TeamManager.redTeam.remove(e.getPlayer().getUniqueId());
